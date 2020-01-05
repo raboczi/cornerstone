@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>au.id.raboczi.cornerstone</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>dist</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Cornerstone :: dist</name>
+  <description>Distributions of Cornerstone</description>
+  <inceptionYear>2019</inceptionYear>
+
+  <modules>
+    <module>dist-dynamic</module>
+    <module>dist-static</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.karaf.features</groupId>
+        <artifactId>enterprise</artifactId>
+        <type>xml</type>
+        <classifier>features</classifier>
+        <version>${karaf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.karaf.features</groupId>
+        <artifactId>framework</artifactId>
+        <type>kar</type>
+        <version>${karaf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.karaf.features</groupId>
+        <artifactId>framework</artifactId>
+        <classifier>features</classifier>
+        <type>xml</type>
+        <version>${karaf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.karaf.features</groupId>
+        <artifactId>standard</artifactId>
+        <type>xml</type>
+        <classifier>features</classifier>
+        <version>${karaf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.karaf.features</groupId>
+        <artifactId>static</artifactId>
+        <type>kar</type>
+        <version>${karaf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.karaf.services</groupId>
+        <artifactId>org.apache.karaf.services.staticcm</artifactId>
+        <version>${karaf.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+</project>

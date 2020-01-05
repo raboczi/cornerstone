@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>au.id.raboczi.cornerstone</groupId>
+  <artifactId>parent</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Cornerstone</name>
+  <description>A sample application.</description>
+  <inceptionYear>2019</inceptionYear>
+
+  <modules>
+    <module>test-war</module>
+    <module>dist</module>
+  </modules>
+
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License, Version 3.0</name>
+      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>raboczi</id>
+      <name>Simon Raboczi</name>
+      <url>https://github.com/raboczi</url>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>Australia/Brisbane</timezone>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/raboczi/cornerstone.git</connection>
+    <developerConnection>scm:git:ssh://github.com:raboczi/cornerstone.git</developerConnection>
+    <url>https://github.com/raboczi/cornerstone/tree/master</url>
+  </scm>
+
+  <properties>
+    <karaf.version>4.2.7</karaf.version>
+    <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's qualifier, e.g. 9.0.0-SNAPSHOT -->
+    <zk.version.osgi>9.0.0</zk.version.osgi>  <!-- usually the same as zk.version unless there's a qualifier, e.g. 9.0.0.SNAPSHOT -->
+    <zk.version.range>[9.0,10)</zk.version.range>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>4.1.0</version>
+          <extensions>true</extensions>
+          <inherited>true</inherited>
+          <executions>
+            <execution>
+              <id>bundle-manifest</id>
+              <phase>process-classes</phase>
+              <goals>
+                <goal>manifest</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <archive>
+              <forced>true</forced>
+            </archive>
+            <instructions>
+              <Bundle-Category>cornerstone</Bundle-Category>  <!-- https://www.osgi.org/developer/specifications/reference/#Referencecategories -->
+            </instructions>
+            <niceManifest>true</niceManifest>
+            <supportedProjectTypes>
+              <supportedProjectType>bundle</supportedProjectType>
+              <supportedProjectType>jar</supportedProjectType>
+              <supportedProjectType>pom</supportedProjectType>
+              <supportedProjectType>war</supportedProjectType>
+            </supportedProjectTypes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.karaf.tooling</groupId>
+          <artifactId>karaf-maven-plugin</artifactId>
+          <version>${karaf.version}</version>
+          <extensions>true</extensions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>
