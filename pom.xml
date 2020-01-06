@@ -45,6 +45,7 @@
 
   <properties>
     <karaf.version>4.2.7</karaf.version>
+    <osgi.version>6.0.0</osgi.version>
     <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's qualifier, e.g. 9.0.0-SNAPSHOT -->
     <zk.version.osgi>9.0.0</zk.version.osgi>  <!-- usually the same as zk.version unless there's a qualifier, e.g. 9.0.0.SNAPSHOT -->
     <zk.version.range>[9.0,10)</zk.version.range>
@@ -100,4 +101,25 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.cmpn</artifactId>
+        <version>${osgi.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zk</artifactId>
+        <version>${zk.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zul</artifactId>
+        <version>${zk.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>

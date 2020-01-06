@@ -27,21 +27,24 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <DynamicImport-Package>
-              *
-            </DynamicImport-Package>
-<!--
-            <Export-Package>
-              metainfo.zk;-split-package:=merge-first
-            </Export-Package>
--->
             <Import-Package>
               org.zkoss.zk.au.http,
               org.zkoss.zk.ui.http,
-              org.zkoss.zk.ui.impl
+              org.zkoss.zk.ui.impl,
+              *
             </Import-Package>
             <Web-ContextPath>cornerstone</Web-ContextPath>
           </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <packagingExcludes>WEB-INF/lib/*</packagingExcludes>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
         </configuration>
       </plugin>
       <plugin>
@@ -67,6 +70,21 @@
         </executions>
       </plugin>
     </plugins>
-  </build>   
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.cmpn</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zk</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zul</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

@@ -1,6 +1,6 @@
 <zk>
-  <window id="mainWindow">
-    <label value="This page intentionally left blank"/>
-    <button label="Foo"/>
+  <window id="indexWindow" apply="au.id.raboczi.cornerstone.test_war.IndexWindowController">
+    <button id="button" label="Press"/>
+    <label id="label" value="This label has its initial value."/>
   </window>
 </zk>
