@@ -54,6 +54,6 @@ It is suited for production.
 
 1. Start the server by executing `dist/dist-static/target/assembly/bin/start`
 
-2. Browse [http://localhost:8181/cornerstone](http://localhost:8181/cornerstone).
+2. Browse [http://localhost:8181/cornerstone](http://localhost:8181/cornerstone-test-war).
 
 3. Shut down the server by executing `dist/dist-static/target/assembly/bin/stop`
