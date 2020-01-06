@@ -1,5 +1,8 @@
 package au.id.raboczi.cornerstone.test_war;
 
+import au.id.raboczi.cornerstone.test_service.TestService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.MouseEvent;
@@ -23,8 +26,17 @@ public class IndexWindowController extends SelectorComposer<Window> {
 
     /** @param event  button click */
     @Listen("onClick = #button")
-    public void onClickButton(final MouseEvent mouseEvent) {
+    public void onClickButton(final MouseEvent mouseEvent) throws org.osgi.framework.InvalidSyntaxException {
         LOGGER.info("Pressed button");
-        label.setValue("Changed value.");
+
+        BundleContext bundleContext = (BundleContext) getSelf()
+            .getDesktop()
+            .getWebApp()
+            .getServletContext()
+            .getAttribute("osgi-bundlecontext");
+        ServiceReference<TestService> testServiceReference = bundleContext.getServiceReference(TestService.class);
+        TestService testService = bundleContext.getService(testServiceReference);
+
+        label.setValue(testService.test("Changed value."));
     }
 }

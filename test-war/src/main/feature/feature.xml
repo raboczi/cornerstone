@@ -7,6 +7,7 @@
   <feature name="cornerstone-test-war" version="${project.version}" description="Cornerstone test web application">
     <feature prerequisite="true">war</feature>
     <feature prerequisite="true">zk-war</feature>
+    <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>
     <bundle>webbundle:mvn:au.id.raboczi.cornerstone/test-war/${project.version}/war?Web-ContextPath=cornerstone-test-war</bundle>
   </feature>
 
