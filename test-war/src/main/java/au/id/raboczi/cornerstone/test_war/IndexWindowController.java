@@ -1,7 +1,6 @@
 package au.id.raboczi.cornerstone.test_war;
 
 import au.id.raboczi.cornerstone.test_service.TestService;
-import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.MouseEvent;
@@ -27,9 +26,8 @@ public class IndexWindowController extends SCRSelectorComposer<Window> {
 
     /** @param event  button click */
     @Listen("onClick = #button")
-    public void onClickButton(final MouseEvent mouseEvent) throws org.osgi.framework.InvalidSyntaxException {
+    public void onClickButton(final MouseEvent mouseEvent) {
         LOGGER.info("Pressed button");
-        TestService testService2 = findService(TestService.class);
-        label.setValue(testService2.test("Changed value."));
+        label.setValue(testService.test("Changed value."));
     }
 }
