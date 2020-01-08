@@ -1,6 +1,11 @@
 <zk>
   <window id="indexWindow" apply="au.id.raboczi.cornerstone.test_war.IndexWindowController">
-    <button id="button" label="Press"/>
-    <label id="label" value="This label has its initial value."/>
+    <vlayout>
+      <label id="label" value="Page default"/>
+      <hlayout>
+        <button id="button1" label="One"/>
+        <button id="button2" label="Two"/>
+      </hlayout>
+    </vlayout>
   </window>
 </zk>

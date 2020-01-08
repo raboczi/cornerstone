@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Window;
 
@@ -24,10 +25,17 @@ public class IndexWindowController extends SCRSelectorComposer<Window> {
     @Wire("#label")
     private Label label;
 
+    @Override
+    public void doAfterCompose(Window comp) throws Exception {
+        super.doAfterCompose(comp);
+
+        label.setValue(testService.getValue());
+    }
+
     /** @param event  button click */
-    @Listen("onClick = #button")
+    @Listen("onClick = button")
     public void onClickButton(final MouseEvent mouseEvent) {
-        LOGGER.info("Pressed button");
-        label.setValue(testService.test("Changed value."));
+        testService.setValue(((Button) mouseEvent.getTarget()).getLabel());
+        label.setValue(testService.getValue());
     }
 }

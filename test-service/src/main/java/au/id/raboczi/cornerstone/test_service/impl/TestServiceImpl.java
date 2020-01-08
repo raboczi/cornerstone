@@ -6,7 +6,15 @@ import org.osgi.service.component.annotations.Component;
 @Component(service = {TestService.class})
 public class TestServiceImpl implements TestService {
 
-    public String test(final String s) {
-        return s + s;
+    private String value = "Service initial value";
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public void setValue(final String newValue) {
+        this.value = newValue;
     }
 }
