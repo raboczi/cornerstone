@@ -5,18 +5,26 @@
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
   <feature name="cornerstone-test-war" version="${project.version}" description="Cornerstone test web application">
+    <feature prerequisite="true">rxjava</feature>
     <feature prerequisite="true">war</feature>
     <feature prerequisite="true">zk-war</feature>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>
     <bundle>webbundle:mvn:au.id.raboczi.cornerstone/test-war/${project.version}/war?Web-ContextPath=cornerstone-test-war</bundle>
   </feature>
 
+  <feature name="rxjava" version="3.0.0" description="Reactive extensions for Java">
+    <bundle>mvn:org.reactivestreams/reactive-streams/1.0.3</bundle>
+    <bundle>mvn:io.reactivex.rxjava3/rxjava/3.0.0-RC7</bundle>
+  </feature>
+
   <feature name="zk-war" version="${zk.version}" description="Adds Zk support for WAR applications">
     <feature prerequisite="true">war</feature>
     <bundle>mvn:org.javassist/javassist/3.26.0-GA</bundle>
-    <bundle>wrap:mvn:bsh/bsh/1.3.0</bundle>
-    <bundle>wrap:mvn:commons-io/commons-io/2.6</bundle>
-    <bundle>wrap:mvn:commons-fileupload/commons-fileupload/1.4</bundle>
+    <bundle>wrap:mvn:bsh/bsh/1.3.0$<!--
+        -->Bundle-SymbolicName=bsh.bsh&amp;<!--
+        -->Bundle-Version=1.3.0</bundle>
+    <bundle>mvn:commons-io/commons-io/2.6</bundle>
+    <bundle>mvn:commons-fileupload/commons-fileupload/1.4</bundle>
     <bundle>wrap:mvn:org.zkoss.zkforge.el/zcommons-el/1.1.0$<!--
         -->Bundle-SymbolicName=org.zkoss.zkforge.el.zcommons-el&amp;<!--
         -->Bundle-Version=1.1.0&amp;<!--

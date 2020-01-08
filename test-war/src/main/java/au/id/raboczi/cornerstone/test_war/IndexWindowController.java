@@ -33,7 +33,7 @@ public class IndexWindowController extends SCRSelectorComposer<Window> {
     }
 
     /** @param event  button click */
-    @Listen("onClick = button")
+    @Listen("onClick = button#button1; onClick = button#button2")
     public void onClickButton(final MouseEvent mouseEvent) {
         testService.setValue(((Button) mouseEvent.getTarget()).getLabel());
         label.setValue(testService.getValue());
