@@ -28,6 +28,7 @@
         <configuration>
           <instructions>
             <Import-Package>
+              org.zkoss.zel.impl,
               org.zkoss.zk.au.http,
               org.zkoss.zk.ui.http,
               org.zkoss.zk.ui.impl,
