@@ -1,8 +1,13 @@
 package au.id.raboczi.cornerstone.test_war;
 
 import au.id.raboczi.cornerstone.test_service.TestService;
+import io.reactivex.rxjava3.core.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.EventQueue;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -13,7 +18,7 @@ import org.zkoss.zul.Window;
 /**
  * Controller for <code>index.zul</code>.
  */
-public class IndexWindowController extends SCRSelectorComposer<Window> {
+public class IndexWindowController extends SCRSelectorComposer<Window> implements EventListener<IndexWindowController.WeirdEvent> {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
@@ -30,6 +35,12 @@ public class IndexWindowController extends SCRSelectorComposer<Window> {
         super.doAfterCompose(comp);
 
         label.setValue(testService.getValue());
+
+        EventQueue eventQueue = EventQueues.lookup("weird", getSelf().getDesktop().getSession(), true);
+        eventQueue.subscribe(this);
+
+        testService.getObservable().subscribe(s -> eventQueue.publish(new WeirdEvent(s)),
+                                              e -> LOGGER.error("Test service exception", e));
     }
 
     /** @param event  button click */
@@ -37,5 +48,17 @@ public class IndexWindowController extends SCRSelectorComposer<Window> {
     public void onClickButton(final MouseEvent mouseEvent) {
         testService.setValue(((Button) mouseEvent.getTarget()).getLabel());
         label.setValue(testService.getValue());
+    }
+
+    @Override
+    public void onEvent(WeirdEvent weirdEvent) {
+        label.setValue(weirdEvent.getName());
+    }
+
+    /** Custom event corresponding to the testService's observable transitions. */
+    class WeirdEvent extends Event {
+        WeirdEvent(String s) {
+            super(s);
+        }
     }
 }
