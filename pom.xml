@@ -45,6 +45,8 @@
   </scm>
 
   <properties>
+    <java.source.version>1.8</java.source.version>
+    <java.target.version>${java.source.version}</java.target.version>
     <karaf.version>4.2.7</karaf.version>
     <osgi.version>6.0.0</osgi.version>
     <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's qualifier, e.g. 9.0.0-SNAPSHOT -->
@@ -93,6 +95,15 @@
           <artifactId>karaf-maven-plugin</artifactId>
           <version>${karaf.version}</version>
           <extensions>true</extensions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+          <configuration>
+            <source>${java.source.version}</source>
+            <target>${java.target.version}</target>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>

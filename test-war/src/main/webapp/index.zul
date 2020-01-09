@@ -6,6 +6,7 @@
         <button id="button1" label="One"/>
         <button id="button2" label="Two"/>
       </hlayout>
+      <listbox id="themeListbox" mold="select" apply="au.id.raboczi.cornerstone.test_war.ThemeListboxController"/>
     </vlayout>
   </window>
 </zk>
