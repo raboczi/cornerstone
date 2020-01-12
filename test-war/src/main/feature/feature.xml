@@ -44,6 +44,11 @@
         -->Bundle-Version=${zk.version.osgi}&amp;<!--
         -->Export-Package=*;version=${zk.version.osgi}&amp;<!--
         -->Fragment-Host=org.ops4j.pax.web.pax-web-extender-war;bundle-version=%22[7.2,8)%22</bundle>
+    <bundle>wrap:mvn:org.zkoss.theme/iceblue_c/${zk.version}$<!--
+        -->Bundle-SymbolicName=org.zkoss.theme.iceblue_c&amp;<!--
+        -->Bundle-Version=${zk.version.osgi}&amp;<!--
+        -->Export-Package=*;version=${zk.version.osgi}&amp;<!--
+        -->Fragment-Host=org.ops4j.pax.web.pax-web-extender-war;bundle-version=%22[7.2,8)%22</bundle>
     <bundle>wrap:mvn:org.zkoss.zk/zk/${zk.version}$<!--
         -->Bundle-SymbolicName=org.zkoss.zk&amp;<!--
         -->Bundle-Version=${zk.version.osgi}&amp;<!--
@@ -59,15 +64,12 @@
         -->Bundle-Version=${zk.version.osgi}&amp;<!--
         -->Export-Package=*;version=${zk.version.osgi}&amp;<!--
         -->Fragment-Host=org.ops4j.pax.web.pax-web-extender-war;bundle-version=%22[7.2,8)%22</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/zk/${project.version}</bundle>
   </feature>
 
   <feature name="zk-themes-war" version="${zk.version}" description="Adds ZK themes for WAR applications">
     <bundle>wrap:mvn:org.zkoss.theme/breeze/${zk.version}$<!--
         -->Bundle-SymbolicName=org.zkoss.theme.breeze&amp;<!--
-        -->Export-Package=*;version=${zk.version.osgi}&amp;<!--
-        -->Fragment-Host=org.ops4j.pax.web.pax-web-extender-war;bundle-version=%22[7.2,8)%22</bundle>
-    <bundle>wrap:mvn:org.zkoss.theme/iceblue_c/${zk.version}$<!--
-        -->Bundle-SymbolicName=org.zkoss.theme.iceblue_c&amp;<!--
         -->Export-Package=*;version=${zk.version.osgi}&amp;<!--
         -->Fragment-Host=org.ops4j.pax.web.pax-web-extender-war;bundle-version=%22[7.2,8)%22</bundle>
     <bundle>wrap:mvn:org.zkoss.theme/sapphire/${zk.version}$<!--

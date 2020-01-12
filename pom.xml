@@ -14,9 +14,10 @@
   <inceptionYear>2019</inceptionYear>
 
   <modules>
+    <module>dist</module>
     <module>test-service</module>
     <module>test-war</module>
-    <module>dist</module>
+    <module>zk</module>
   </modules>
 
   <licenses>

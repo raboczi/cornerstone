@@ -39,16 +39,22 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
         }
     }
 
-    /**
-     * @param clazz  the type of a desired OSGi service
-     * @return the unique service of the specified <var>clazz</var>, or <code>null</code> if it doesn't exist
-     */
-    protected <E> E findService(Class<E> clazz) {
+    protected BundleContext getBundleContext() {
         BundleContext bundleContext = (BundleContext) getSelf()
             .getDesktop()
             .getWebApp()
             .getServletContext()
             .getAttribute("osgi-bundlecontext");
+
+        return bundleContext;
+    }
+
+    /**
+     * @param clazz  the type of a desired OSGi service
+     * @return the unique service of the specified <var>clazz</var>, or <code>null</code> if it doesn't exist
+     */
+    protected <E> E findService(Class<E> clazz) {
+        BundleContext bundleContext = getBundleContext();
         ServiceReference<E> serviceReference = bundleContext.getServiceReference(clazz);
         E e = bundleContext.getService(serviceReference);
 
