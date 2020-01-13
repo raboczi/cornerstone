@@ -15,42 +15,42 @@ public class TestEventQueueProvider extends EventQueueProviderImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestEventQueueProvider.class);
 
     public TestEventQueueProvider() {
-        LOGGER.info("Constructed test event queue provider");
+        LOGGER.debug("Constructed test event queue provider");
     }
 
     @Override
     public <T extends Event> EventQueue<T> lookup(String name, Session session, boolean autocreate) {
-        LOGGER.info("Lookup queue named " + name + " in session " + session + " autocreate " + autocreate);
+        LOGGER.debug("Lookup queue named " + name + " in session " + session + " autocreate " + autocreate);
         return new TestEventQueue(super.lookup(name, session, autocreate));
     }
 
     @Override
     public <T extends Event> EventQueue<T> lookup(String name, String scope, boolean autocreate) {
-        LOGGER.info("Lookup queue named " + name + " in scope " + scope + " autocreate " + autocreate);
+        LOGGER.debug("Lookup queue named " + name + " in scope " + scope + " autocreate " + autocreate);
         return new TestEventQueue(super.lookup(name, scope, autocreate));
     }
 
     @Override
     public <T extends Event> EventQueue<T> lookup(String name, WebApp webApp, boolean autocreate) {
-        LOGGER.info("Lookup queue named " + name + " in web app " + webApp + " autocreate " + autocreate);
+        LOGGER.debug("Lookup queue named " + name + " in web app " + webApp + " autocreate " + autocreate);
         return new TestEventQueue(super.lookup(name, webApp, autocreate));
     }
 
     @Override
     public boolean remove(String name, Session session) {
-        LOGGER.info("Remove queue named " + name + " from session " + session);
+        LOGGER.debug("Remove queue named " + name + " from session " + session);
         return super.remove(name, session);
     }
 
     @Override
     public boolean remove(String name, String scope) {
-        LOGGER.info("Remove queue named " + name + " from scope " + scope);
+        LOGGER.debug("Remove queue named " + name + " from scope " + scope);
         return super.remove(name, scope);
     }
 
     @Override
     public boolean remove(String name, WebApp webApp) {
-        LOGGER.info("Remove queue named " + name + " from web app " + webApp);
+        LOGGER.debug("Remove queue named " + name + " from web app " + webApp);
         return super.remove(name, webApp);
     }
 
@@ -60,19 +60,19 @@ public class TestEventQueueProvider extends EventQueueProviderImpl {
 
         public TestEventQueue(EventQueue<T> wrapped) {
             this.wrapped = wrapped;
-            LOGGER.info("Constructed test event queue, wrapping " + wrapped);
+            LOGGER.debug("Constructed test event queue, wrapping " + wrapped);
         }
 
 
         // Implementation of EventQueue
 
-        public void close() { LOGGER.info("Close"); wrapped.close(); }
+        public void close() { LOGGER.debug("Close"); wrapped.close(); }
         public boolean isClose() { return wrapped.isClose(); }
         public boolean isSubscribed(EventListener<T> listener) { return wrapped.isSubscribed(listener); }
-        public void publish(T event) { LOGGER.info("Publish event " + event); wrapped.publish(event); }
-        public void subscribe(EventListener<T> listener) { LOGGER.info("Subscribe to " + listener); wrapped.subscribe(listener); }
-        public void subscribe(EventListener<T> listener, boolean async) { LOGGER.info("Subscribe to " + listener); wrapped.subscribe(listener, async); }
-        public void subscribe(EventListener<T> listener, EventListener<T> callback) { LOGGER.info("Subscribe to " + listener); wrapped.subscribe(listener, callback); }
-        public boolean unsubscribe(EventListener<T> listener) { LOGGER.info("Unsubscribe from " + listener); return wrapped.unsubscribe(listener); }
+        public void publish(T event) { LOGGER.debug("Publish event " + event); wrapped.publish(event); }
+        public void subscribe(EventListener<T> listener) { LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener); }
+        public void subscribe(EventListener<T> listener, boolean async) { LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener, async); }
+        public void subscribe(EventListener<T> listener, EventListener<T> callback) { LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener, callback); }
+        public boolean unsubscribe(EventListener<T> listener) { LOGGER.debug("Unsubscribe from " + listener); return wrapped.unsubscribe(listener); }
     }
 }

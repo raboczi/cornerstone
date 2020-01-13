@@ -1,6 +1,6 @@
 package au.id.raboczi.cornerstone.test_service;
 
-import io.reactivex.rxjava3.core.*;
+import io.reactivex.rxjava3.core.ObservableSource;
 
 public interface TestService {
 
@@ -11,7 +11,7 @@ public interface TestService {
     String getValue();
 
     /** @return the value stream */
-    Observable<String> getObservable();
+    ObservableSource<String> getObservableValue();
 
     /** @param newValue  the new value to persist */
     void setValue(final String newValue);

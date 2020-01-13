@@ -1,7 +1,9 @@
 package au.id.raboczi.cornerstone.test_war;
 
 import au.id.raboczi.cornerstone.test_service.TestService;
-import io.reactivex.rxjava3.core.*;
+import io.reactivex.rxjava3.core.ObservableSource;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.observers.DefaultObserver;
 import java.util.Hashtable;
 import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
@@ -23,11 +25,13 @@ import org.zkoss.zul.Window;
 /**
  * Controller for <code>index.zul</code>.
  */
-public class IndexWindowController extends SCRSelectorComposer<Window> implements EventHandler, EventListener<IndexWindowController.WeirdEvent> {
+public class IndexWindowController extends SCRSelectorComposer<Window> implements EventListener<ConsumerEvent<String>> {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(IndexWindowController.class);
+
+    private static final String QUEUE = "consumer-queue-name";
 
     @Reference
     private TestService testService;
@@ -41,50 +45,69 @@ public class IndexWindowController extends SCRSelectorComposer<Window> implement
 
         label.setValue(testService.getValue());
 
-        // OSGi events
-        String[] topics = new String[] {TestService.EVENT_TOPIC};
-        Hashtable ht = new Hashtable();
-        ht.put(EventConstants.EVENT_TOPIC, topics);
-        getBundleContext().registerService(EventHandler.class.getName(), this, ht);
-
         // ZK events
-        EventQueue eventQueue = EventQueues.lookup("weird", getSelf().getDesktop().getSession(), true);
+        EventQueue eventQueue = EventQueues.lookup(QUEUE, getSelf().getDesktop().getSession(), true);
         eventQueue.subscribe(this);
 
+        // OSGi events
+        connect(TestService.EVENT_TOPIC, (Consumer<String>) s -> label.setValue(s));
+
         // RxJava events
-        testService.getObservable().subscribe(s -> eventQueue.publish(new WeirdEvent(s)),
-                                              e -> LOGGER.error("Test service exception", e));
+        connect(testService.getObservableValue(), s -> label.setValue(s));
+    }
+
+    /** Forwards RxJava ObservableSource as ZK events. */
+    private <T> void connect(ObservableSource<T> observableSource, Consumer<T> consumer) {
+        observableSource.subscribe(new DefaultObserver<T>() {
+            EventQueue eventQueue = EventQueues.lookup(QUEUE, getSelf().getDesktop().getSession(), true);
+
+            @Override public void onStart() { LOGGER.info("Start!"); }
+            @Override public void onNext(T t) {
+                LOGGER.info("Handle RxJava change: " + t);
+                eventQueue.publish(new ConsumerEvent(t, consumer));
+            }
+            @Override public void onError(Throwable t) { LOGGER.error("Test service exception", t); }
+            @Override public void onComplete() { LOGGER.info("Done!"); }
+        });
+    }
+
+    /** Forwards OSGi EventAdmin traffic as ZK events. */
+    private <T> void connect(String topic, Consumer<T> consumer) {
+
+        Hashtable ht = new Hashtable();
+        ht.put(EventConstants.EVENT_TOPIC, new String[] { topic });
+
+        getBundleContext().registerService(EventHandler.class.getName(), new EventHandler() {
+            @Override
+            public void handleEvent(final Event event) {
+                LOGGER.info("Handle OSGi event: " + event);
+
+                switch (event.getTopic()) {
+                case TestService.EVENT_TOPIC:
+                    EventQueues.lookup(QUEUE, getSelf().getDesktop().getSession(), true)
+                               .publish(new ConsumerEvent<T>((T) event.getProperty("value"), consumer));
+                    break;
+
+                default:
+                    LOGGER.warn("Unsupported topic: " + event.getTopic());
+                    break;
+                }
+            }
+        }, ht);  // TODO: prevent duplicate event handlers from being registered
     }
 
     /** @param event  button click */
     @Listen("onClick = button#button1; onClick = button#button2")
     public void onClickButton(final MouseEvent mouseEvent) {
         testService.setValue(((Button) mouseEvent.getTarget()).getLabel());
-        label.setValue(testService.getValue());
     }
 
 
-    // Implementation of OSGi EventHandler
+    // Implementation of ZK EventListener<ConsumerEvent<String>>
 
     @Override
-    public void handleEvent(final Event event) {
-        LOGGER.info("Handle OSGi event " + event);
-        //EventQueues.lookup("q", EventQueues.APPLICATION, true).publish(
-        //    new org.zkoss.zk.ui.event.Event(event.getTopic()));
-    }
-
-
-    // Implementation of ZK EventListener<WeirdEvent>
-
-    @Override
-    public void onEvent(WeirdEvent weirdEvent) {
-        label.setValue(weirdEvent.getName());
-    }
-
-    /** Custom ZK event corresponding to the testService's observable transitions. */
-    class WeirdEvent extends org.zkoss.zk.ui.event.Event {
-        WeirdEvent(String s) {
-            super(s);
-        }
+    public void onEvent(ConsumerEvent<String> consumerEvent) throws Exception {
+        LOGGER.info("Handle ZK event " + consumerEvent);
+        consumerEvent.run();
     }
 }
