@@ -51,13 +51,6 @@
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
-
-    <dependency>
-      <groupId>au.id.raboczi.cornerstone</groupId>
-      <artifactId>zk</artifactId>
-      <version>${project.version}</version>
-      <scope>runtime</scope>
-    </dependency>
   </dependencies>
 
   <build>
