@@ -1,0 +1,12 @@
+<zk>
+  <box apply="au.id.raboczi.cornerstone.test_war.TestController">
+    <hlayout>
+      <label value="${arg.label}"/>
+      <label id="label" value="Page default"/>
+    </hlayout>
+    <hlayout>
+      <button id="button1" label="One"/>
+      <button id="button2" label="Two"/>
+    </hlayout>
+  </box>
+</zk>

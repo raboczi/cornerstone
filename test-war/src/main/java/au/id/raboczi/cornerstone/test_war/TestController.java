@@ -13,6 +13,7 @@ import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.zk.ui.Component;
 //import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.EventQueue;
@@ -25,13 +26,13 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.Window;
 
 /**
- * Controller for <code>index.zul</code>.
+ * Controller for the macro <code>test.zul</code>.
  */
-public class IndexWindowController extends SCRSelectorComposer<Window> implements EventListener<ConsumerEvent<String>> {
+public class TestController extends SCRSelectorComposer<Component> implements EventListener<ConsumerEvent<String>> {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
-        LoggerFactory.getLogger(IndexWindowController.class);
+        LoggerFactory.getLogger(TestController.class);
 
     private static final String QUEUE = "consumer-queue-name";
 
@@ -42,7 +43,7 @@ public class IndexWindowController extends SCRSelectorComposer<Window> implement
     private Label label;
 
     @Override
-    public void doAfterCompose(Window comp) throws Exception {
+    public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
 
         label.setValue(testService.getValue());

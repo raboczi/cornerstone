@@ -17,6 +17,14 @@
 
   <dependencies>
     <dependency>
+      <groupId>au.id.raboczi.cornerstone</groupId>
+      <artifactId>test-war</artifactId>
+      <version>${project.version}</version>
+      <classifier>features</classifier>
+      <type>xml</type>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.karaf.features</groupId>
       <artifactId>framework</artifactId>
       <type>kar</type>
@@ -43,14 +51,6 @@
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
-
-    <dependency>
-      <groupId>au.id.raboczi.cornerstone</groupId>
-      <artifactId>test-war</artifactId>
-      <version>${project.version}</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-    </dependency>
   </dependencies>
 
   <build>
@@ -72,6 +72,7 @@
               <goal>archive</goal>
             </goals>
           </execution>
+          <!-- Disabled because it's not @threadSafe and I like parallel builds
           <execution>
             <id>dockerfile</id>
             <goals>
@@ -81,6 +82,7 @@
               <command>["karaf"]</command>
             </configuration>
           </execution>
+          -->
         </executions>
         <configuration>
           <installedFeatures>

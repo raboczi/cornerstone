@@ -17,6 +17,7 @@ This software is known to work on MacOS 10.15 "Catalina", but theoretically shou
 2. Obtain the source code, e.g. via `git clone https://github.com/raboczi/cornerstone.git`
 
 3. Build the project by executing `mvn` from inside the `cornerstone` directory.
+   Parallel builds using e.g. `mvn -T4` are also supported.
 
 
 ## Running

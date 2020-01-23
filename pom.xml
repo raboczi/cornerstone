@@ -14,12 +14,13 @@
   <inceptionYear>2019</inceptionYear>
 
   <modules>
-    <module>dist</module>
     <module>test-service</module>
     <module>test-service-api</module>
     <module>test-war</module>
     <module>zk</module>
     <module>zk-event-queue-provider</module>
+
+    <module>dist</module>  <!-- Must go last, because Maven is unaware of dependencies within features.xml -->
   </modules>
 
   <licenses>

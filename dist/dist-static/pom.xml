@@ -61,12 +61,14 @@
               <goal>archive</goal>
             </goals>
           </execution>
+          <!-- Disabled because it's not @threadSafe and I like parallel builds
           <execution>
             <id>dockerfile</id>
             <goals>
               <goal>dockerfile</goal>
             </goals>
           </execution>
+          -->
         </executions>
         <configuration>
           <startupFeatures>

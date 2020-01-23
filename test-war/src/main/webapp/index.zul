@@ -1,11 +1,8 @@
+<?component name="test" macroURI="test.zul"?>
 <zk>
-  <window id="indexWindow" apply="au.id.raboczi.cornerstone.test_war.IndexWindowController">
+  <window>
     <vlayout>
-      <label id="label" value="Page default"/>
-      <hlayout>
-        <button id="button1" label="One"/>
-        <button id="button2" label="Two"/>
-      </hlayout>
+      <test label="Label:"/>
       <listbox id="themeListbox" mold="select" apply="au.id.raboczi.cornerstone.test_war.ThemeListboxController"/>
     </vlayout>
   </window>
