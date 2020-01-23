@@ -16,12 +16,12 @@
     <value>iceblue_c</value>
   </library-property>
 
+<!--
   <library-property>
     <name>org.zkoss.zk.ui.event.EventQueueProvider.class</name>
     <value>au.id.raboczi.cornerstone.zk.TestEventQueueProvider</value>
   </library-property>
 
-<!--
   <language-config>
     <addon-uri>/WEB-INF/lang-addon.xml</addon-uri>
   </language-config>

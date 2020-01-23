@@ -16,8 +16,10 @@
   <modules>
     <module>dist</module>
     <module>test-service</module>
+    <module>test-service-api</module>
     <module>test-war</module>
     <module>zk</module>
+    <module>zk-event-queue-provider</module>
   </modules>
 
   <licenses>

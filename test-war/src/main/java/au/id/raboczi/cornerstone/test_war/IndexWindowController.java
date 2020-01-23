@@ -1,6 +1,8 @@
 package au.id.raboczi.cornerstone.test_war;
 
 import au.id.raboczi.cornerstone.test_service.TestService;
+import au.id.raboczi.cornerstone.zk.Reference;
+import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
 import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.DefaultObserver;
@@ -46,21 +48,21 @@ public class IndexWindowController extends SCRSelectorComposer<Window> implement
         label.setValue(testService.getValue());
 
         // ZK events
-        EventQueue eventQueue = EventQueues.lookup(QUEUE, getSelf().getDesktop().getSession(), true);
+        EventQueue eventQueue = EventQueues.lookup(QUEUE, comp.getDesktop().getSession(), true);
+        LOGGER.info("Do after compose, window " + comp + ", desktop " + getSelf().getDesktop() + ", session " + getSelf().getDesktop().getSession() + ", queue " + eventQueue);
+        assert eventQueue != null;
         eventQueue.subscribe(this);
 
         // OSGi events
-        connect(TestService.EVENT_TOPIC, (Consumer<String>) s -> label.setValue(s));
+        connect(TestService.EVENT_TOPIC, eventQueue, (Consumer<String>) s -> label.setValue(s));
 
         // RxJava events
-        connect(testService.getObservableValue(), s -> label.setValue(s));
+        connect(testService.getObservableValue(), eventQueue, s -> label.setValue(s));
     }
 
     /** Forwards RxJava ObservableSource as ZK events. */
-    private <T> void connect(ObservableSource<T> observableSource, Consumer<T> consumer) {
+    private <T> void connect(ObservableSource<T> observableSource, EventQueue eventQueue, Consumer<T> consumer) {
         observableSource.subscribe(new DefaultObserver<T>() {
-            EventQueue eventQueue = EventQueues.lookup(QUEUE, getSelf().getDesktop().getSession(), true);
-
             @Override public void onStart() { LOGGER.info("Start!"); }
             @Override public void onNext(T t) {
                 LOGGER.info("Handle RxJava change: " + t);
@@ -72,7 +74,7 @@ public class IndexWindowController extends SCRSelectorComposer<Window> implement
     }
 
     /** Forwards OSGi EventAdmin traffic as ZK events. */
-    private <T> void connect(String topic, Consumer<T> consumer) {
+    private <T> void connect(String topic, EventQueue eventQueue, Consumer<T> consumer) {
 
         Hashtable ht = new Hashtable();
         ht.put(EventConstants.EVENT_TOPIC, new String[] { topic });
@@ -84,8 +86,7 @@ public class IndexWindowController extends SCRSelectorComposer<Window> implement
 
                 switch (event.getTopic()) {
                 case TestService.EVENT_TOPIC:
-                    EventQueues.lookup(QUEUE, getSelf().getDesktop().getSession(), true)
-                               .publish(new ConsumerEvent<T>((T) event.getProperty("value"), consumer));
+                    eventQueue.publish(new ConsumerEvent<T>((T) event.getProperty("value"), consumer));
                     break;
 
                 default:

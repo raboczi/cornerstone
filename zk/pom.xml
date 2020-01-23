@@ -14,30 +14,71 @@
   <packaging>bundle</packaging>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/feature</directory>
+        <filtering>true</filtering>
+        <targetPath>${project.build.directory}/feature</targetPath>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
+<!--
         <configuration>
           <instructions>
-            <Export-Package>
-              au.id.raboczi.cornerstone.zk
-            </Export-Package>
-            <Fragment-Host>org.ops4j.pax.web.pax-web-extender-war;bundle-version="[7.2,8)"</Fragment-Host>
+            <Import-Package>
+              org.zkoss.zel.impl,
+              org.zkoss.zk.au.http,
+              org.zkoss.zk.ui.http,
+              org.zkoss.zk.ui.impl,
+              *
+            </Import-Package>
+            <Web-ContextPath>cornerstone</Web-ContextPath>
           </instructions>
         </configuration>
+-->
       </plugin>
+<!--
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>target/feature/feature.xml</file>
+                  <classifier>features</classifier>
+                  <type>xml</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+-->
     </plugins>
   </build>
 
   <dependencies>
     <dependency>
-      <groupId>org.ops4j.pax.web</groupId>
-      <artifactId>pax-web-extender-war</artifactId>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.core</artifactId>
     </dependency>
     <dependency>
       <groupId>org.zkoss.zk</groupId>
-      <artifactId>zk</artifactId>
+      <artifactId>zul</artifactId>
     </dependency>
   </dependencies>
 

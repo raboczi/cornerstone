@@ -76,12 +76,13 @@
   <dependencies>
     <dependency>
       <groupId>au.id.raboczi.cornerstone</groupId>
-      <artifactId>test-service</artifactId>
+      <artifactId>test-service-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
+      <groupId>au.id.raboczi.cornerstone</groupId>
+      <artifactId>zk</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>

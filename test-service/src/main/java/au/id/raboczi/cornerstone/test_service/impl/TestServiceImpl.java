@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableSource;
 import java.util.HashMap;
 import java.util.Map;
-import static java.util.concurrent.TimeUnit.SECONDS;;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import org.osgi.service.component.annotations.Component;
 
 import org.osgi.service.component.annotations.Reference;

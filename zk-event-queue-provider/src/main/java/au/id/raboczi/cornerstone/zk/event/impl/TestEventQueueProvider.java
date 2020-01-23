@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.zk;
+package au.id.raboczi.cornerstone.zk.event.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

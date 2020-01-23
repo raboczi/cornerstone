@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.test_war;
+package au.id.raboczi.cornerstone.zk;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -30,7 +30,7 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
         for (Class<?> c = getClass(); c != null; c = c.getSuperclass()) {
             for (Field field : c.getDeclaredFields()) {
                 for (Annotation annotation: field.getAnnotations()) {
-                    if ("@au.id.raboczi.cornerstone.test_war.Reference(rewireOnActivate=false, value=)".equals(annotation.toString())) {
+                    if ("@au.id.raboczi.cornerstone.zk.Reference(rewireOnActivate=false, value=)".equals(annotation.toString())) {
                         field.setAccessible(true);
                         field.set(this, findService(field.getType()));
                     }
