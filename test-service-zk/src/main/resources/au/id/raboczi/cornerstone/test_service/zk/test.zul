@@ -1,5 +1,5 @@
 <zk>
-  <box apply="au.id.raboczi.cornerstone.test_war.TestController">
+  <box apply="au.id.raboczi.cornerstone.test_service.zk.TestController">
     <hlayout>
       <label value="${arg.label}"/>
       <label id="label" value="Page default"/>

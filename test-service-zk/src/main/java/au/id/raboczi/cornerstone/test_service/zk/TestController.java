@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.test_war;
+package au.id.raboczi.cornerstone.test_service.zk;
 
 import au.id.raboczi.cornerstone.test_service.TestService;
 import au.id.raboczi.cornerstone.zk.Reference;

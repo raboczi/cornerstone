@@ -11,6 +11,7 @@
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</bundle>
     <bundle>webbundle:mvn:au.id.raboczi.cornerstone/test-war/${project.version}/war?Web-ContextPath=cornerstone-test-war</bundle>
   </feature>
 

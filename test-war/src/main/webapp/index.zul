@@ -1,4 +1,4 @@
-<?component name="test" macroURI="test.zul"?>
+<?component name="test" macroURI="au/id/raboczi/cornerstone/test_service/zk/test.zul"?>
 <zk>
   <window>
     <vlayout>

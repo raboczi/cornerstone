@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.test_war;
+package au.id.raboczi.cornerstone.test_service.zk;
 
 import io.reactivex.rxjava3.functions.Consumer;
 import org.slf4j.Logger;

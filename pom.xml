@@ -16,11 +16,12 @@
   <modules>
     <module>test-service</module>
     <module>test-service-api</module>
+    <module>test-service-zk</module>
     <module>test-war</module>
     <module>zk</module>
     <module>zk-event-queue-provider</module>
 
-    <module>dist</module>  <!-- Must go last, because Maven is unaware of dependencies within features.xml -->
+    <module>dist</module>  <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
   </modules>
 
   <licenses>
