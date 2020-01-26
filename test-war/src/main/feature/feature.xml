@@ -8,6 +8,8 @@
     <feature prerequisite="true">rxjava</feature>
     <feature prerequisite="true">war</feature>
     <feature prerequisite="true">zk-war</feature>
+    <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk/${project.version}</bundle>

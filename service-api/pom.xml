@@ -9,8 +9,8 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>test-service-api</artifactId>
-  <name>Cornerstone :: Test service API</name>
+  <artifactId>service-api</artifactId>
+  <name>Cornerstone :: Service API</name>
   <packaging>bundle</packaging>
 
   <build>
@@ -21,7 +21,7 @@
         <configuration>
           <instructions>
             <Export-Package>
-              au.id.raboczi.cornerstone.test_service
+              au.id.raboczi.cornerstone
             </Export-Package>
           </instructions>
         </configuration>
@@ -52,15 +52,6 @@
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>service-api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.reactivex.rxjava3</groupId>
-      <artifactId>rxjava</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>

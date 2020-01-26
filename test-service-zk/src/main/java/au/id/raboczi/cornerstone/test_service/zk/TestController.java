@@ -1,5 +1,6 @@
 package au.id.raboczi.cornerstone.test_service.zk;
 
+import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import au.id.raboczi.cornerstone.zk.Reference;
 import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
@@ -58,7 +59,8 @@ public class TestController extends SCRSelectorComposer<Component> implements Ev
         connect(TestService.EVENT_TOPIC, eventQueue, (Consumer<String>) s -> label.setValue(s));
 
         // RxJava events
-        connect(testService.getObservableValue(), eventQueue, s -> label.setValue(s));
+        Caller caller = null;
+        connect(testService.getObservableValue(caller), eventQueue, s -> label.setValue(s));
     }
 
     /** Forwards RxJava ObservableSource as ZK events. */

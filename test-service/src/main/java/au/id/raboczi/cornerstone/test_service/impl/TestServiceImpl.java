@@ -1,5 +1,6 @@
 package au.id.raboczi.cornerstone.test_service.impl;
 
+import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableSource;
@@ -27,7 +28,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public ObservableSource<String> getObservableValue() {
+    public ObservableSource<String> getObservableValue(Caller caller) {
         return observableValue;
     }
 

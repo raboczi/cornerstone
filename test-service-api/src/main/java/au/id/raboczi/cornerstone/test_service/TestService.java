@@ -1,5 +1,6 @@
 package au.id.raboczi.cornerstone.test_service;
 
+import au.id.raboczi.cornerstone.Caller;
 import io.reactivex.rxjava3.core.ObservableSource;
 
 public interface TestService {
@@ -10,8 +11,11 @@ public interface TestService {
     /** @return the persistent value */
     String getValue();
 
-    /** @return the value stream */
-    ObservableSource<String> getObservableValue();
+    /**
+     * @param caller  all callers are authorized
+     * @return the value stream
+     */
+    ObservableSource<String> getObservableValue(Caller caller);
 
     /** @param newValue  the new value to persist */
     void setValue(final String newValue);
