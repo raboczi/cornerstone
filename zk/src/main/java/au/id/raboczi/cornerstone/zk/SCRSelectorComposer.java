@@ -2,6 +2,7 @@ package au.id.raboczi.cornerstone.zk;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.zkoss.zk.ui.Component;
@@ -28,13 +29,26 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
         super.doAfterCompose(comp);
 
         for (Class<?> c = getClass(); c != null; c = c.getSuperclass()) {
-            for (Field field : c.getDeclaredFields()) {
-                System.out.println("Field " + field);
+
+            for (Field field: c.getDeclaredFields()) {
                 for (Annotation annotation: field.getAnnotations()) {
-                    System.out.println("  Annotation " + annotation);
-                    if ("@au.id.raboczi.cornerstone.zk.Reference(bind=, field=, unbind=, service=class java.lang.Object, parameter=0, name=, updated=, target=)".equals(annotation.toString())) {
+                    if (Reference.class.equals(annotation.annotationType())) {
                         field.setAccessible(true);
                         field.set(this, findService(field.getType()));
+                        field.setAccessible(false);
+                    }
+                }
+            }
+
+            for (Method method: c.getDeclaredMethods()) {
+                for (Annotation annotation: method.getAnnotations()) {
+                    if (Reference.class.equals(annotation.annotationType())) {
+                        if (method.getParameterCount() != 1) {
+                            throw new Exception("@Reference annotation cannot be applied to " + method.toGenericString() + " because that method does not have exactly one parameter");
+                        }
+                        method.setAccessible(true);
+                        method.invoke(this, findService(method.getParameterTypes()[0]));
+                        method.setAccessible(false);
                     }
                 }
             }

@@ -12,12 +12,19 @@ import java.lang.annotation.Target;
 //import org.osgi.service.component.annotations.ReferenceScope;
 
 /**
- * A parody of {@link org.osgi.service.component.annotations.Reference}.
- *
- * The only difference is that the retention policy is RUNTIME rather than CLASS so that {@link SCRSelectorComposer} has access to it.
+ * Identify the annotated member or parameter as a reference of a Service
+ * Component.
+ * <p>
+ * When the annotation is applied to a method, the method is the bind method of
+ * the reference.
+ * <p>
+ * When the annotation is applied to a field, the field will contain the bound
+ * service(s) of the reference.
+ * <p>
+ * This annotation is processed at runtime by @{link SCRSelectorComposer}.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER })
+@Target({ ElementType.FIELD, ElementType.METHOD })
 public @interface Reference {
 
     String name() default "";
