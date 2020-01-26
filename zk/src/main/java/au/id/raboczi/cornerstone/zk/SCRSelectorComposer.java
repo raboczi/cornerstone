@@ -29,8 +29,10 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
 
         for (Class<?> c = getClass(); c != null; c = c.getSuperclass()) {
             for (Field field : c.getDeclaredFields()) {
+                System.out.println("Field " + field);
                 for (Annotation annotation: field.getAnnotations()) {
-                    if ("@au.id.raboczi.cornerstone.zk.Reference(rewireOnActivate=false, value=)".equals(annotation.toString())) {
+                    System.out.println("  Annotation " + annotation);
+                    if ("@au.id.raboczi.cornerstone.zk.Reference(bind=, field=, unbind=, service=class java.lang.Object, parameter=0, name=, updated=, target=)".equals(annotation.toString())) {
                         field.setAccessible(true);
                         field.set(this, findService(field.getType()));
                     }
