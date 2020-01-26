@@ -52,8 +52,10 @@
   <properties>
     <java.source.version>1.8</java.source.version>
     <java.target.version>${java.source.version}</java.target.version>
-    <karaf.version>4.2.7</karaf.version>
+    <karaf.version>4.2.8</karaf.version>
+    <pax-web.version>7.2.14</pax-web.version>  <!-- this should match whatever is bundled with ${karaf.version} -->
     <osgi.version>6.0.0</osgi.version>
+    <servlet-api.version>3.1.0</servlet-api.version>  <!-- This version of the Servlet API is specified by OSGi R6 section 140.1 "HTTP Whiteboard Specification" -->
     <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's qualifier, e.g. 9.0.0-SNAPSHOT -->
     <zk.version.osgi>9.0.0</zk.version.osgi>  <!-- usually the same as zk.version unless there's a qualifier, e.g. 9.0.0.SNAPSHOT -->
     <zk.version.range>[9.0,10)</zk.version.range>
@@ -157,12 +159,12 @@
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
-        <version>3.1.0</version>  <!-- This version of the Servlet API is specified by OSGi R6 section 140.1 "HTTP Whiteboard Specification" -->
+        <version>${servlet-api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.ops4j.pax.web</groupId>
         <artifactId>pax-web-extender-war</artifactId>
-        <version>7.2.11</version>  <!-- This version is bundled with Karaf 4.2.7 -->
+        <version>${pax-web.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
