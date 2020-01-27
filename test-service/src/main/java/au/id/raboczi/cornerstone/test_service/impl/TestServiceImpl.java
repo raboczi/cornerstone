@@ -13,12 +13,22 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 
+/**
+ * Demonstrates event handling approaches.
+ */
 @Component(service = {TestService.class})
-public class TestServiceImpl implements TestService {
+public final class TestServiceImpl implements TestService {
 
+    /** Timer frequency in seconds. */
+    private static final long PERIOD = 3;
+
+    /** A generic property on the service. */
     private String value = "Service initial value";
-    private ObservableSource<String> observableValue = Observable.interval(3, SECONDS).map(n -> n.toString());
 
+    /** A counter that increments every {@link #PERIOD} seconds. */
+    private ObservableSource<String> observableValue = Observable.interval(PERIOD, SECONDS).map(n -> n.toString());
+
+    /** Notifies changes to {@link #value}. */
     @Reference
     private EventAdmin eventAdmin;
 
@@ -28,7 +38,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public ObservableSource<String> getObservableValue(Caller caller) {
+    public ObservableSource<String> getObservableValue(final Caller caller) {
         return observableValue;
     }
 

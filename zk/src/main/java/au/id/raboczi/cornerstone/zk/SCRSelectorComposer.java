@@ -6,8 +6,6 @@ import java.lang.reflect.Method;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Page;
-import org.zkoss.zk.ui.metainfo.ComponentInfo;
 import org.zkoss.zk.ui.select.SelectorComposer;
 
 /**
@@ -20,12 +18,18 @@ import org.zkoss.zk.ui.select.SelectorComposer;
  * Additionally, it allows the injection of OSGi services using annotations
  * parodying the {@link org.osgi.service.component.annotations} package.
  *
+ * @param <T>  the type of component this controller can <code>apply</code> to
  * @see Reference
  */
 public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T> {
 
+    /**
+     * {@inheritDoc}
+     *
+     * This implementation performs dependency injection for fields and methods annotated with {@link Reference}.
+     */
     @Override
-    public void doAfterCompose(T comp) throws Exception {
+    public void doAfterCompose(final T comp) throws Exception {
         super.doAfterCompose(comp);
 
         for (Class<?> c = getClass(); c != null; c = c.getSuperclass()) {
@@ -55,6 +59,7 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
         }
     }
 
+    /** @return the bundle context of the servlet */
     protected BundleContext getBundleContext() {
         BundleContext bundleContext = (BundleContext) getSelf()
             .getDesktop()
@@ -66,10 +71,11 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
     }
 
     /**
+     * @param <E>  the type of a desired OSGi service
      * @param clazz  the type of a desired OSGi service
      * @return the unique service of the specified <var>clazz</var>, or <code>null</code> if it doesn't exist
      */
-    protected <E> E findService(Class<E> clazz) {
+    protected <E> E findService(final Class<E> clazz) {
         BundleContext bundleContext = getBundleContext();
         ServiceReference<E> serviceReference = bundleContext.getServiceReference(clazz);
         E e = bundleContext.getService(serviceReference);

@@ -10,7 +10,6 @@ import io.reactivex.rxjava3.observers.DefaultObserver;
 import java.util.Hashtable;
 import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
-import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,27 +23,29 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Window;
 
 /**
  * Controller for the macro <code>test.zul</code>.
  */
-public class TestController extends SCRSelectorComposer<Component> implements EventListener<ConsumerEvent<String>> {
+public final class TestController extends SCRSelectorComposer<Component> implements EventListener<ConsumerEvent<String>> {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
         LoggerFactory.getLogger(TestController.class);
 
+    /** The name of the ZK queue. */
     private static final String QUEUE = "consumer-queue-name";
 
+    /** The model for this controller. */
     @Reference
     private TestService testService;
 
+    /** The view for this controller. */
     @Wire("#label")
     private Label label;
 
     @Override
-    public void doAfterCompose(Component comp) throws Exception {
+    public void doAfterCompose(final Component comp) throws Exception {
         super.doAfterCompose(comp);
 
         label.setValue(testService.getValue());
@@ -63,24 +64,46 @@ public class TestController extends SCRSelectorComposer<Component> implements Ev
         connect(testService.getObservableValue(caller), eventQueue, s -> label.setValue(s));
     }
 
-    /** Forwards RxJava ObservableSource as ZK events. */
-    private <T> void connect(ObservableSource<T> observableSource, EventQueue eventQueue, Consumer<T> consumer) {
+    /**
+     * Forwards RxJava ObservableSource as ZK events.
+     *
+     * @param <T>  the type of stream
+     * @param observableSource  the source
+     * @param eventQueue  the channel
+     * @param consumer  the destination
+     */
+    private <T> void connect(final ObservableSource<T> observableSource, final EventQueue eventQueue, final Consumer<T> consumer) {
         observableSource.subscribe(new DefaultObserver<T>() {
-            @Override public void onStart() { LOGGER.info("Start!"); }
-            @Override public void onNext(T t) {
+            @Override public void onStart() {
+                LOGGER.info("Start!");
+            }
+
+            @Override public void onNext(final T t) {
                 LOGGER.info("Handle RxJava change: " + t);
                 eventQueue.publish(new ConsumerEvent(t, consumer));
             }
-            @Override public void onError(Throwable t) { LOGGER.error("Test service exception", t); }
-            @Override public void onComplete() { LOGGER.info("Done!"); }
+
+            @Override public void onError(final Throwable t) {
+                LOGGER.error("Test service exception", t);
+            }
+            @Override public void onComplete() {
+                LOGGER.info("Done!");
+            }
         });
     }
 
-    /** Forwards OSGi EventAdmin traffic as ZK events. */
-    private <T> void connect(String topic, EventQueue eventQueue, Consumer<T> consumer) {
+    /**
+     * Forwards OSGi EventAdmin traffic as ZK events.
+     *
+     * @param <T>  the type of stream
+     * @param topic  the source, the name of an OSGi EventAdmin queue
+     * @param eventQueue  the channel
+     * @param consumer  the destination
+     */
+    private <T> void connect(final String topic, final EventQueue eventQueue, final Consumer<T> consumer) {
 
         Hashtable ht = new Hashtable();
-        ht.put(EventConstants.EVENT_TOPIC, new String[] { topic });
+        ht.put(EVENT_TOPIC, new String[] {topic});
 
         getBundleContext().registerService(EventHandler.class.getName(), new EventHandler() {
             @Override
@@ -97,10 +120,10 @@ public class TestController extends SCRSelectorComposer<Component> implements Ev
                     break;
                 }
             }
-        }, ht);  // TODO: prevent duplicate event handlers from being registered
+        }, ht);
     }
 
-    /** @param event  button click */
+    /** @param mouseEvent  button click */
     @Listen("onClick = button#button1; onClick = button#button2")
     public void onClickButton(final MouseEvent mouseEvent) {
         testService.setValue(((Button) mouseEvent.getTarget()).getLabel());
@@ -110,7 +133,7 @@ public class TestController extends SCRSelectorComposer<Component> implements Ev
     // Implementation of ZK EventListener<ConsumerEvent<String>>
 
     @Override
-    public void onEvent(ConsumerEvent<String> consumerEvent) throws Exception {
+    public void onEvent(final ConsumerEvent<String> consumerEvent) throws Exception {
         LOGGER.info("Handle ZK event " + consumerEvent);
         consumerEvent.run();
     }

@@ -9,70 +9,96 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.EventQueue;
 import org.zkoss.zk.ui.event.impl.EventQueueProviderImpl;
 
-public class TestEventQueueProvider extends EventQueueProviderImpl {
+public final class TestEventQueueProvider extends EventQueueProviderImpl {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(TestEventQueueProvider.class);
 
-    public TestEventQueueProvider() {
-        LOGGER.debug("Constructed test event queue provider");
-    }
-
     @Override
-    public <T extends Event> EventQueue<T> lookup(String name, Session session, boolean autocreate) {
+    public <T extends Event> EventQueue<T> lookup(final String name, final Session session, final boolean autocreate) {
         LOGGER.debug("Lookup queue named " + name + " in session " + session + " autocreate " + autocreate);
         return new TestEventQueue(super.lookup(name, session, autocreate));
     }
 
     @Override
-    public <T extends Event> EventQueue<T> lookup(String name, String scope, boolean autocreate) {
+    public <T extends Event> EventQueue<T> lookup(final String name, final String scope, final boolean autocreate) {
         LOGGER.debug("Lookup queue named " + name + " in scope " + scope + " autocreate " + autocreate);
         return new TestEventQueue(super.lookup(name, scope, autocreate));
     }
 
     @Override
-    public <T extends Event> EventQueue<T> lookup(String name, WebApp webApp, boolean autocreate) {
+    public <T extends Event> EventQueue<T> lookup(final String name, final WebApp webApp, final boolean autocreate) {
         LOGGER.debug("Lookup queue named " + name + " in web app " + webApp + " autocreate " + autocreate);
         return new TestEventQueue(super.lookup(name, webApp, autocreate));
     }
 
     @Override
-    public boolean remove(String name, Session session) {
+    public boolean remove(final String name, final Session session) {
         LOGGER.debug("Remove queue named " + name + " from session " + session);
         return super.remove(name, session);
     }
 
     @Override
-    public boolean remove(String name, String scope) {
+    public boolean remove(final String name, final String scope) {
         LOGGER.debug("Remove queue named " + name + " from scope " + scope);
         return super.remove(name, scope);
     }
 
     @Override
-    public boolean remove(String name, WebApp webApp) {
+    public boolean remove(final String name, final WebApp webApp) {
         LOGGER.debug("Remove queue named " + name + " from web app " + webApp);
         return super.remove(name, webApp);
     }
 
-    public class TestEventQueue<T extends Event> implements EventQueue<T> {
+    /**
+     * Wrapper for {@link EventQueue}.
+     *
+     * @param <T>  the type of event
+     */
+    public final class TestEventQueue<T extends Event> implements EventQueue<T> {
 
+        /** The wrapped instance. */
         private EventQueue<T> wrapped;
 
-        public TestEventQueue(EventQueue<T> wrapped) {
-            this.wrapped = wrapped;
+        /** @param newWrapped  an instance to wrap */
+        public TestEventQueue(final EventQueue<T> newWrapped) {
+            this.wrapped = newWrapped;
             LOGGER.debug("Constructed test event queue, wrapping " + wrapped);
         }
 
 
         // Implementation of EventQueue
 
-        public void close() { LOGGER.debug("Close"); wrapped.close(); }
-        public boolean isClose() { return wrapped.isClose(); }
-        public boolean isSubscribed(EventListener<T> listener) { return wrapped.isSubscribed(listener); }
-        public void publish(T event) { LOGGER.debug("Publish event " + event); wrapped.publish(event); }
-        public void subscribe(EventListener<T> listener) { LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener); }
-        public void subscribe(EventListener<T> listener, boolean async) { LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener, async); }
-        public void subscribe(EventListener<T> listener, EventListener<T> callback) { LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener, callback); }
-        public boolean unsubscribe(EventListener<T> listener) { LOGGER.debug("Unsubscribe from " + listener); return wrapped.unsubscribe(listener); }
+        @Override public void close() {
+            LOGGER.debug("Close"); wrapped.close();
+        }
+
+        @Override public boolean isClose() {
+            return wrapped.isClose();
+        }
+
+        @Override public boolean isSubscribed(final EventListener<T> listener) {
+            return wrapped.isSubscribed(listener);
+        }
+
+        @Override public void publish(final T event) {
+            LOGGER.debug("Publish event " + event); wrapped.publish(event);
+        }
+
+        @Override public void subscribe(final EventListener<T> listener) {
+            LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener);
+        }
+
+        @Override public void subscribe(final EventListener<T> listener, final boolean async) {
+            LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener, async);
+        }
+
+        @Override public void subscribe(final EventListener<T> listener, final EventListener<T> callback) {
+            LOGGER.debug("Subscribe to " + listener); wrapped.subscribe(listener, callback);
+        }
+
+        @Override public boolean unsubscribe(final EventListener<T> listener) {
+            LOGGER.debug("Unsubscribe from " + listener); return wrapped.unsubscribe(listener);
+        }
     }
 }
