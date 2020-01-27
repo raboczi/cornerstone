@@ -70,7 +70,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
-          <version>4.1.0</version>
+          <version>4.2.1</version>
           <extensions>true</extensions>
           <inherited>true</inherited>
           <executions>
@@ -98,21 +98,24 @@
             </supportedProjectTypes>
           </configuration>
         </plugin>
+
         <plugin>
           <groupId>org.apache.karaf.tooling</groupId>
           <artifactId>karaf-maven-plugin</artifactId>
           <version>${karaf.version}</version>
           <extensions>true</extensions>
         </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.8.1</version>
           <configuration>
             <source>${java.source.version}</source>
             <target>${java.target.version}</target>
           </configuration>
         </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
@@ -136,11 +139,31 @@
             </execution>
           </executions>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.1.1</version>
+          <configuration>
+            <!-- <additionalOptions>-html5</additionalOptions>  Option only supported in JDK 9+ -->
+            <docfilessubdirs>true</docfilessubdirs>
+            <links>
+              <link>https://docs.oracle.com/javase/9/docs/api</link> <!-- TODO: update to current JDK once Oracle fixes their package-list -->
+              <link>https://docs.oracle.com/javaee/7/api</link>
+              <link>https://osgi.org/javadoc/r6/core</link>
+              <link>https://osgi.org/javadoc/r6/cmpn</link>
+              <link>https://www.zkoss.org/javadoc/${zk.version}/zk</link>
+            </links>
+            <overview>overview.html</overview>
+          </configuration>
+        </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
           <version>3.2.3</version>
-       </plugin>
+        </plugin>
+
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
@@ -189,34 +212,40 @@
         <artifactId>rxjava</artifactId>
         <version>3.0.0-RC7</version>
       </dependency>
+
       <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
         <version>${servlet-api.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.ops4j.pax.web</groupId>
         <artifactId>pax-web-extender-war</artifactId>
         <version>${pax-web.version}</version>
         <scope>provided</scope>
       </dependency>
+
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>osgi.cmpn</artifactId>
         <version>${osgi.version}</version>
         <scope>provided</scope>
       </dependency>
+
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>osgi.core</artifactId>
         <version>${osgi.version}</version>
         <scope>provided</scope>
       </dependency>
+
       <dependency>
         <groupId>org.zkoss.zk</groupId>
         <artifactId>zk</artifactId>
         <version>${zk.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.zkoss.zk</groupId>
         <artifactId>zul</artifactId>
@@ -245,6 +274,33 @@
                     <requireReleaseVersion/>
                   </rules>
                 </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>  <!-- Generate per-artifact Javadoc -->
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>

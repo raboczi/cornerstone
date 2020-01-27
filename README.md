@@ -18,6 +18,9 @@ This software is known to work on MacOS 10.15 "Catalina", but theoretically shou
 
 3. Build the project by executing `mvn` from inside the `cornerstone` directory.
    Parallel builds using e.g. `mvn -T4` are also supported.
+   Release builds using `mvn -Prelease` will perform additional validation and include javadoc and source attachments.
+
+4. Optionally, generate [Javadoc](target/site/apidocs/index.html) by executing `mvn javadoc:aggregate`
 
 
 ## Running
