@@ -70,7 +70,9 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
                 for (Annotation annotation: method.getAnnotations()) {
                     if (Reference.class.equals(annotation.annotationType())) {
                         if (method.getParameterCount() != 1) {
-                            throw new Exception("@Reference annotation cannot be applied to " + method.toGenericString() + " because that method does not have exactly one parameter");
+                            throw new Exception("@Reference annotation cannot be applied to "
+                                + method.toGenericString()
+                                + " because that method does not have exactly one parameter");
                         }
                         method.setAccessible(true);
                         method.invoke(this, findService(method.getParameterTypes()[0]));

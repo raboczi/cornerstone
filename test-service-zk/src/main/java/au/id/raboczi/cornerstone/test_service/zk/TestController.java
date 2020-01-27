@@ -49,7 +49,8 @@ import org.zkoss.zul.Label;
 /**
  * Controller for the macro <code>test.zul</code>.
  */
-public final class TestController extends SCRSelectorComposer<Component> implements EventListener<ConsumerEvent<String>> {
+public final class TestController extends SCRSelectorComposer<Component>
+    implements EventListener<ConsumerEvent<String>> {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER =
@@ -74,7 +75,10 @@ public final class TestController extends SCRSelectorComposer<Component> impleme
 
         // ZK events
         EventQueue eventQueue = EventQueues.lookup(QUEUE, comp.getDesktop().getSession(), true);
-        LOGGER.info("Do after compose, window " + comp + ", desktop " + getSelf().getDesktop() + ", session " + getSelf().getDesktop().getSession() + ", queue " + eventQueue);
+        LOGGER.info("Do after compose, window " + comp
+            + ", desktop " + getSelf().getDesktop()
+            + ", session " + getSelf().getDesktop().getSession()
+            + ", queue " + eventQueue);
         assert eventQueue != null;
         eventQueue.subscribe(this);
 
@@ -94,7 +98,10 @@ public final class TestController extends SCRSelectorComposer<Component> impleme
      * @param eventQueue  the channel
      * @param consumer  the destination
      */
-    private <T> void connect(final ObservableSource<T> observableSource, final EventQueue eventQueue, final Consumer<T> consumer) {
+    private <T> void connect(final ObservableSource<T> observableSource,
+                             final EventQueue eventQueue,
+                             final Consumer<T> consumer) {
+
         observableSource.subscribe(new DefaultObserver<T>() {
             @Override public void onStart() {
                 LOGGER.info("Start!");
