@@ -136,7 +136,11 @@
             </annotationProcessorPaths>
             <annotationProcessors>
               <!-- Add all the checkers you want to enable here -->
+              <!-- <annotationProcessor>org.checkerframework.checker.formatter.FormatChecker</annotationProcessor> -->
+              <annotationProcessor>org.checkerframework.checker.i18n.I18nChecker</annotationProcessor>
+              <!-- <annotationProcessor>org.checkerframework.checker.i18nformatter.I18nFormatterChecker</annotationProcessor> -->
               <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+              <!-- <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor> -->
             </annotationProcessors>
             <compilerArgs>
               <!-- If using JDK 8, use only the two arguments immediately below. -->
@@ -146,8 +150,13 @@
                    space in the one below, and uncomment it. -->
               <!-- <arg>-J- -add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg> -->
 
+              <!-- Our local annotation stubs for third-party libraries -->
+              <arg>-Astubs=${project.parent.basedir}/src/checkerframework</arg>
+              <arg>-AstubWarnIfNotFound</arg>
+
               <!-- Optionally, -Awarns turns type-checking errors into warnings. -->
               <!-- <arg>-Awarns</arg> -->
+
             </compilerArgs>
           </configuration>
         </plugin>
@@ -318,6 +327,13 @@
         <groupId>org.ops4j.pax.web</groupId>
         <artifactId>pax-web-extender-war</artifactId>
         <version>${pax-web.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.annotation</artifactId>
+        <version>6.0.1</version>
         <scope>provided</scope>
       </dependency>
 

@@ -52,9 +52,8 @@ public final class TestServiceImpl implements TestService {
     private ObservableSource<String> observableValue = Observable.interval(PERIOD, SECONDS).map(n -> n.toString());
 
     /** Notifies changes to {@link #value}. */
-    @Nullable
     @Reference
-    private EventAdmin eventAdmin;
+    private @Nullable EventAdmin eventAdmin;
 
     @Override
     public String getValue() {

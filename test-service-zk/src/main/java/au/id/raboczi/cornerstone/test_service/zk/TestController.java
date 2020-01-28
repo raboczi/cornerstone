@@ -61,17 +61,15 @@ public final class TestController extends SCRSelectorComposer<Component>
     private static final String QUEUE = "consumer-queue-name";
 
     /** The model for this controller. */
-    @Nullable
     @Reference
-    private TestService testService;
+    private @Nullable TestService testService;
 
     /** The view for this controller. */
-    @Nullable
     @Wire("#label")
-    private Label label;
+    private @Nullable Label label;
 
     @Override
-    @SuppressWarnings("nullness")
+    @SuppressWarnings({"i18n", "nullness"})
     public void doAfterCompose(final Component comp) throws Exception {
         super.doAfterCompose(comp);
 
