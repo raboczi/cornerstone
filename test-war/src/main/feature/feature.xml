@@ -24,6 +24,7 @@
 
   <feature name="zk-war" version="${zk.version}" description="Adds Zk support for WAR applications">
     <feature prerequisite="true">war</feature>
+    <feature prerequisite="true">wrap</feature>
     <bundle>mvn:org.javassist/javassist/3.26.0-GA</bundle>
     <bundle>wrap:mvn:bsh/bsh/1.3.0$<!--
         -->Bundle-SymbolicName=bsh.bsh&amp;<!--

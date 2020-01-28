@@ -29,6 +29,7 @@ import io.reactivex.rxjava3.core.ObservableSource;
 import java.util.HashMap;
 import java.util.Map;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.component.annotations.Component;
 
 import org.osgi.service.component.annotations.Reference;
@@ -51,6 +52,7 @@ public final class TestServiceImpl implements TestService {
     private ObservableSource<String> observableValue = Observable.interval(PERIOD, SECONDS).map(n -> n.toString());
 
     /** Notifies changes to {@link #value}. */
+    @Nullable
     @Reference
     private EventAdmin eventAdmin;
 
@@ -65,6 +67,7 @@ public final class TestServiceImpl implements TestService {
     }
 
     @Override
+    @SuppressWarnings("nullness")
     public void setValue(final String newValue) {
         this.value = newValue;
 

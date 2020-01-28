@@ -53,14 +53,21 @@
   <properties>
     <java.source.version>1.8</java.source.version>
     <java.target.version>${java.source.version}</java.target.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- Artifact versions -->
+    <checkerframework.version>3.1.0</checkerframework.version>
     <karaf.version>4.2.8</karaf.version>
     <osgi.version>6.0.0</osgi.version>
     <pax-web.version>7.2.14</pax-web.version>  <!-- this should match whatever is bundled with ${karaf.version} -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <servlet-api.version>3.1.0</servlet-api.version>  <!-- This version of the Servlet API is specified by OSGi R6 section 140.1 "HTTP Whiteboard Specification" -->
     <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's qualifier, e.g. 9.0.0-SNAPSHOT -->
     <zk.version.osgi>9.0.0</zk.version.osgi>  <!-- usually the same as zk.version unless there's a qualifier, e.g. 9.0.0.SNAPSHOT -->
     <zk.version.range>[9.0,10)</zk.version.range>
+
+    <!-- Checkerframework -->
+    <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
+    <errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
   </properties>
 
   <build>
@@ -111,8 +118,37 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
           <configuration>
+            <fork>true</fork>
             <source>${java.source.version}</source>
             <target>${java.target.version}</target>
+            <!-- If using JDK 11, remove source and target and uncomment "release" below. -->
+            <!-- <release>11</release> -->
+            <compilerArguments>
+              <Xmaxerrs>10000</Xmaxerrs>
+              <Xmaxwarns>10000</Xmaxwarns>
+            </compilerArguments>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker</artifactId>
+                <version>${checkerframework.version}</version>
+              </path>
+            </annotationProcessorPaths>
+            <annotationProcessors>
+              <!-- Add all the checkers you want to enable here -->
+              <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+            </annotationProcessors>
+            <compilerArgs>
+              <!-- If using JDK 8, use only the two arguments immediately below. -->
+              <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
+              <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+              <!-- If using JDK 11, remove the two arguments above, remove the
+                   space in the one below, and uncomment it. -->
+              <!-- <arg>-J- -add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg> -->
+
+              <!-- Optionally, -Awarns turns type-checking errors into warnings. -->
+              <!-- <arg>-Awarns</arg> -->
+            </compilerArgs>
           </configuration>
         </plugin>
 
@@ -208,6 +244,20 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <!-- This plugin will set properties values using dependency information -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>  <!-- http://www.mojohaus.org/license-maven-plugin/examples/example-thirdparty.html -->
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
@@ -298,6 +348,27 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>${checkerframework.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>jdk8</artifactId>
+      <version>${checkerframework.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>javac</artifactId>
+      <version>9+181-r4173-1</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 
   <profiles>
     <profile>

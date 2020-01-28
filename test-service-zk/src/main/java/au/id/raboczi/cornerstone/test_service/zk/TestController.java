@@ -30,6 +30,7 @@ import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.DefaultObserver;
 import java.util.Hashtable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
 import org.osgi.service.event.EventHandler;
@@ -60,14 +61,17 @@ public final class TestController extends SCRSelectorComposer<Component>
     private static final String QUEUE = "consumer-queue-name";
 
     /** The model for this controller. */
+    @Nullable
     @Reference
     private TestService testService;
 
     /** The view for this controller. */
+    @Nullable
     @Wire("#label")
     private Label label;
 
     @Override
+    @SuppressWarnings("nullness")
     public void doAfterCompose(final Component comp) throws Exception {
         super.doAfterCompose(comp);
 
@@ -154,6 +158,7 @@ public final class TestController extends SCRSelectorComposer<Component>
 
     /** @param mouseEvent  button click */
     @Listen("onClick = button#button1; onClick = button#button2")
+    @SuppressWarnings("nullness")
     public void onClickButton(final MouseEvent mouseEvent) {
         testService.setValue(((Button) mouseEvent.getTarget()).getLabel());
     }
