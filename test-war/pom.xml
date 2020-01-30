@@ -29,6 +29,7 @@
           <instructions>
             <Import-Package>
               au.id.raboczi.cornerstone.test_service.zk,
+              au.id.raboczi.cornerstone.user_service.zk,
               org.zkoss.zel.impl,
               org.zkoss.zk.au.http,
               org.zkoss.zk.ui.http,

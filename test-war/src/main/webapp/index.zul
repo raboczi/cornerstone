@@ -1,8 +1,10 @@
 <?component name="test" macroURI="au/id/raboczi/cornerstone/test_service/zk/test.zul"?>
+<?component name="user" macroURI="au/id/raboczi/cornerstone/user_service/zk/user.zul"?>
 <zk>
   <window>
     <vlayout>
-      <test label="Label:"/>
+      <user/>
+      <test label="${labels.test_label}"/>
       <listbox id="themeListbox" mold="select" apply="au.id.raboczi.cornerstone.test_war.ThemeListboxController"/>
     </vlayout>
   </window>

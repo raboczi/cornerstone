@@ -1,12 +1,12 @@
 <zk>
-  <box apply="au.id.raboczi.cornerstone.test_service.zk.TestController">
+  <box id="box" apply="au.id.raboczi.cornerstone.test_service.zk.TestController">
     <hlayout>
       <label value="${arg.label}"/>
-      <label id="label" value="Page default"/>
+      <label id="label1" value="${box$composer.labels.label1_value}"/>
     </hlayout>
     <hlayout>
-      <button id="button1" label="One"/>
-      <button id="button2" label="Two"/>
+      <button id="button1" label="${box$composer.labels.button1_label}"/>
+      <button id="button2" label="${box$composer.labels.button2_label}"/>
     </hlayout>
   </box>
 </zk>

@@ -30,12 +30,14 @@ import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.DefaultObserver;
 import java.util.Hashtable;
+import java.util.ResourceBundle;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
 //import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -60,20 +62,30 @@ public final class TestController extends SCRSelectorComposer<Component>
     /** The name of the ZK queue. */
     private static final String QUEUE = "consumer-queue-name";
 
+    /** @return localized text catalogue */
+    public ResourceBundle getLabels() {
+        ResourceBundle bundle = ResourceBundle.getBundle("au.id.raboczi.cornerstone.test_service.zk.TestController",
+                                        Locales.getCurrent());
+        assert bundle != null : "@AssumeAssertion(nullness)";
+        return bundle;
+    }
+
     /** The model for this controller. */
     @Reference
     private @Nullable TestService testService;
 
     /** The view for this controller. */
-    @Wire("#label")
-    private @Nullable Label label;
+    @Wire("#label1")
+    private @Nullable Label label1;
 
     @Override
-    @SuppressWarnings({"i18n", "nullness"})
+    @SuppressWarnings({"i18n"})
     public void doAfterCompose(final Component comp) throws Exception {
         super.doAfterCompose(comp);
+        assert label1 != null : "@AssumeAssertion(nullness)";
+        assert testService != null : "@AssumeAssertion(nullness)";
 
-        label.setValue(testService.getValue());
+        label1.setValue(testService.getValue());
 
         // ZK events
         EventQueue eventQueue = EventQueues.lookup(QUEUE, comp.getDesktop().getSession(), true);
@@ -81,15 +93,36 @@ public final class TestController extends SCRSelectorComposer<Component>
             + ", desktop " + getSelf().getDesktop()
             + ", session " + getSelf().getDesktop().getSession()
             + ", queue " + eventQueue);
-        assert eventQueue != null;
+        if (eventQueue == null) {
+            throw new Exception("ZK event queue " + QUEUE + " not found and could not be created");
+        }
         eventQueue.subscribe(this);
 
         // OSGi events
-        connect(TestService.EVENT_TOPIC, eventQueue, (Consumer<String>) s -> label.setValue(s));
+        connect(TestService.EVENT_TOPIC, eventQueue, (Consumer<String>) s -> {
+            assert label1 != null : "@AssumeAssertion(nullness)";
+            label1.setValue(s);
+        });
 
         // RxJava events
-        Caller caller = null;
-        connect(testService.getObservableValue(caller), eventQueue, s -> label.setValue(s));
+        ClassLoader classLoader = getClass().getClassLoader();
+        assert classLoader != null : "@AssumeAssertion(nullness)";
+        Caller caller = (Caller) java.lang.reflect.Proxy.newProxyInstance(
+            classLoader,
+            new Class[] {Caller.class},
+            new java.lang.reflect.InvocationHandler() {
+                public Object invoke(final Object proxy,
+                                     final java.lang.reflect.Method method,
+                                     final Object[] args) {
+                    throw new Error("Unimplemented proxy");
+                }
+            }
+        );
+        assert testService != null : "@AssumeAssertion(nullness)";
+        connect(testService.getObservableValue(caller), eventQueue, s -> {
+            assert label1 != null : "@AssumeAssertion(nullness)";
+            label1.setValue(s);
+        });
     }
 
     /**
@@ -156,8 +189,8 @@ public final class TestController extends SCRSelectorComposer<Component>
 
     /** @param mouseEvent  button click */
     @Listen("onClick = button#button1; onClick = button#button2")
-    @SuppressWarnings("nullness")
     public void onClickButton(final MouseEvent mouseEvent) {
+        assert testService != null : "@AssumeAssertion(nullness)";
         testService.setValue(((Button) mouseEvent.getTarget()).getLabel());
     }
 
