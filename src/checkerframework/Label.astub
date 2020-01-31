@@ -35,13 +35,13 @@ import org.zkoss.zul.impl.XulElement;
  * @author tomyeh
  */
 public class Label extends XulElement {
-	private String _value = "";
+	private @Localized String _value = "";
 	private AuxInfo _auxinf;
 
 	public Label() {
 	}
 
-	public Label(String value) {
+	public Label(@Localized String value) {
 		setValue(value);
 	}
 
@@ -50,7 +50,7 @@ public class Label extends XulElement {
 	 * <p>Deriving class can override it to return whatever it wants
 	 * other than null.
 	 */
-	public String getValue() {
+	public @Localized String getValue() {
 		return _value;
 	}
 

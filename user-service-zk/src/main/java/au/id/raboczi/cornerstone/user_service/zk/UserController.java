@@ -27,6 +27,7 @@ import au.id.raboczi.cornerstone.zk.Reference;
 import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
+import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +69,6 @@ public final class UserController extends SCRSelectorComposer<Button> {
     public void onClickButton(final MouseEvent mouseEvent) {
         LOGGER.info("Click " + mouseEvent);
         MessageFormat format = new MessageFormat(getLabels().getString("logout"), Locales.getCurrent());
-        getSelf().setLabel(format.format(new Object[]{"Placeholder"}));
+        getSelf().setLabel((@Localized String) format.format(new Object[]{"Placeholder"}));
     }
 }
