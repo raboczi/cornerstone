@@ -60,10 +60,10 @@
 
     <!-- Artifact versions -->
     <checkerframework.version>3.1.0</checkerframework.version>
-    <karaf.version>4.2.8</karaf.version>
-    <osgi.version>6.0.0</osgi.version>
+    <karaf.version>4.3.0.RC1</karaf.version>
+    <osgi.version>7.0.0</osgi.version>
     <pax-web.version>7.2.14</pax-web.version>  <!-- this should match whatever is bundled with ${karaf.version} -->
-    <servlet-api.version>3.1.0</servlet-api.version>  <!-- This version of the Servlet API is specified by OSGi R6 section 140.1 "HTTP Whiteboard Specification" -->
+    <servlet-api.version>3.1.0</servlet-api.version>  <!-- This version of the Servlet API is specified by OSGi R7 Compendium section 140.1 "HTTP Whiteboard Specification" 1.1 -->
     <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's qualifier, e.g. 9.0.0-SNAPSHOT -->
     <zk.version.osgi>9.0.0</zk.version.osgi>  <!-- usually the same as zk.version unless there's a qualifier, e.g. 9.0.0.SNAPSHOT -->
     <zk.version.range>[9.0,10)</zk.version.range>
@@ -363,6 +363,7 @@
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
         <version>${servlet-api.version}</version>
+        <scope>provided</scope>
       </dependency>
 
       <dependency>
@@ -375,7 +376,7 @@
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>osgi.annotation</artifactId>
-        <version>6.0.1</version>
+        <version>${osgi.version}</version>
         <scope>provided</scope>
       </dependency>
 
