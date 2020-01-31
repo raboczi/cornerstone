@@ -13,6 +13,10 @@
   <name>Cornerstone :: Test service ZK UI</name>
   <packaging>bundle</packaging>
 
+  <properties>
+    <i18n.propfiles>${basedir}/src/main/resources/au/id/raboczi/cornerstone/test_service/zk/TestController.properties</i18n.propfiles>
+  </properties>
+
   <build>
     <plugins>
       <plugin>

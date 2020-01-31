@@ -157,6 +157,8 @@
               <arg>-Astubs=${project.parent.basedir}/src/checkerframework</arg>
               <arg>-AstubWarnIfNotFound</arg>
 
+              <arg>-Apropfiles=${i18n.propfiles}</arg>
+
               <!-- Optionally, -Awarns turns type-checking errors into warnings. -->
               <!-- <arg>-Awarns</arg> -->
             </compilerArgs>

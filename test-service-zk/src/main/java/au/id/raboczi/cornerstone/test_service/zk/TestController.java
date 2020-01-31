@@ -31,6 +31,7 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.DefaultObserver;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
+import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
@@ -78,14 +79,18 @@ public final class TestController extends SCRSelectorComposer<Component>
     @Wire("#label1")
     private @Nullable Label label1;
 
-    @Override
     @SuppressWarnings({"i18n"})
+    private @Localized String fakeLocalizer(final String s) {
+        return s;
+    }
+
+    @Override
     public void doAfterCompose(final Component comp) throws Exception {
         super.doAfterCompose(comp);
         assert label1 != null : "@AssumeAssertion(nullness)";
         assert testService != null : "@AssumeAssertion(nullness)";
 
-        label1.setValue(testService.getValue());
+        label1.setValue(fakeLocalizer(testService.getValue()));
 
         // ZK events
         EventQueue eventQueue = EventQueues.lookup(QUEUE, comp.getDesktop().getSession(), true);
@@ -101,7 +106,7 @@ public final class TestController extends SCRSelectorComposer<Component>
         // OSGi events
         connect(TestService.EVENT_TOPIC, eventQueue, (Consumer<String>) s -> {
             assert label1 != null : "@AssumeAssertion(nullness)";
-            label1.setValue(s);
+            label1.setValue(fakeLocalizer(s));
         });
 
         // RxJava events
@@ -121,7 +126,7 @@ public final class TestController extends SCRSelectorComposer<Component>
         assert testService != null : "@AssumeAssertion(nullness)";
         connect(testService.getObservableValue(caller), eventQueue, s -> {
             assert label1 != null : "@AssumeAssertion(nullness)";
-            label1.setValue(s);
+            label1.setValue(fakeLocalizer(s));
         });
     }
 
