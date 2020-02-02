@@ -17,7 +17,7 @@
             <row>
                <cell colspan="2" style="text-align: center">
                    <button id="loginButton" label="${win$composer.labels.login_login}" tabindex="3" type="submit"/>
-                   <button id="cancelButton" label="${win$composer.labels.cancel}" tabindex="4"/>
+                   <button id="cancelButton" label="${labels._cancel}" tabindex="4"/>
                </cell>
            </row>
         </rows>

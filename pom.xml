@@ -67,10 +67,6 @@
     <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's qualifier, e.g. 9.0.0-SNAPSHOT -->
     <zk.version.osgi>9.0.0</zk.version.osgi>  <!-- usually the same as zk.version unless there's a qualifier, e.g. 9.0.0.SNAPSHOT -->
     <zk.version.range>[9.0,10)</zk.version.range>
-
-    <!-- Checkerframework -->
-    <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
-    <errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
   </properties>
 
   <build>
@@ -120,49 +116,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
-          <configuration>
-            <fork>true</fork>
-            <source>${java.source.version}</source>
-            <target>${java.target.version}</target>
-            <!-- If using JDK 11, remove source and target and uncomment "release" below. -->
-            <!-- <release>11</release> -->
-            <compilerArguments>
-              <Xmaxerrs>10000</Xmaxerrs>
-              <Xmaxwarns>10000</Xmaxwarns>
-            </compilerArguments>
-            <annotationProcessorPaths>
-              <path>
-                <groupId>org.checkerframework</groupId>
-                <artifactId>checker</artifactId>
-                <version>${checkerframework.version}</version>
-              </path>
-            </annotationProcessorPaths>
-            <annotationProcessors>
-              <!-- Add all the checkers you want to enable here -->
-              <!-- <annotationProcessor>org.checkerframework.checker.formatter.FormatChecker</annotationProcessor> -->
-              <annotationProcessor>org.checkerframework.checker.i18n.I18nChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.i18nformatter.I18nFormatterChecker</annotationProcessor>
-              <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
-              <!-- <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor> -->
-            </annotationProcessors>
-            <compilerArgs>
-              <!-- If using JDK 8, use only the two arguments immediately below. -->
-              <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
-              <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
-              <!-- If using JDK 11, remove the two arguments above, remove the
-                   space in the one below, and uncomment it. -->
-              <!-- <arg>-J- -add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg> -->
-
-              <!-- Our local annotation stubs for third-party libraries -->
-              <arg>-Astubs=${project.parent.basedir}/src/checkerframework</arg>
-              <arg>-AstubWarnIfNotFound</arg>
-
-              <arg>-Apropfiles=${i18n.propfiles}</arg>
-
-              <!-- Optionally, -Awarns turns type-checking errors into warnings. -->
-              <!-- <arg>-Awarns</arg> -->
-            </compilerArgs>
-          </configuration>
         </plugin>
 
         <plugin>
@@ -422,21 +375,156 @@
       <version>${checkerframework.version}</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>jdk8</artifactId>
-      <version>${checkerframework.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.errorprone</groupId>
-      <artifactId>javac</artifactId>
-      <version>9+181-r4173-1</version>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
 
   <profiles>
+    <profile>
+      <id>checkerframework-jdk8</id>
+      <activation>
+        <jdk>[1.8,11)</jdk>
+      </activation>
+
+      <properties>
+        <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
+        <errorProneJavac>${com.google.errorprone:javac:jar}</errorProneJavac>
+      </properties>
+
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                <fork>true</fork>
+                <source>${java.source.version}</source>
+                <target>${java.target.version}</target>
+                <!-- If using JDK 11, remove source and target and uncomment "release" below. -->
+                <!--<release>11</release>-->
+                <compilerArguments>
+                  <Xmaxerrs>10000</Xmaxerrs>
+                  <Xmaxwarns>10000</Xmaxwarns>
+                </compilerArguments>
+                <annotationProcessorPaths>
+                  <path>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>checker</artifactId>
+                    <version>${checkerframework.version}</version>
+                  </path>
+                </annotationProcessorPaths>
+                <annotationProcessors>
+                  <!-- Add all the checkers you want to enable here -->
+                  <!-- <annotationProcessor>org.checkerframework.checker.formatter.FormatChecker</annotationProcessor> -->
+                  <annotationProcessor>org.checkerframework.checker.i18n.I18nChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.i18nformatter.I18nFormatterChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+                  <!-- <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor> -->
+                </annotationProcessors>
+                <compilerArgs>
+                  <!-- If using JDK 8, use only the two arguments immediately below. -->
+                  <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
+                  <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+                  <!-- If using JDK 11, remove the two arguments above, remove the
+                       space in the one below, and uncomment it. -->
+                  <!-- <arg>-J- -add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg> -->
+
+                  <!-- Our local annotation stubs for third-party libraries -->
+                  <arg>-Astubs=${project.parent.basedir}/src/checkerframework</arg>
+                  <arg>-AstubWarnIfNotFound</arg>
+
+                  <arg>-Apropfiles=${i18n.propfiles}</arg>
+
+                  <!-- Optionally, -Awarns turns type-checking errors into warnings. -->
+                  <!-- <arg>-Awarns</arg> -->
+                </compilerArgs>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+
+      <dependencies>
+        <dependency>
+          <groupId>org.checkerframework</groupId>
+          <artifactId>jdk8</artifactId>
+          <version>${checkerframework.version}</version>
+          <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+          <groupId>com.google.errorprone</groupId>
+          <artifactId>javac</artifactId>
+          <version>9+181-r4173-1</version>
+          <scope>compile</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>checkerframework-jdk11</id>
+      <activation>
+        <jdk>[11,)</jdk>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                <fork>true</fork>
+<!--
+                <source>${java.source.version}</source>
+                <target>${java.target.version}</target>
+-->
+                <!-- If using JDK 11, remove source and target and uncomment "release" below. -->
+                <release>11</release>
+                <compilerArguments>
+                  <Xmaxerrs>10000</Xmaxerrs>
+                  <Xmaxwarns>10000</Xmaxwarns>
+                </compilerArguments>
+                <annotationProcessorPaths>
+                  <path>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>checker</artifactId>
+                    <version>${checkerframework.version}</version>
+                  </path>
+                </annotationProcessorPaths>
+                <annotationProcessors>
+                  <!-- Add all the checkers you want to enable here -->
+                  <!-- <annotationProcessor>org.checkerframework.checker.formatter.FormatChecker</annotationProcessor> -->
+                  <annotationProcessor>org.checkerframework.checker.i18n.I18nChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.i18nformatter.I18nFormatterChecker</annotationProcessor>
+                  <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+                  <!-- <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor> -->
+                </annotationProcessors>
+                <compilerArgs>
+                  <!-- If using JDK 8, use only the two arguments immediately below. -->
+<!--
+                  <arg>-J-Xbootclasspath/p:${errorProneJavac}</arg>
+                  <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+-->
+                  <!-- If using JDK 11, remove the two arguments above, remove the
+                       space in the one below, and uncomment it. -->
+                  <!-- <arg>-J- -add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg> -->
+                  <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+
+                  <!-- Our local annotation stubs for third-party libraries -->
+                  <arg>-Astubs=${project.parent.basedir}/src/checkerframework</arg>
+                  <arg>-AstubWarnIfNotFound</arg>
+
+                  <arg>-Apropfiles=${i18n.propfiles}</arg>
+
+                  <!-- Optionally, -Awarns turns type-checking errors into warnings. -->
+                  <!-- <arg>-Awarns</arg> -->
+                </compilerArgs>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+
     <profile>
       <id>release</id>
       <build>

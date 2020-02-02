@@ -35,6 +35,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
 import org.osgi.service.event.EventHandler;
+import org.osgi.service.useradmin.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
@@ -100,19 +101,12 @@ public final class TestController extends SCRSelectorComposer<Component>
         });
 
         // RxJava events
-        ClassLoader classLoader = getClass().getClassLoader();
-        assert classLoader != null : "@AssumeAssertion(nullness)";
-        Caller caller = (Caller) java.lang.reflect.Proxy.newProxyInstance(
-            classLoader,
-            new Class[] {Caller.class},
-            new java.lang.reflect.InvocationHandler() {
-                public Object invoke(final Object proxy,
-                                     final java.lang.reflect.Method method,
-                                     final Object[] args) {
-                    throw new Error("Unimplemented proxy");
-                }
+        Caller caller = new Caller() {
+            @Override
+            public Authorization authorization() {
+                throw new Error("Not implemented");
             }
-        );
+        };
         assert testService != null : "@AssumeAssertion(nullness)";
         connect(testService.getObservableValue(caller), eventQueue, s -> {
             assert label1 != null : "@AssumeAssertion(nullness)";

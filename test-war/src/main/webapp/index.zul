@@ -4,7 +4,7 @@
   <window>
     <vlayout>
       <user/>
-      <test label="${labels.test_label}"/>
+      <test label="${labels.index_label}"/>
       <listbox id="themeListbox" mold="select" apply="au.id.raboczi.cornerstone.test_war.ThemeListboxController"/>
     </vlayout>
   </window>
