@@ -63,7 +63,7 @@ public final class UserController extends SCRSelectorComposer<Button> {
 
     /** @param mouseEvent  button click */
     @Listen("onClick = button#button1")
-    public void onClickButton(final MouseEvent mouseEvent) throws IOException {
+    public void onClickButton(final MouseEvent mouseEvent) {
         LOGGER.info("Click " + mouseEvent);
 
         @Nullable User user = (User) Sessions.getCurrent().getAttribute(LoginController.USER);
@@ -77,18 +77,28 @@ public final class UserController extends SCRSelectorComposer<Button> {
         }
     }
 
+    /**
+     * @param path  a ZUL document in the classpath describing a ZK {@link Window}
+     * @return a {@link Window} constructed from the ZUL document
+     * @throws IllegalArgumentException if <var>path</var> isn't an item in the classpath
+     */
     @SuppressWarnings("nullness")
-    private Window createWindow(final String path) throws IOException {
-        ClassLoader cl = UserController.class.getClassLoader();
-        assert cl != null : "@AssumeAssertion(nullness)";
-        InputStream in = cl.getResourceAsStream(path);
-        assert in != null : "@AssumeAssertion(nullness)";
-        Reader r = new InputStreamReader(in, "UTF-8");
-        assert r != null : "@AssumeAssertion(nullness)";
-        Window window = (Window) Executions.createComponentsDirectly(r, "zul", null, null);
-        assert window != null : "@AssumeAssertion(nullness)";
+    private Window createWindow(final String path) {
+        try {
+            ClassLoader cl = UserController.class.getClassLoader();
+            assert cl != null : "@AssumeAssertion(nullness)";
+            InputStream in = cl.getResourceAsStream(path);
+            assert in != null : "@AssumeAssertion(nullness)";
+            Reader r = new InputStreamReader(in, "UTF-8");
+            assert r != null : "@AssumeAssertion(nullness)";
+            Window window = (Window) Executions.createComponentsDirectly(r, "zul", null, null);
+            assert window != null : "@AssumeAssertion(nullness)";
 
-        return window;
+            return window;
+
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid ZUL path: " + path, e);
+        }
     }
 
     private void updateUser() {
