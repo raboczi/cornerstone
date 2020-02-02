@@ -22,14 +22,14 @@ package au.id.raboczi.cornerstone.test_service;
  * #L%
  */
 
-public interface TestService {
+import au.id.raboczi.cornerstone.Caller;
+import io.reactivex.rxjava3.core.ObservableSource;
 
-    /** OSGi EventAdmin event topic. */
-    String EVENT_TOPIC = "au/id/raboczi/cornerstone/test_service/EVENT";
+public interface RxTestService {
 
-    /** @return the persistent value */
-    String getValue();
-
-    /** @param newValue  the new value to persist */
-    void setValue(String newValue);
+    /**
+     * @param caller  all callers are authorized
+     * @return the value stream
+     */
+    ObservableSource<String> getObservableValue(Caller caller);
 }

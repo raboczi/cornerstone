@@ -22,7 +22,7 @@ package au.id.raboczi.cornerstone.test_service.zk;
  * #L%
  */
 
-import io.reactivex.rxjava3.functions.Consumer;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.Event;

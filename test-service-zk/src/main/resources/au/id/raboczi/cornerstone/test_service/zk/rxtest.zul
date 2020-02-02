@@ -1,0 +1,8 @@
+<zk>
+  <box id="box" apply="au.id.raboczi.cornerstone.test_service.zk.RxTestController">
+    <hlayout>
+      <label value="${arg.label}"/>
+      <label id="label1" value="${box$composer.labels.label1_value}"/>
+    </hlayout>
+  </box>
+</zk>
