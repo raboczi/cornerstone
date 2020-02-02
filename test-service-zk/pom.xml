@@ -14,7 +14,7 @@
   <packaging>bundle</packaging>
 
   <properties>
-    <i18n.propfiles>${basedir}/src/main/resources/au/id/raboczi/cornerstone/test_service/zk/TestController.properties</i18n.propfiles>
+    <i18n.propfiles>${basedir}/src/main/resources/WEB-INF/zk-label.properties</i18n.propfiles>
   </properties>
 
   <build>

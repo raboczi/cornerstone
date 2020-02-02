@@ -1,0 +1,25 @@
+<window id="win" width="450px" closable="true" position="center" title="${win$composer.labels.login_title}"
+        apply="au.id.raboczi.cornerstone.user_service.zk.LoginController">
+    <grid>
+        <columns>
+            <column width="140px"/>
+            <column width="200px"/>
+        </columns>
+        <rows>
+            <row>
+                <label value="${win$composer.labels.login_username}"/>
+                <textbox id="username" value="" width="100%" tabindex="1"/>
+            </row>
+            <row>
+                <label value="${win$composer.labels.login_password}"/>
+                <textbox id="password" type="password" value="" width="100%" tabindex="2"/>
+            </row>
+            <row>
+               <cell colspan="2" style="text-align: center">
+                   <button id="loginButton" label="${win$composer.labels.login_login}" tabindex="3" type="submit"/>
+                   <button id="cancelButton" label="${win$composer.labels.cancel}" tabindex="4"/>
+               </cell>
+           </row>
+        </rows>
+    </grid>
+</window>

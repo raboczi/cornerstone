@@ -25,8 +25,10 @@ package au.id.raboczi.cornerstone.zk;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ResourceBundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
 
@@ -40,10 +42,29 @@ import org.zkoss.zk.ui.select.SelectorComposer;
  * Additionally, it allows the injection of OSGi services using annotations
  * parodying the {@link org.osgi.service.component.annotations} package.
  *
+ * Finally, a <code>labels</code> bean property exposes the <code>zk-label</code>
+ * {@link ResourceBundle}.
+ *
  * @param <T>  the type of component this controller can <code>apply</code> to
  * @see Reference
  */
 public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T> {
+
+    /**
+     * This method supports the convention that localized property bundles are
+     * found under <code>WEB-INF</code> of each bundle classpath, named with the
+     * prefix <code>zk-label</code>.
+     *
+     * @return localized text catalogue
+     */
+    public ResourceBundle getLabels() {
+        ClassLoader loader = getClass().getClassLoader();
+        assert loader != null : "@AssumeAssertion(nullness)";
+        ResourceBundle bundle = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent(), loader);
+        assert bundle != null : "@AssumeAssertion(nullness)";
+
+        return bundle;
+    }
 
     /**
      * {@inheritDoc}

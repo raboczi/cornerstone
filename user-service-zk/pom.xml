@@ -14,7 +14,10 @@
   <packaging>bundle</packaging>
 
   <properties>
+<!--
     <i18n.propfiles>${basedir}/src/main/resources/au/id/raboczi/cornerstone/user_service/zk/UserController.properties</i18n.propfiles>
+-->
+    <i18n.propfiles>${basedir}/src/main/resources/WEB-INF/zk-label.properties</i18n.propfiles>
   </properties>
 
   <build>

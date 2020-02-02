@@ -30,7 +30,6 @@ import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.observers.DefaultObserver;
 import java.util.Hashtable;
-import java.util.ResourceBundle;
 import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.event.Event;
@@ -38,7 +37,6 @@ import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
 import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
 //import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -62,14 +60,6 @@ public final class TestController extends SCRSelectorComposer<Component>
 
     /** The name of the ZK queue. */
     private static final String QUEUE = "consumer-queue-name";
-
-    /** @return localized text catalogue */
-    public ResourceBundle getLabels() {
-        ResourceBundle bundle = ResourceBundle.getBundle("au.id.raboczi.cornerstone.test_service.zk.TestController",
-                                        Locales.getCurrent());
-        assert bundle != null : "@AssumeAssertion(nullness)";
-        return bundle;
-    }
 
     /** The model for this controller. */
     @Reference

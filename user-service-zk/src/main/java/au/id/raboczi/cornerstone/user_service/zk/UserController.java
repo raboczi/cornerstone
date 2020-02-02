@@ -25,16 +25,23 @@ package au.id.raboczi.cornerstone.user_service.zk;
 import au.id.raboczi.cornerstone.user_service.UserService;
 import au.id.raboczi.cornerstone.zk.Reference;
 import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.text.MessageFormat;
-import java.util.ResourceBundle;
 import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.osgi.service.useradmin.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Window;
 
 /**
  * Controller for the macro <code>user.zul</code>.
@@ -42,16 +49,7 @@ import org.zkoss.zul.Button;
 public final class UserController extends SCRSelectorComposer<Button> {
 
     /** Logger.  Named after the class. */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(UserController.class);
-
-    /** @return localized text catalogue */
-    public ResourceBundle getLabels() {
-        ResourceBundle bundle = ResourceBundle.getBundle("au.id.raboczi.cornerstone.user_service.zk.UserController",
-                                                         Locales.getCurrent());
-        assert bundle != null : "@AssumeAssertion(nullness)";
-        return bundle;
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     /** The model for this controller. */
     @Reference
@@ -60,15 +58,45 @@ public final class UserController extends SCRSelectorComposer<Button> {
     @Override
     public void doAfterCompose(final Button button) throws Exception {
         super.doAfterCompose(button);
-
-         button.setLabel(getLabels().getString("login"));
+        updateUser();
     }
 
     /** @param mouseEvent  button click */
     @Listen("onClick = button#button1")
-    public void onClickButton(final MouseEvent mouseEvent) {
+    public void onClickButton(final MouseEvent mouseEvent) throws IOException {
         LOGGER.info("Click " + mouseEvent);
-        MessageFormat format = new MessageFormat(getLabels().getString("logout"), Locales.getCurrent());
-        getSelf().setLabel((@Localized String) format.format(new Object[]{"Placeholder"}));
+
+        @Nullable User user = (User) Sessions.getCurrent().getAttribute(LoginController.USER);
+        if (user == null) {
+            Window window = createWindow("au/id/raboczi/cornerstone/user_service/zk/login.zul");
+            window.doModal();
+
+        } else {
+            Sessions.getCurrent().setAttribute(LoginController.USER, null);
+            updateUser();
+        }
+    }
+
+    @SuppressWarnings("nullness")
+    private Window createWindow(final String path) throws IOException {
+        ClassLoader cl = UserController.class.getClassLoader();
+        assert cl != null : "@AssumeAssertion(nullness)";
+        InputStream in = cl.getResourceAsStream(path);
+        assert in != null : "@AssumeAssertion(nullness)";
+        Reader r = new InputStreamReader(in, "UTF-8");
+        assert r != null : "@AssumeAssertion(nullness)";
+        Window window = (Window) Executions.createComponentsDirectly(r, "zul", null, null);
+        assert window != null : "@AssumeAssertion(nullness)";
+
+        return window;
+    }
+
+    private void updateUser() {
+        MessageFormat format = new MessageFormat(getLabels().getString("user.logout"), Locales.getCurrent());
+        @Nullable User user = (User) Sessions.getCurrent().getAttribute(LoginController.USER);
+        @Localized String label = (user == null)
+            ? getLabels().getString("user.login")
+            : (@Localized String) format.format(new Object[]{user.getName()});
+        getSelf().setLabel(label);
     }
 }
