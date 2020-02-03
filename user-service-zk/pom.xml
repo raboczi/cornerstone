@@ -14,11 +14,16 @@
   <packaging>bundle</packaging>
 
   <properties>
-<!--
-    <i18n.propfiles>${basedir}/src/main/resources/au/id/raboczi/cornerstone/user_service/zk/UserController.properties</i18n.propfiles>
--->
     <i18n.propfiles>${basedir}/src/main/resources/WEB-INF/zk-label.properties</i18n.propfiles>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>zk</id>
+      <name>ZK Community Edition repository</name>
+      <url>http://mavensync.zkoss.org/maven2</url>
+    </repository>
+  </repositories>
 
   <build>
     <plugins>
@@ -40,32 +45,45 @@
       <artifactId>service-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>user-service-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>zk</artifactId>
       <version>${project.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.annotation</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.core</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.addons</groupId>
+      <artifactId>rxzk</artifactId>
+      <version>0.8.0</version>
+    </dependency>
+
     <dependency>
       <groupId>org.zkoss.zk</groupId>
       <artifactId>zk</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.zkoss.zk</groupId>
       <artifactId>zul</artifactId>

@@ -31,8 +31,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.useradmin.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.addons.rxzk.ZkObservable;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zul.Button;
@@ -53,7 +55,12 @@ public final class UserController extends SCRSelectorComposer<Button> {
     @Override
     public void doAfterCompose(final Button button) throws Exception {
         super.doAfterCompose(button);
+
         updateUser();
+
+        // Reactively log button clicks
+        ZkObservable.fromEvent(button, Events.ON_CLICK)
+                    .subscribe(event -> LOGGER.info("Event " + event));
     }
 
     /** @param mouseEvent  button click */
