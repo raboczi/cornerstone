@@ -82,17 +82,16 @@ public final class UserController extends SCRSelectorComposer<Button> {
      * @return a {@link Window} constructed from the ZUL document
      * @throws IllegalArgumentException if <var>path</var> isn't an item in the classpath
      */
-    @SuppressWarnings("nullness")
     private Window createWindow(final String path) {
         try {
-            ClassLoader cl = UserController.class.getClassLoader();
-            assert cl != null : "@AssumeAssertion(nullness)";
-            InputStream in = cl.getResourceAsStream(path);
-            assert in != null : "@AssumeAssertion(nullness)";
+            ClassLoader classLoader = getClass().getClassLoader();
+            assert classLoader != null : "@AssumeAssertion(nullness)";
+            InputStream in = classLoader.getResourceAsStream(path);
+            if (in == null) {
+                throw new IllegalArgumentException(path + " is not in " + classLoader);
+            }
             Reader r = new InputStreamReader(in, "UTF-8");
-            assert r != null : "@AssumeAssertion(nullness)";
             Window window = (Window) Executions.createComponentsDirectly(r, "zul", null, null);
-            assert window != null : "@AssumeAssertion(nullness)";
 
             return window;
 
