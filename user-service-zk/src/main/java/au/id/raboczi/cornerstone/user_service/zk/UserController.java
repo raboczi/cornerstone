@@ -25,10 +25,6 @@ package au.id.raboczi.cornerstone.user_service.zk;
 import au.id.raboczi.cornerstone.user_service.UserService;
 import au.id.raboczi.cornerstone.zk.Reference;
 import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.text.MessageFormat;
 import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -36,7 +32,6 @@ import org.osgi.service.useradmin.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -68,35 +63,12 @@ public final class UserController extends SCRSelectorComposer<Button> {
 
         @Nullable User user = (User) Sessions.getCurrent().getAttribute(LoginController.USER);
         if (user == null) {
-            Window window = createWindow("au/id/raboczi/cornerstone/user_service/zk/login.zul");
+            Window window = createComponent("au/id/raboczi/cornerstone/user_service/zk/login.zul");
             window.doModal();
 
         } else {
             Sessions.getCurrent().setAttribute(LoginController.USER, null);
             updateUser();
-        }
-    }
-
-    /**
-     * @param path  a ZUL document in the classpath describing a ZK {@link Window}
-     * @return a {@link Window} constructed from the ZUL document
-     * @throws IllegalArgumentException if <var>path</var> isn't an item in the classpath
-     */
-    private Window createWindow(final String path) {
-        try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            assert classLoader != null : "@AssumeAssertion(nullness)";
-            InputStream in = classLoader.getResourceAsStream(path);
-            if (in == null) {
-                throw new IllegalArgumentException(path + " is not in " + classLoader);
-            }
-            Reader r = new InputStreamReader(in, "UTF-8");
-            Window window = (Window) Executions.createComponentsDirectly(r, "zul", null, null);
-
-            return window;
-
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid ZUL path: " + path, e);
         }
     }
 

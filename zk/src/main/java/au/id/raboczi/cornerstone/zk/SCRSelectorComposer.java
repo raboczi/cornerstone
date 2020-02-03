@@ -22,6 +22,10 @@ package au.id.raboczi.cornerstone.zk;
  * #L%
  */
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -30,6 +34,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 
 /**
@@ -101,6 +106,33 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Construct a {@link Component} from a ZUL document in the bundle's classpath.
+     *
+     * @param path  a ZUL document in the classpath describing a ZK component
+     * @param <T>  the specific type of the described ZK component
+     * @return a {@link Window} constructed from the ZUL document
+     * @throws IllegalArgumentException if <var>path</var> isn't an item in the classpath
+     * @throws ClassCastException if the ZUL doesn't describe the expected type T
+     */
+    protected <T extends Component> T createComponent(final String path) {
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            assert classLoader != null : "@AssumeAssertion(nullness)";
+            InputStream in = classLoader.getResourceAsStream(path);
+            if (in == null) {
+                throw new IllegalArgumentException(path + " is not in " + classLoader);
+            }
+            Reader r = new InputStreamReader(in, "UTF-8");
+            Component component = Executions.createComponentsDirectly(r, "zul", null, null);
+
+            return (T) component;
+
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid ZUL path: " + path, e);
         }
     }
 
