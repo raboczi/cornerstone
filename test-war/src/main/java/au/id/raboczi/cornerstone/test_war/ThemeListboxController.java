@@ -69,7 +69,6 @@ public class ThemeListboxController extends SelectorComposer<Listbox> {
 
     /** @param selectEvent  theme selected */
     @Listen("onSelect = #themeListbox")
-    @SuppressWarnings("nullness")  // Themes.setTheme not annotated
     public void onSelectTheme(final SelectEvent<Listitem, String> selectEvent) {
         String newTheme = (String) selectEvent.getReference()
                                               .getAttribute(THEME_ATTRIBUTE);
