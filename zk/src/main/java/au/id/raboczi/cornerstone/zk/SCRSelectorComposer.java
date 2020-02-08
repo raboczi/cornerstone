@@ -114,7 +114,7 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
      *
      * @param path  a ZUL document in the classpath describing a ZK component
      * @param <T>  the specific type of the described ZK component
-     * @return a {@link Window} constructed from the ZUL document
+     * @return a {@link Component} constructed from the ZUL document
      * @throws IllegalArgumentException if <var>path</var> isn't an item in the classpath
      * @throws ClassCastException if the ZUL doesn't describe the expected type T
      */
