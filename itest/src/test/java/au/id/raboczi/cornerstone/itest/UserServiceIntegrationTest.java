@@ -34,7 +34,7 @@ import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
-//import org.ops4j.pax.exam.karaf.options.KarafDistributionOption;
+import org.ops4j.pax.exam.karaf.options.KarafDistributionOption;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerClass;
 import org.osgi.service.useradmin.User;
@@ -49,8 +49,13 @@ public class UserServiceIntegrationTest extends KarafTestSupport {
     /** Additional configuration.  Currently empty. */
     @Configuration
     public Option[] config() {
+        String projectVersion = System.getProperty("project.version");
+        if (projectVersion == null) {
+            throw new Error("project.version system property must be set in the pom.xml surefire-maven-plugin entry");
+        }
+
         Option[] options = new Option[]{
-            //KarafDistributionOption.editConfigurationFilePut("etc/system.properties", "my.system.property", System.getProperty("my.system.property"))
+            KarafDistributionOption.editConfigurationFilePut("etc/system.properties", "project.version", projectVersion)
         };
 
         return Stream.of(super.config(), options)
@@ -62,7 +67,7 @@ public class UserServiceIntegrationTest extends KarafTestSupport {
     @Before
     public void before() throws Exception {
         assertServiceAvailable(FeaturesService.class);
-        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/test-war/0.1-SNAPSHOT/xml/features");
+        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/test-war/" + System.getProperty("project.version") + "/xml/features");
         installAndAssertFeature("cornerstone-test-war");
         assertServiceAvailable(UserService.class);
     }
