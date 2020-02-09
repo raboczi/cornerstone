@@ -119,7 +119,7 @@
           </bootFeatures>
           <libraries>
           </libraries>
-          <javase>1.8</javase>
+          <javase>${java.target.version}</javase>
         </configuration>
       </plugin>
     </plugins>
