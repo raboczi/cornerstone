@@ -4,13 +4,13 @@
 
   <parent>
     <groupId>au.id.raboczi.cornerstone</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>parent-zk</artifactId>
     <version>0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>zk-support</artifactId>
-  <name>Cornerstone :: ZK support</name>
+  <artifactId>zk-event-queue-provider</artifactId>
+  <name>Cornerstone :: ZK event queue provider</name>
   <packaging>bundle</packaging>
 
   <build>
@@ -18,30 +18,28 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>
+              au.id.raboczi.cornerstone.zk.event.impl
+            </Export-Package>
+            <Fragment-Host>org.ops4j.pax.web.pax-web-extender-war;bundle-version="[7.2,8)"</Fragment-Host>
+          </instructions>
+        </configuration>
       </plugin>
     </plugins>
   </build>
 
   <dependencies>
+<!--
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
+      <groupId>org.ops4j.pax.web</groupId>
+      <artifactId>pax-web-extender-war</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.annotation</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.cmpn</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.core</artifactId>
-    </dependency>
+-->
     <dependency>
       <groupId>org.zkoss.zk</groupId>
-      <artifactId>zul</artifactId>
+      <artifactId>zk</artifactId>
     </dependency>
   </dependencies>
 

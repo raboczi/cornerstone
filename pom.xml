@@ -15,11 +15,7 @@
 
   <modules>
     <module>service</module>
-    <module>test-service-zk</module>
-    <module>test-war</module>
-    <module>user-service-zk</module>
-    <module>zk-event-queue-provider</module>
-    <module>zk-support</module>
+    <module>zk</module>
 
     <module>itest</module>
     <module>dist</module>  <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
@@ -491,7 +487,7 @@
                   <!-- <arg>-J- -add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg> -->
 
                   <!-- Our local annotation stubs for third-party libraries -->
-                  <arg>-Astubs=${project.parent.basedir}/src/checkerframework</arg>
+                  <arg>-Astubs=${project.parent.parent.basedir}/src/checkerframework</arg>
                   <arg>-AstubWarnIfNotFound</arg>
 
                   <arg>-Apropfiles=${i18n.propfiles}</arg>

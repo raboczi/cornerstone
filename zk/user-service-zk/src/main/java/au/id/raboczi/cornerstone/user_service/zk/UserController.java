@@ -74,7 +74,7 @@ public final class UserController extends SCRSelectorComposer<Button> {
             window.doModal();
 
         } else {
-            Sessions.getCurrent().setAttribute(LoginController.USER, null);
+            Sessions.getCurrent().removeAttribute(LoginController.USER);
             updateUser();
         }
     }
