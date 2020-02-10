@@ -21,7 +21,25 @@
     <module>zk-support</module>
   </modules>
 
-  <dependencies>
-  </dependencies>
+  <properties>
+    <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's a qualifier, e.g. 9.0.0-SNAPSHOT -->
+    <zk.version.osgi>9.0.0</zk.version.osgi>  <!-- usually the same as zk.version unless there's a qualifier, e.g. 9.0.0.SNAPSHOT -->
+    <zk.version.range>[9.0,10)</zk.version.range>
+  </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zk</artifactId>
+        <version>${zk.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.zkoss.zk</groupId>
+        <artifactId>zul</artifactId>
+        <version>${zk.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
