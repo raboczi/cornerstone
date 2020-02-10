@@ -77,7 +77,7 @@
         -->Bundle-Version=${zk.version.osgi}&amp;<!--
         -->Export-Package=*;version=${zk.version.osgi}&amp;<!--
         -->Fragment-Host=org.zkoss.zk;bundle-version=%22${zk.version.range}%22</bundle>
-    <bundle>mvn:au.id.raboczi.cornerstone/zk/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/zk-support/${project.version}</bundle>
   </feature>
 
   <feature name="zk-themes-war" version="${zk.version}" description="Adds ZK themes for WAR applications">

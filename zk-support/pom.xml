@@ -9,7 +9,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>zk</artifactId>
+  <artifactId>zk-support</artifactId>
   <name>Cornerstone :: ZK support</name>
   <packaging>bundle</packaging>
 

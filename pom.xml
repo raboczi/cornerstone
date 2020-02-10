@@ -18,8 +18,8 @@
     <module>test-service-zk</module>
     <module>test-war</module>
     <module>user-service-zk</module>
-    <module>zk</module>
     <module>zk-event-queue-provider</module>
+    <module>zk-support</module>
 
     <module>itest</module>
     <module>dist</module>  <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
