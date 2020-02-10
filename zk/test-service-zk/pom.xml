@@ -44,7 +44,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>zk</artifactId>
+      <artifactId>zk-support</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

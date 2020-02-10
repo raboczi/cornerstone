@@ -104,7 +104,7 @@
 
     <dependency>
       <groupId>au.id.raboczi.cornerstone</groupId>
-      <artifactId>zk</artifactId>
+      <artifactId>zk-support</artifactId>
       <version>${project.version}</version>
     </dependency>
 

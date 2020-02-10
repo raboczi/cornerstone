@@ -19,24 +19,17 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
       </plugin>
+
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
+        <groupId>org.apache.karaf.tooling</groupId>
+        <artifactId>karaf-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>enforce-banned-dependencies</id>  <!-- Prevent UI code from creeping into the business logic -->
             <goals>
-              <goal>enforce</goal>
+              <goal>features-generate-descriptor</goal>
             </goals>
             <configuration>
-              <rules>
-                <bannedDependencies>
-                  <excludes>
-                    <exclude>org.zkoss.*</exclude>
-                  </excludes>
-                </bannedDependencies>
-              </rules>
-              <fail>true</fail>
+              <includeProjectArtifact>true</includeProjectArtifact>
             </configuration>
           </execution>
         </executions>
@@ -54,6 +47,13 @@
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.useradmin</artifactId>
+      <version>1.1.0</version>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
