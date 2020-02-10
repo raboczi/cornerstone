@@ -44,7 +44,7 @@ import org.osgi.service.useradmin.User;
  */
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerClass.class)
-public class UserServiceIntegrationTest extends KarafTestSupport {
+public class UserServiceIT extends KarafTestSupport {
 
     /** Additional configuration.  Currently empty. */
     @Configuration
