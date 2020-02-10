@@ -15,13 +15,8 @@
 
   <modules>
     <module>service</module>
-    <module>service-api</module>
-    <module>test-service</module>
-    <module>test-service-api</module>
     <module>test-service-zk</module>
     <module>test-war</module>
-    <module>user-service</module>
-    <module>user-service-api</module>
     <module>user-service-zk</module>
     <module>zk</module>
     <module>zk-event-queue-provider</module>

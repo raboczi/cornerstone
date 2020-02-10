@@ -4,7 +4,7 @@
 
   <parent>
     <groupId>au.id.raboczi.cornerstone</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>parent-service</artifactId>
     <version>0.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>

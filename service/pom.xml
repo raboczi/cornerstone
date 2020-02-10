@@ -13,6 +13,14 @@
   <name>Cornerstone :: Service parent</name>
   <packaging>pom</packaging>
 
+  <modules>
+    <module>service-api</module>
+    <module>test-service</module>
+    <module>test-service-api</module>
+    <module>user-service</module>
+    <module>user-service-api</module>
+  </modules>
+
   <build>
     <plugins>
       <plugin>
