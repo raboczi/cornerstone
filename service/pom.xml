@@ -19,6 +19,7 @@
     <module>test-service-api</module>
     <module>user-service</module>
     <module>user-service-api</module>
+    <module>user-service-itest</module>
   </modules>
 
   <build>

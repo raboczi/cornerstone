@@ -1,8 +1,8 @@
-package au.id.raboczi.cornerstone.itest;
+package au.id.raboczi.cornerstone.user_service.impl;
 
 /*-
  * #%L
- * Cornerstone :: Integration tests
+ * Cornerstone :: User service
  * %%
  * Copyright (C) 2019 - 2020 Simon Raboczi
  * %%
@@ -40,18 +40,18 @@ import org.ops4j.pax.exam.spi.reactors.PerClass;
 import org.osgi.service.useradmin.User;
 
 /**
- * Integration test for {@link UserService}.
+ * Integration test for {@link UserServiceImpl}.
  */
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerClass.class)
 public class UserServiceIT extends KarafTestSupport {
 
-    /** Additional configuration.  Currently empty. */
+    /** Additional configuration.  Propagates the <code>project.version</code> system property. */
     @Configuration
     public Option[] config() {
         String projectVersion = System.getProperty("project.version");
         if (projectVersion == null) {
-            throw new Error("project.version system property must be set in the pom.xml surefire-maven-plugin entry");
+            throw new Error("project.version system property must be set in the pom.xml failsafe-maven-plugin entry");
         }
 
         Option[] options = new Option[]{
@@ -67,8 +67,9 @@ public class UserServiceIT extends KarafTestSupport {
     @Before
     public void before() throws Exception {
         assertServiceAvailable(FeaturesService.class);
-        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/test-war/" + System.getProperty("project.version") + "/xml/features");
-        installAndAssertFeature("cornerstone-test-war");
+        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/user-service/" + System.getProperty("project.version") + "/xml/features");
+        installAndAssertFeature("scr");
+        installAndAssertFeature("user-service");
         assertServiceAvailable(UserService.class);
     }
 
