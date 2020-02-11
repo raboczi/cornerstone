@@ -6,7 +6,6 @@
     <groupId>au.id.raboczi.cornerstone</groupId>
     <artifactId>parent</artifactId>
     <version>0.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>parent-zk</artifactId>
@@ -17,6 +16,7 @@
     <module>test-service-zk</module>
     <module>test-war</module>
     <module>user-service-zk</module>
+    <module>zk</module>
     <module>zk-event-queue-provider</module>
     <module>zk-support</module>
   </modules>

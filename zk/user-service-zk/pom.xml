@@ -6,7 +6,6 @@
     <groupId>au.id.raboczi.cornerstone</groupId>
     <artifactId>parent-zk</artifactId>
     <version>0.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>user-service-zk</artifactId>
