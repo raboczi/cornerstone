@@ -69,7 +69,7 @@ public class IT extends KarafTestSupport {
         assertServiceAvailable(FeaturesService.class);
         FeaturesService featuresService = getOsgiService(FeaturesService.class);
         executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/test-war/" + System.getProperty("project.version") + "/xml/features");
-        installAndAssertFeature("cornerstone-test-war");
+        installAndAssertFeature("test-war");
     }
 
     /** Test the domain logic. */

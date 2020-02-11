@@ -10,17 +10,10 @@
 
   <artifactId>test-war</artifactId>
   <name>Cornerstone :: Test WAR</name>
+  <description>Test application, packaged as a web application bundle</description>
   <packaging>war</packaging>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${project.basedir}/src/main/feature</directory>
-        <filtering>true</filtering>
-        <targetPath>${project.build.directory}/feature</targetPath>
-      </resource>
-    </resources>
-
     <plugins>
       <plugin>
         <groupId>org.apache.felix</groupId>
@@ -50,9 +43,6 @@
             <goals>
               <goal>features-generate-descriptor</goal>
             </goals>
-            <configuration>
-              <includeProjectArtifact>true</includeProjectArtifact>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -67,42 +57,18 @@
           </archive>
         </configuration>
       </plugin>
-<!--
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-artifacts</id>
-            <phase>package</phase>
-            <goals>
-              <goal>attach-artifact</goal>
-            </goals>
-            <configuration>
-              <artifacts>
-                <artifact>
-                  <file>target/feature/feature.xml</file>
-                  <classifier>features</classifier>
-                  <type>xml</type>
-                </artifact>
-              </artifacts>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
--->
     </plugins>
   </build>
 
   <dependencies>
     <dependency>
-      <groupId>au.id.raboczi.cornerstone</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>test-service-api</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>au.id.raboczi.cornerstone</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>zk-support</artifactId>
       <version>${project.version}</version>
     </dependency>

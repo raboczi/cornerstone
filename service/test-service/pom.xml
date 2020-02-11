@@ -23,7 +23,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>au.id.raboczi.cornerstone</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>test-service-api</artifactId>
       <version>${project.version}</version>
     </dependency>
