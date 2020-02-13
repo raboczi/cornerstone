@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  
+<!-- See https://www.zkoss.org/wiki/ZK%20Configuration%20Reference/zk.xml -->
+
+<zk xmlns="http://www.zkoss.org/2005/zk/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zk/config http://www.zkoss.org/2005/zk/config/zk.xsd">
+
+  <preference>
+    <name>org.zkoss.zk.ui.WebApp.name</name>
+    <value>Cornerstone</value>
+  </preference>
+
+  <library-property>
+    <name>org.zkoss.theme.preferred</name>
+    <value>iceblue_c</value>
+  </library-property>
+
+<!--
+  <library-property>
+    <name>org.zkoss.zk.ui.event.EventQueueProvider.class</name>
+    <value>au.id.raboczi.cornerstone.zk.TestEventQueueProvider</value>
+  </library-property>
+
+  <language-config>
+    <addon-uri>/WEB-INF/lang-addon.xml</addon-uri>
+  </language-config>
+
+  <session-config>
+    <session-timeout>1800</session-timeout>
+  </session-config>
+-->
+</zk>

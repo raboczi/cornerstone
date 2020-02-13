@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="${project.artifactId}-${project.version}"
+          xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
+
+  <repository>mvn:${project.groupId}/user-service/${project.version}/xml/features</repository>
+  <repository>mvn:${project.groupId}/zk/${zk.version}/xml/features</repository>
+
+  <feature name="${project.artifactId}" version="${project.version}" description="${project.description}">
+    <feature prerequisite="true">aries-blueprint</feature>
+    <feature prerequisite="true">zk</feature>
+    <feature prerequisite="true">user-service</feature>
+    <feature>http-whiteboard</feature>
+    <bundle>mvn:org.reactivestreams/reactive-streams/1.0.3</bundle>
+    <bundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</bundle>
+    <bundle>mvn:io.reactivex.rxjava3/rxjava/3.0.0-RC7</bundle>
+    <bundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0$<!--
+        -->Bundle-SymbolicName=org.zkoss.addons.rxzk&amp;<!--
+        -->Bundle-Version=0.8.0&amp;<!--
+        -->Export-Package=org.zkoss.addons.rxzk;version=0.8.0</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/zk-support/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/user-service-zk/${project.version}</bundle>
+    <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}</bundle>
+  </feature>
+</features>
