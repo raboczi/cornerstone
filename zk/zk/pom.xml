@@ -8,9 +8,9 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
+  <name>Cornerstone :: ZK ${zk.version}</name>
+  <description>ZK version ${zk.version} libraries</description>
   <artifactId>zk</artifactId>
-  <version>${zk.version}</version>
-  <name>Cornerstone :: ZK</name>
   <packaging>feature</packaging>
 
   <build>

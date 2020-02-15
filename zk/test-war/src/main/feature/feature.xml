@@ -5,7 +5,7 @@
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
   <repository>mvn:${project.groupId}/user-service/${project.version}/xml/features</repository>
-  <repository>mvn:${project.groupId}/zk/${zk.version}/xml/features</repository>
+  <repository>mvn:${project.groupId}/zk/${project.version}/xml/features</repository>
 
   <feature name="${project.artifactId}" version="${project.version}" description="Cornerstone test web application">
     <feature prerequisite="true">war</feature>
