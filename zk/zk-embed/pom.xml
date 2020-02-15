@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>au.id.raboczi.cornerstone</groupId>
+    <artifactId>parent-zk</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <name>Cornerstone :: ZK ${zk.version} (embedded)</name>
+  <description>ZK version ${zk.version} libraries (embedded)</description>
+  <artifactId>zk-embed</artifactId>
+  <packaging>bundle</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <unpackBundle>false</unpackBundle>
+          <instructions>
+            <Embed-Dependency>groupId=org.zkoss.*</Embed-Dependency>
+            <Embed-Directory>OSGI-INF/lib</Embed-Directory>
+            <Export-Package>
+              org.zkoss.*
+            </Export-Package>
+            <Import-Package>
+              !bsh,
+              !com.google.debugging.sourcemap,
+              !groovy.lang,
+              !javax.servlet.jsp.el,
+              !org.jruby.*,
+              !org.mozilla.javascript,
+              !org.python.*,
+              *
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.zkoss</groupId>
+      <artifactId>zsoup</artifactId>
+      <version>1.8.2.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.common</groupId>
+      <artifactId>zcommon</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.common</groupId>
+      <artifactId>zel</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.common</groupId>
+      <artifactId>zweb</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.theme</groupId>
+      <artifactId>breeze</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.theme</groupId>
+      <artifactId>iceblue_c</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.theme</groupId>
+      <artifactId>sapphire</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.theme</groupId>
+      <artifactId>silvertail</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zhtml</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zk</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zul</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.zkforge.el</groupId>
+      <artifactId>zcommons-el</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+  </dependencies>
+</project>

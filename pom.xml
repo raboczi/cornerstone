@@ -375,6 +375,13 @@
       </dependency>
 
       <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker-qual</artifactId>
+        <version>${checkerframework.version}</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
         <groupId>org.ops4j.pax.web</groupId>
         <artifactId>pax-web-extender-war</artifactId>
         <version>${pax-web.version}</version>
@@ -410,15 +417,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>checker-qual</artifactId>
-      <version>${checkerframework.version}</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
 
   <profiles>
     <profile>

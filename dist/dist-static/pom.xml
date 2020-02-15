@@ -18,10 +18,22 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>test-war</artifactId>
+      <artifactId>test-whiteboard</artifactId>
       <version>${project.version}</version>
       <classifier>features</classifier>
       <type>xml</type>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>user-service</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>user-service-api</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -37,22 +49,6 @@
       <type>xml</type>
     </dependency>
 
-<!--
-    <dependency>
-      <groupId>org.apache.karaf.features</groupId>
-      <artifactId>enterprise</artifactId>
-      <classifier>features</classifier>
-      <type>xml</type>
-    </dependency>
-
-    <dependency>
-      <groupId>org.ops4j.pax.cdi</groupId>
-      <artifactId>pax-cdi-features</artifactId>
-      <version>1.1.3</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-    </dependency>
-
     <dependency>
       <groupId>org.ops4j.pax.web</groupId>
       <artifactId>pax-web-features</artifactId>
@@ -60,7 +56,12 @@
       <classifier>features</classifier>
       <type>xml</type>
     </dependency>
--->
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.useradmin</artifactId>
+      <version>1.1.0</version>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.karaf.services</groupId>
@@ -99,23 +100,39 @@
         <configuration>
           <startupFeatures>
             <startupFeature>static-framework</startupFeature>
+            <startupFeature>eventadmin</startupFeature>
             <startupFeature>jaas</startupFeature>
             <startupFeature>webconsole</startupFeature>
 
-            <startupFeature>shell</startupFeature>
-            <startupFeature>bundle</startupFeature>
-            <startupFeature>ssh</startupFeature>
-
-            <startupFeature>eventadmin</startupFeature>
+            <startupFeature>http</startupFeature>
+            <startupFeature>wrap</startupFeature>
             <startupFeature>log</startupFeature>
 
-            <startupFeature>wrap</startupFeature>
-            <startupFeature>config</startupFeature>
-<!--
-            <startupFeature>feature</startupFeature>
-            <startupFeature>cornerstone-test-war</startupFeature>
--->
+            <startupFeature>aries-blueprint</startupFeature>
+            <startupFeature>http-whiteboard</startupFeature>
           </startupFeatures>
+          <startupBundles>
+            <startupBundle>mvn:commons-codec/commons-codec/1.14</startupBundle>
+            <startupBundle>mvn:commons-io/commons-io/2.6</startupBundle>
+            <startupBundle>mvn:commons-fileupload/commons-fileupload/1.4</startupBundle>
+            <startupBundle>mvn:javax.portlet/portlet-api/3.0.1</startupBundle>
+            <startupBundle>mvn:javax.websocket/javax.websocket-api/1.1</startupBundle>
+            <startupBundle>mvn:org.javassist/javassist/3.26.0-GA</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-embed/0.1-SNAPSHOT</startupBundle>
+
+            <startupBundle>mvn:org.reactivestreams/reactive-streams/1.0.3</startupBundle>
+            <startupBundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</startupBundle>
+            <startupBundle>mvn:io.reactivex.rxjava3/rxjava/3.0.0-RC7</startupBundle>
+            <startupBundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</startupBundle>
+
+            <startupBundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-support/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/user-service-zk/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/test-whiteboard/${project.version}</startupBundle>
+          </startupBundles>
           <framework>static</framework>
           <useReferenceUrls>true</useReferenceUrls>
           <environment>static</environment>

@@ -18,6 +18,7 @@
     <module>test-whiteboard</module>
     <module>user-service-zk</module>
     <module>zk</module>
+    <module>zk-embed</module>
     <module>zk-event-queue-provider</module>
     <module>zk-support</module>
   </modules>
@@ -43,4 +44,12 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 </project>

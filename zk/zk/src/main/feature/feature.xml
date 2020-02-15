@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<features name="zk-${zk.version}"
+<features name="zk-${project.version}"
           xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
-  <feature name="zk" version="${zk.version}" description="ZK libraries">
+  <feature name="zk" version="${project.version}" description="ZK ${zk.version} libraries">
     <feature prerequisite="true">http</feature>
     <feature prerequisite="true">wrap</feature>
     <bundle>mvn:org.javassist/javassist/3.26.0-GA</bundle>

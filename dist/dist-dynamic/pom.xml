@@ -114,7 +114,7 @@
             <feature>scr</feature>
             <feature>http-whiteboard</feature>
 
-            <feature>cornerstone-test-war</feature>
+            <feature>test-war</feature>
             <feature>webconsole</feature>
           </bootFeatures>
           <libraries>
