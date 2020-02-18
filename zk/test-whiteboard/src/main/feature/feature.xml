@@ -19,6 +19,9 @@
         -->Bundle-SymbolicName=org.zkoss.addons.rxzk&amp;<!--
         -->Bundle-Version=0.8.0&amp;<!--
         -->Export-Package=org.zkoss.addons.rxzk;version=0.8.0</bundle>
+    <bundle>wrap:mvn:org.aspectj/aspectjrt/${aspectj.version}$Bundle-Version=${aspectj.version}</bundle>
+    <bundle>mvn:org.apache.shiro/shiro-core/${shiro.version}</bundle>
+    <bundle>mvn:org.apache.shiro/shiro-aspectj/${shiro.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>

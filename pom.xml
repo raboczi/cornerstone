@@ -14,6 +14,7 @@
   <inceptionYear>2019</inceptionYear>
 
   <modules>
+    <module>wrap/aspectjrt</module>
     <module>service</module>
     <module>zk</module>
 
@@ -27,11 +28,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Artifact versions -->
+    <aspectj.version>1.9.4</aspectj.version>  <!-- This must be a version compatible with shiro-aspectj -->
     <checkerframework.version>3.1.0</checkerframework.version>
     <karaf.version>4.3.0.RC1</karaf.version>
     <osgi.version>7.0.0</osgi.version>
     <pax-web.version>7.2.14</pax-web.version>  <!-- this should match whatever is bundled with ${karaf.version} -->
     <servlet-api.version>3.1.0</servlet-api.version>  <!-- This version of the Servlet API is specified by OSGi R7 Compendium section 140.1 "HTTP Whiteboard Specification" 1.1 -->
+    <shiro.version>1.5.0</shiro.version>
     <surefire.argLine/>
   </properties>
 
@@ -200,6 +203,13 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.0.0</version>
+        </plugin>
+
+        <plugin>
+          <!--<groupId>org.codehaus.mojo</groupId>  See https://github.com/mojohaus/aspectj-maven-plugin/pull/45 -->
+          <groupId>com.nickwongdev</groupId>
+          <artifactId>aspectj-maven-plugin</artifactId>
+          <version>1.12.6</version>
         </plugin>
 
         <plugin>
