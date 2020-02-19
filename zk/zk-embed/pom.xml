@@ -13,6 +13,11 @@
   <artifactId>zk-embed</artifactId>
   <packaging>bundle</packaging>
 
+  <properties>
+    <zcommons-el.version>1.1.0</zcommons-el.version>
+    <zsoup.version>1.8.2.5</zsoup.version>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -24,7 +29,11 @@
             <Embed-Dependency>groupId=org.zkoss.*</Embed-Dependency>
             <Embed-Directory>OSGI-INF/lib</Embed-Directory>
             <Export-Package>
-              org.zkoss.*
+              !*.impl.*,
+              org.zkoss.zsoup.*;version=${zsoup.version},
+              org.zkoss.*;version=${zk.version},
+              org.zkoss.zel.impl;version=${zk.version},
+              org.zkoss.zk.ui.impl;version=${zk.version}
             </Export-Package>
             <Import-Package>
               !bsh,
@@ -46,7 +55,7 @@
     <dependency>
       <groupId>org.zkoss</groupId>
       <artifactId>zsoup</artifactId>
-      <version>1.8.2.5</version>
+      <version>${zsoup.version}</version>
     </dependency>
 
     <dependency>
@@ -110,7 +119,7 @@
     <dependency>
       <groupId>org.zkoss.zkforge.el</groupId>
       <artifactId>zcommons-el</artifactId>
-      <version>1.1.0</version>
+      <version>${zcommons-el.version}</version>
     </dependency>
   </dependencies>
 </project>
