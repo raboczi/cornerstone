@@ -10,5 +10,71 @@
 
   <artifactId>test-aspect</artifactId>
   <name>Cornerstone :: Test AspectJ aspect library</name>
-  <packaging>jar</packaging>
+  <description>Contains an annotation and aspect library for logging annotated methods.</description>
+  <packaging>bundle</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>au.id.raboczi.cornerstone.test_aspect</Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <!--<groupId>org.codehaus.mojo</groupId>  See https://github.com/mojohaus/aspectj-maven-plugin/pull/45 -->
+        <groupId>com.nickwongdev</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <configuration>
+          <complianceLevel>${java.source.version}</complianceLevel>
+          <source>${java.source.version}</source>
+          <target>${java.target.version}</target>
+          <includes>
+            <include>**/*.java</include>
+            <include>**/*.aj</include>
+          </includes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>aspectj-compile</id>
+            <goals>
+              <goal>compile</goal>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>${aspectj.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjtools</artifactId>
+      <version>${aspectj.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 </project>

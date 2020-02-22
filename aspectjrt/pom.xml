@@ -8,7 +8,7 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
-  <name>Cornerstone :: AspectJ runtime</name>
+  <name>Cornerstone :: AspectJ runtime ${aspectj.version}</name>
   <description>AspectJ runtime ${aspectj.version} OSGi wrapper</description>
   <artifactId>aspectjrt</artifactId>
   <packaging>bundle</packaging>

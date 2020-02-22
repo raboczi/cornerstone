@@ -22,6 +22,7 @@ package au.id.raboczi.cornerstone.test_service.impl;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.test_aspect.Log;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,11 +45,13 @@ public final class TestServiceImpl implements TestService {
     @Reference
     private @Nullable EventAdmin eventAdmin;
 
+    @Log(prefix = "getting")
     @Override
     public String getValue() {
         return value;
     }
 
+    @Log(prefix = "setting")
     @Override
     public void setValue(final String newValue) {
         this.value = newValue;
