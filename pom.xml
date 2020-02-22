@@ -14,12 +14,14 @@
   <inceptionYear>2019</inceptionYear>
 
   <modules>
-    <module>wrap/aspectjrt</module>
+    <module>aspectjrt</module>
     <module>service</module>
+    <module>test-aspect</module>
     <module>zk</module>
 
+    <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
     <module>itest</module>
-    <module>dist</module>  <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
+    <module>dist</module>
   </modules>
 
   <properties>

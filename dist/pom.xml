@@ -17,8 +17,8 @@
   <inceptionYear>2019</inceptionYear>
 
   <modules>
-    <module>dist-dynamic</module>
-    <module>dist-static</module>
+    <module>dynamic</module>
+    <module>static</module>
   </modules>
 
   <dependencyManagement>
