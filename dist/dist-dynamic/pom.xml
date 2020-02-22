@@ -18,6 +18,12 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>test-war</artifactId>
       <version>${project.version}</version>
       <type>xml</type>
@@ -50,12 +56,6 @@
       <artifactId>enterprise</artifactId>
       <type>xml</type>
       <classifier>features</classifier>
-    </dependency>
-
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>aspectjrt</artifactId>
-      <version>${aspectj.version}</version>
     </dependency>
   </dependencies>
 

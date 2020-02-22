@@ -12,7 +12,6 @@
   <name>Cornerstone :: AspectJ runtime</name>
   <description>AspectJ runtime ${aspectj.version} OSGi wrapper</description>
   <artifactId>aspectjrt</artifactId>
-  <version>${aspectj.version}</version>
   <packaging>bundle</packaging>
 
   <build>
@@ -26,8 +25,9 @@
             <Embed-Dependency>artifactId=aspectjrt</Embed-Dependency>
             <Embed-Directory>OSGI-INF/lib</Embed-Directory>
             <Export-Package>
-              !*.internal.*,
-              *;version=${aspectj.version}
+              !*.internal.*,                                            <!-- Hide internal implementation packages -->
+              org.aspectj.runtime.internal;version=${aspectj.version},  <!-- ...except this one, which is used by an exported package -->
+              *;version=${aspectj.version}                              <!-- Package versions match the wrapped library, not this project -->
             </Export-Package>
           </instructions>
         </configuration>
