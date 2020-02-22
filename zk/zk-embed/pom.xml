@@ -29,20 +29,17 @@
             <Embed-Dependency>groupId=org.zkoss.*</Embed-Dependency>
             <Embed-Directory>OSGI-INF/lib</Embed-Directory>
             <Export-Package>
-              !*.impl.*,
               org.zkoss.zsoup.*;version=${zsoup.version},
               org.zkoss.*;version=${zk.version},
-              org.zkoss.zel.impl;version=${zk.version},
-              org.zkoss.zk.ui.impl;version=${zk.version}
             </Export-Package>
             <Import-Package>
-              !bsh,
-              !com.google.debugging.sourcemap,
-              !groovy.lang,
-              !javax.servlet.jsp.el,
-              !org.jruby.*,
-              !org.mozilla.javascript,
-              !org.python.*,
+              bsh;resolution:=optional,
+              com.google.debugging.sourcemap;resolution:=optional,
+              groovy.lang;resolution:=optional,
+              javax.servlet.jsp.el;resolution:=optional,
+              org.jruby.*;resolution:=optional,
+              org.mozilla.javascript;resolution:=optional,
+              org.python.*;resolution:=optional,
               *
             </Import-Package>
           </instructions>
