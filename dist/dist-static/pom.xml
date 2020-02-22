@@ -126,8 +126,6 @@
             <startupBundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</startupBundle>
 
             <startupBundle>mvn:${project.groupId}/aspectjrt/${aspectj.version}</startupBundle>
-            <startupBundle>mvn:org.apache.shiro/shiro-core/${shiro.version}</startupBundle>
-            <startupBundle>mvn:org.apache.shiro/shiro-aspectj/${shiro.version}</startupBundle>
 
             <startupBundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</startupBundle>

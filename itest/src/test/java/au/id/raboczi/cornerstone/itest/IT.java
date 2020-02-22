@@ -22,11 +22,13 @@ package au.id.raboczi.cornerstone.itest;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.test_service.TestService;
 import au.id.raboczi.cornerstone.user_service.UserService;
 import java.util.stream.Stream;
 import javax.security.auth.login.FailedLoginException;
 import org.apache.karaf.features.FeaturesService;
 import org.apache.karaf.itests.KarafTestSupport;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,12 +76,24 @@ public class IT extends KarafTestSupport {
 
     /** Test the domain logic. */
     @Test
-    public void testDomainLogic() throws Exception {
+    public void testDomainLogic_userService() throws Exception {
 
         // Authenticate against the built-in credentials
         assertServiceAvailable(UserService.class);
         UserService userService = getOsgiService(UserService.class);
         User user = userService.authenticate("karaf", "karaf");
         assertNotNull(user);
+    }
+
+    /** Test the domain logic again. */
+    @Test
+    public void testDomainLogic_testService() throws Exception {
+        final String VALUE = "Dummy";
+
+        // Write and read back a test value
+        assertServiceAvailable(TestService.class);
+        TestService testService = getOsgiService(TestService.class);
+        testService.setValue(VALUE);
+        assertEquals(VALUE, testService.getValue());
     }
 }

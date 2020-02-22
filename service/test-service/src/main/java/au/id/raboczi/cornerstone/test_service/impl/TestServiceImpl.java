@@ -50,13 +50,13 @@ public final class TestServiceImpl implements TestService {
     }
 
     @Override
-    @SuppressWarnings("nullness")
     public void setValue(final String newValue) {
         this.value = newValue;
 
         // OSGi EventAdmin notification
         Map<String, Object> properties = new HashMap<>();
         properties.put("value", this.value);
+        assert eventAdmin != null : "@AssumeAssertion(nullness)";
         eventAdmin.postEvent(new Event(EVENT_TOPIC, properties));
     }
 }

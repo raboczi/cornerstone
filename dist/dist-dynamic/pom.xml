@@ -53,14 +53,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.shiro</groupId>
-      <artifactId>shiro-features</artifactId>
-      <version>${shiro.version}</version>
-      <type>xml</type>
-      <classifier>features</classifier>
-    </dependency>
-
-    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>aspectjrt</artifactId>
       <version>${aspectj.version}</version>
@@ -127,8 +119,6 @@
             <feature>system</feature>
             <feature>scr</feature>
             <feature>http-whiteboard</feature>
-
-            <feature>shiro-aspectj</feature>
 
             <feature>test-war</feature>
             <feature>webconsole</feature>

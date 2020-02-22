@@ -56,10 +56,12 @@
         <artifactId>aspectj-maven-plugin</artifactId>
         <configuration>
           <aspectLibraries>
+<!--
             <aspectLibrary>
-              <groupId>org.apache.shiro</groupId>
-              <artifactId>shiro-aspectj</artifactId>
+              <groupId>${project.groupId}</groupId>
+              <artifactId>cornerstone-aspectj</artifactId>
             </aspectLibrary>
+-->
           </aspectLibraries>
           <complianceLevel>${java.source.version}</complianceLevel>
           <source>${java.source.version}</source>
@@ -87,9 +89,10 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.shiro</groupId>
-      <artifactId>shiro-aspectj</artifactId>
-      <version>${shiro.version}</version>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>${aspectj.version}</version>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
