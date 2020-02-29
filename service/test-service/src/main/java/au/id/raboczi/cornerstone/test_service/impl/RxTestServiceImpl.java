@@ -23,6 +23,7 @@ package au.id.raboczi.cornerstone.test_service.impl;
  */
 
 import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.test_aspect.Secure;
 import au.id.raboczi.cornerstone.test_service.RxTestService;
 import io.reactivex.rxjava3.core.Observable;
@@ -43,8 +44,8 @@ public final class RxTestServiceImpl implements RxTestService {
     private ObservableSource<String> observableValue = Observable.interval(PERIOD, SECONDS).map(n -> n.toString());
 
     @Override
-    @Secure("test:read")
-    public ObservableSource<String> getObservableValue(final Caller caller) {
+    @Secure("viewer")
+    public ObservableSource<String> getObservableValue(final Caller caller) throws CallerNotAuthorizedException {
         return observableValue;
     }
 }

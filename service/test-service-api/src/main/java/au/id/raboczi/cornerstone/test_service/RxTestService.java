@@ -23,13 +23,15 @@ package au.id.raboczi.cornerstone.test_service;
  */
 
 import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import io.reactivex.rxjava3.core.ObservableSource;
 
 public interface RxTestService {
 
     /**
-     * @param caller  all callers are authorized
+     * @param caller  with "viewer" permission
      * @return the value stream
+     * @throws CallerNotAuthorizedException if <var>caller</var> lacks "viewer" permission
      */
-    ObservableSource<String> getObservableValue(Caller caller);
+    ObservableSource<String> getObservableValue(Caller caller) throws CallerNotAuthorizedException;
 }

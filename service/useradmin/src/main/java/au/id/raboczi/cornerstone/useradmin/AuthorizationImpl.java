@@ -23,6 +23,7 @@ package au.id.raboczi.cornerstone.useradmin;
  */
 
 import java.util.Arrays;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.User;
@@ -42,15 +43,14 @@ class AuthorizationImpl implements Authorization {
     /** @param user  if <code>null</code>, the unauthorized user */
     AuthorizationImpl(final @Nullable User user) {
 
-//        if (user == null) {
+        if (user == null) {
             this.name = null;
             this.roles = new String[] {};
-/*
+
         } else {
             this.name = user.getName();
-            this.roles = new String[] {}; // user.getProperties().get("roles");
+            this.roles = (String @NonNull []) user.getProperties().get("roles");
         }
-*/
     }
 
     @Override

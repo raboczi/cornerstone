@@ -29,5 +29,11 @@ package au.id.raboczi.cornerstone;
  */
 public class CallerNotAuthorizedException extends Exception {
 
-    // no extra functionality
+    /**
+     * @param caller  the denied authorization context
+     * @param permission  the denied permission
+     */
+    public CallerNotAuthorizedException(final Caller caller, final String permission) {
+        super(caller.authorization().getName() + " unauthorized for " + permission);
+    }
 }

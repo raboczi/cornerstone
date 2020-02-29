@@ -22,6 +22,7 @@ package au.id.raboczi.cornerstone.test_service.zk;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;;
 import au.id.raboczi.cornerstone.test_service.RxTestService;
 import au.id.raboczi.cornerstone.zk.Users;
 import au.id.raboczi.cornerstone.zk.util.Reference;
@@ -89,10 +90,16 @@ public final class RxTestController extends SCRSelectorComposer<Component>
 
         assert rxTestService != null : "@AssumeAssertion(nullness)";
         assert userAdmin != null : "@AssumeAssertion(nullness)";
-        connect(rxTestService.getObservableValue(Users.getCaller(userAdmin)), eventQueue, s -> {
+        try {
+            connect(rxTestService.getObservableValue(Users.getCaller(userAdmin)), eventQueue, s -> {
+                assert label1 != null : "@AssumeAssertion(nullness)";
+                label1.setValue(fakeLocalizer(s));
+            });
+
+        } catch (CallerNotAuthorizedException e) {
             assert label1 != null : "@AssumeAssertion(nullness)";
-            label1.setValue(fakeLocalizer(s));
-        });
+            label1.setValue(fakeLocalizer("-"));
+        }
     }
 
     /**
