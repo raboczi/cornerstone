@@ -25,6 +25,7 @@ package au.id.raboczi.cornerstone.zk;
 import au.id.raboczi.cornerstone.Caller;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 import org.zkoss.zk.ui.Sessions;
 
 /**
@@ -35,8 +36,11 @@ public abstract class Users {
     /** ZK session attribute for the authenticated user. */
     public static final String USER = "user";
 
-    /** @return the caller details for the authenticated user */
-    public static Caller getCaller() {
-        return new CallerImpl((@Nullable User) Sessions.getCurrent().getAttribute(USER));
+    /**
+     * @param userAdmin  the roles granted to users
+     * @return the caller details for the current ZK session
+     */
+    public static Caller getCaller(final UserAdmin userAdmin) {
+        return new CallerImpl(userAdmin.getAuthorization((@Nullable User) Sessions.getCurrent().getAttribute(USER)));
     }
 }

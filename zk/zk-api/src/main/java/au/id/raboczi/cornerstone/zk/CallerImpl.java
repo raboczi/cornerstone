@@ -23,18 +23,19 @@ package au.id.raboczi.cornerstone.zk;
  */
 
 import au.id.raboczi.cornerstone.Caller;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.useradmin.Authorization;
-import org.osgi.service.useradmin.User;
 
 /**
- * A {@link Caller} constructed from a {@User}.
+ * A concrete {@link Caller}.
  */
 class CallerImpl implements Caller {
 
-    /** @param user  any arbitrary user, or <code>null</code> for the unauthenticated user */
-    CallerImpl(final @Nullable User user) {
-        // not yet implemented
+    /** Security permissions. */
+    private final Authorization authorization;
+
+    /** @param newAuthorization  currently the only content */
+    CallerImpl(final Authorization newAuthorization) {
+        this.authorization = newAuthorization;
     }
 
 
@@ -42,6 +43,6 @@ class CallerImpl implements Caller {
 
     @Override
     public Authorization authorization() {
-        throw new Error("Not implemented");
+        return authorization;
     }
 }

@@ -92,8 +92,10 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
             for (Field field: c.getDeclaredFields()) {
                 for (Annotation annotation: field.getAnnotations()) {
                     if (Reference.class.equals(annotation.annotationType())) {
+                        Object object = findService(field.getType());
+
                         field.setAccessible(true);
-                        field.set(this, findService(field.getType()));
+                        field.set(this, object);
                         field.setAccessible(false);
                     }
                 }
@@ -162,8 +164,11 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
     protected <E> E findService(final Class<E> clazz) {
         BundleContext bundleContext = getBundleContext();
         ServiceReference<E> serviceReference = bundleContext.getServiceReference(clazz);
-        E e = bundleContext.getService(serviceReference);
+        try {
+            return bundleContext.getService(serviceReference);
 
-        return e;
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Could not find service of type " + clazz + ": " + e.getMessage());
+        }
     }
 }

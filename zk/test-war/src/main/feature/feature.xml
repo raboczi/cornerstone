@@ -22,6 +22,7 @@
     <bundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/useradmin/${project.version}</bundle>
 
     <!-- ZK libraries -->
     <bundle>mvn:commons-codec/commons-codec/1.14</bundle>

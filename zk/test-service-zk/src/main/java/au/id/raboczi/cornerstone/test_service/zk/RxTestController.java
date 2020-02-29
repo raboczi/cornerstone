@@ -31,6 +31,7 @@ import io.reactivex.rxjava3.observers.DefaultObserver;
 import java.util.function.Consumer;
 import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
@@ -56,6 +57,10 @@ public final class RxTestController extends SCRSelectorComposer<Component>
     /** The model for this controller. */
     @Reference
     private @Nullable RxTestService rxTestService;
+
+    /** The roles granted to users. */
+    @Reference
+    private @Nullable UserAdmin userAdmin;
 
     /** The view for this controller. */
     @Wire("#label1")
@@ -83,7 +88,8 @@ public final class RxTestController extends SCRSelectorComposer<Component>
         eventQueue.subscribe(this);
 
         assert rxTestService != null : "@AssumeAssertion(nullness)";
-        connect(rxTestService.getObservableValue(Users.getCaller()), eventQueue, s -> {
+        assert userAdmin != null : "@AssumeAssertion(nullness)";
+        connect(rxTestService.getObservableValue(Users.getCaller(userAdmin)), eventQueue, s -> {
             assert label1 != null : "@AssumeAssertion(nullness)";
             label1.setValue(fakeLocalizer(s));
         });
