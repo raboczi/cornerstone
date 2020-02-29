@@ -8,10 +8,11 @@ A sample application demonstrating how to integrate the following technologies:
 
 ## Building
 
-This software is known to work on MacOS 10.15 "Catalina", but theoretically should run anywhere JDK 8 can.
+This software is known to work on MacOS 10.15 "Catalina" and Raspbian 4.19.
+Theoretically it should run anywhere JDK 8+ can.
 
 1. Ensure that the following software is present:
-  - Java Development Kit 8
+  - Java Development Kit 8 or later
   - Apache Maven 3
 
 2. Obtain the source code, e.g. via `git clone https://github.com/raboczi/cornerstone.git`
@@ -36,19 +37,21 @@ A command line shell allows components to be interactively modified at runtime.
 
 2. From the command line of the server, execute the following commands:
   - `feature:repo-add mvn:au.id.raboczi.cornerstone/test-war/0.1-SNAPSHOT/xml/features`
-  - `feature:install cornerstone-test-war`
+  - `feature:install test-war`
 
-3. Browse [http://localhost:8181/cornerstone-test-war](http://localhost:8181/cornerstone-test-war).
+3. Browse [http://localhost:8181/cornerstone](http://localhost:8181/cornerstone).
+
+4. Shut down the server from the command line by pressing Ctrl-D.
 
 ### Dynamic
 
 This style of deployment is easy and still allows components to be modified at runtime.
 
-1. Start the server by executing `dist/dist-dynamic/target/assembly/bin/start`
+1. Start the server by executing `dist/dynamic/target/assembly/bin/start`
 
-2. Browse [http://localhost:8181/cornerstone-test-war](http://localhost:8181/cornerstone-test-war).
+2. Browse [http://localhost:8181/cornerstone](http://localhost:8181/cornerstone).
 
-3. Shut down the server by executing `dist/dist-dynamic/target/assembly/bin/stop`
+3. Shut down the server by executing `dist/dynamic/target/assembly/bin/stop`
 
 ### Static
 
@@ -56,8 +59,8 @@ This style of deployment is the quickest to start and the most secure.
 Components cannot be dynamically added or updated.
 It is suited for production.
 
-1. Start the server by executing `dist/dist-static/target/assembly/bin/start`
+1. Start the server by executing `dist/static/target/assembly/bin/start`
 
-2. Browse [http://localhost:8181/cornerstone](http://localhost:8181/cornerstone-test-war).
+2. Browse [http://localhost:8181/index.zul](http://localhost:8181/index.zul).
 
-3. Shut down the server by executing `dist/dist-static/target/assembly/bin/stop`
+3. Shut down the server by executing `dist/static/target/assembly/bin/stop`
