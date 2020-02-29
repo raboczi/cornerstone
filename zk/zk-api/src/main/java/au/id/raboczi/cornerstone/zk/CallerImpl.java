@@ -24,19 +24,24 @@ package au.id.raboczi.cornerstone.zk;
 
 import au.id.raboczi.cornerstone.Caller;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.User;
-import org.zkoss.zk.ui.Sessions;
 
 /**
- * Convenience method for interacting with the ZK session.
+ * A {@link Caller} constructed from a {@User}.
  */
-public abstract class Users {
+class CallerImpl implements Caller {
 
-    /** ZK session attribute for the authenticated user. */
-    public static final String USER = "user";
+    /** @param user  any arbitrary user, or <code>null</code> for the unauthenticated user */
+    CallerImpl(final @Nullable User user) {
+        // not yet implemented
+    }
 
-    /** @return the caller details for the authenticated user */
-    public static Caller getCaller() {
-        return new CallerImpl((@Nullable User) Sessions.getCurrent().getAttribute(USER));
+
+    // Implementation of Caller
+
+    @Override
+    public Authorization authorization() {
+        throw new Error("Not implemented");
     }
 }
