@@ -29,10 +29,13 @@
     <bundle>mvn:${project.groupId}/service-api/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/test-service-api/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/test-service/${project.version}</bundle>
-    <bundle>mvn:${project.groupId}/zk-embed/${project.version}</bundle>
-    <bundle>mvn:${project.groupId}/zk-support/${project.version}</bundle>
+
+    <bundle>mvn:${project.groupId}/zk-api/${project.version}</bundle>
+    <bundle>mvn:${project.groupId}/zk-util/${project.version}</bundle>
+
     <bundle>mvn:${project.groupId}/test-service-zk/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/user-service-zk/${project.version}</bundle>
+
     <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}</bundle>
   </feature>
 </features>

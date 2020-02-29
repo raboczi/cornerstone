@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.zk;
+package au.id.raboczi.cornerstone.zk.util;
 
 /*-
  * #%L

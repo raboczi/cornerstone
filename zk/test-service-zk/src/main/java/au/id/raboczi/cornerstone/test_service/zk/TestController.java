@@ -23,8 +23,8 @@ package au.id.raboczi.cornerstone.test_service.zk;
  */
 
 import au.id.raboczi.cornerstone.test_service.TestService;
-import au.id.raboczi.cornerstone.zk.Reference;
-import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
+import au.id.raboczi.cornerstone.zk.util.Reference;
+import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import java.util.Hashtable;
 import java.util.function.Consumer;
 import org.checkerframework.checker.i18n.qual.Localized;

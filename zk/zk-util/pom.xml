@@ -4,13 +4,12 @@
 
   <parent>
     <groupId>au.id.raboczi.cornerstone</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>parent-zk</artifactId>
     <version>0.1-SNAPSHOT</version>
-    <relativePath>../../</relativePath>
   </parent>
 
-  <artifactId>service-api</artifactId>
-  <name>Cornerstone :: Service API</name>
+  <artifactId>zk-util</artifactId>
+  <name>Cornerstone :: ZK utilities</name>
   <packaging>bundle</packaging>
 
   <build>
@@ -18,27 +17,30 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <configuration>
-          <instructions>
-            <Export-Package>
-              au.id.raboczi.cornerstone
-            </Export-Package>
-          </instructions>
-        </configuration>
       </plugin>
     </plugins>
   </build>
 
   <dependencies>
     <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>checker-qual</artifactId>
-      <scope>compile</scope>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.annotation</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zul</artifactId>
     </dependency>
   </dependencies>
 

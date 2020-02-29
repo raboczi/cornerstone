@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.zk;
+package au.id.raboczi.cornerstone.zk.util;
 
 /*-
  * #%L
@@ -54,6 +54,13 @@ import org.zkoss.zk.ui.select.SelectorComposer;
  * @see Reference
  */
 public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T> {
+
+    /**
+     * ZK session attribute key for the authenticated user.
+     *
+     * TODO: better (type-safe) handling for session attributes
+     */
+    public static final String USER = "user";
 
     /**
      * This method supports the convention that localized property bundles are

@@ -53,7 +53,13 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>zk-support</artifactId>
+      <artifactId>zk-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>zk-util</artifactId>
       <version>${project.version}</version>
     </dependency>
 

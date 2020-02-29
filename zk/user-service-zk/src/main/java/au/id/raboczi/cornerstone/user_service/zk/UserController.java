@@ -23,8 +23,9 @@ package au.id.raboczi.cornerstone.user_service.zk;
  */
 
 import au.id.raboczi.cornerstone.user_service.UserService;
-import au.id.raboczi.cornerstone.zk.Reference;
-import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
+import au.id.raboczi.cornerstone.zk.Users;
+import au.id.raboczi.cornerstone.zk.util.Reference;
+import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import java.text.MessageFormat;
 import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -68,7 +69,7 @@ public final class UserController extends SCRSelectorComposer<Button> {
     public void onClickButton(final MouseEvent mouseEvent) {
         LOGGER.info("Click " + mouseEvent);
 
-        @Nullable User user = (User) Sessions.getCurrent().getAttribute(LoginController.USER);
+        @Nullable User user = (User) Sessions.getCurrent().getAttribute(Users.USER);
         if (user == null) {
             Window window = createComponent("au/id/raboczi/cornerstone/user_service/zk/login.zul");
             window.doModal();

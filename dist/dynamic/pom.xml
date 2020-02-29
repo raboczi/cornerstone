@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>dist-dynamic</artifactId>
-  <name>Cornerstone :: dist :: dist-dynamic</name>
+  <name>Cornerstone :: dist :: dynamic</name>
   <packaging>pom</packaging>
   <description>Dynamic distribution of Cornerstone</description>
   <inceptionYear>2019</inceptionYear>

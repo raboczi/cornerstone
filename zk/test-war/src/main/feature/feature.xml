@@ -35,7 +35,8 @@
     <bundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</bundle>
 
     <!-- ZK-based presentation layer -->
-    <bundle>mvn:au.id.raboczi.cornerstone/zk-support/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/zk-api/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/user-service-zk/${project.version}</bundle>
     <bundle>webbundle:mvn:${project.groupId}/${project.artifactId}/${project.version}/war?Web-ContextPath=cornerstone</bundle>

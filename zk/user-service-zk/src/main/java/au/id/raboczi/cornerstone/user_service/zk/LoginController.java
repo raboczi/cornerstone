@@ -23,8 +23,9 @@ package au.id.raboczi.cornerstone.user_service.zk;
  */
 
 import au.id.raboczi.cornerstone.user_service.UserService;
-import au.id.raboczi.cornerstone.zk.Reference;
-import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
+import au.id.raboczi.cornerstone.zk.Users;
+import au.id.raboczi.cornerstone.zk.util.Reference;
+import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import javax.security.auth.login.LoginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +44,6 @@ public final class LoginController extends SCRSelectorComposer<Window> {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-
-    /** ZK session attribute for the authenticated user. */
-    public static final String USER = "user";
 
     /** Used to authenticate the entered credentials. */
     @Reference
@@ -68,7 +66,7 @@ public final class LoginController extends SCRSelectorComposer<Window> {
     @Listen("onClick = #loginButton")
     public void onClickLoginButton(final MouseEvent event) {
         try {
-            Sessions.getCurrent().setAttribute(USER, userService.authenticate(
+            Sessions.getCurrent().setAttribute(Users.USER, userService.authenticate(
                 usernameTextbox.getValue(),
                 passwordTextbox.getValue()));
             getSelf().detach();

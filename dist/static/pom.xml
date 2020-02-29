@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>dist-static</artifactId>
-  <name>Cornerstone :: dist :: dist-static</name>
+  <name>Cornerstone :: dist :: static</name>
   <packaging>pom</packaging>
   <description>Static distribution of Cornerstone</description>
   <inceptionYear>2019</inceptionYear>
@@ -132,7 +132,8 @@
             <startupBundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</startupBundle>
-            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-support/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-api/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/user-service-zk/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/test-whiteboard/${project.version}</startupBundle>

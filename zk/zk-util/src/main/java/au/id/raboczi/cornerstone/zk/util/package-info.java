@@ -7,4 +7,4 @@
  * Controllers should extend {@link SCRSelectorComposer} and use the
  * workalike {@link Reference} annotation.
  */
-package au.id.raboczi.cornerstone.zk;
+package au.id.raboczi.cornerstone.zk.util;

@@ -69,7 +69,7 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>zk-support</artifactId>
+      <artifactId>zk-util</artifactId>
       <version>${project.version}</version>
     </dependency>
 

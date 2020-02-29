@@ -22,16 +22,15 @@ package au.id.raboczi.cornerstone.test_service.zk;
  * #L%
  */
 
-import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.test_service.RxTestService;
-import au.id.raboczi.cornerstone.zk.Reference;
-import au.id.raboczi.cornerstone.zk.SCRSelectorComposer;
+import au.id.raboczi.cornerstone.zk.Users;
+import au.id.raboczi.cornerstone.zk.util.Reference;
+import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import io.reactivex.rxjava3.core.ObservableSource;
 import io.reactivex.rxjava3.observers.DefaultObserver;
 import java.util.function.Consumer;
 import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.osgi.service.useradmin.Authorization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
@@ -83,15 +82,8 @@ public final class RxTestController extends SCRSelectorComposer<Component>
         }
         eventQueue.subscribe(this);
 
-        // RxJava events
-        Caller caller = new Caller() {
-            @Override
-            public Authorization authorization() {
-                throw new Error("Not implemented");
-            }
-        };
         assert rxTestService != null : "@AssumeAssertion(nullness)";
-        connect(rxTestService.getObservableValue(caller), eventQueue, s -> {
+        connect(rxTestService.getObservableValue(Users.getCaller()), eventQueue, s -> {
             assert label1 != null : "@AssumeAssertion(nullness)";
             label1.setValue(fakeLocalizer(s));
         });
