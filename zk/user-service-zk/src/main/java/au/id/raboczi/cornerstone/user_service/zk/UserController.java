@@ -75,14 +75,14 @@ public final class UserController extends SCRSelectorComposer<Button> {
             window.doModal();
 
         } else {
-            Sessions.getCurrent().removeAttribute(LoginController.USER);
+            Sessions.getCurrent().removeAttribute(Users.USER);
             updateUser();
         }
     }
 
     private void updateUser() {
         MessageFormat format = new MessageFormat(getLabels().getString("user.logout"), Locales.getCurrent());
-        @Nullable User user = (User) Sessions.getCurrent().getAttribute(LoginController.USER);
+        @Nullable User user = (User) Sessions.getCurrent().getAttribute(Users.USER);
         @Localized String label = (user == null)
             ? getLabels().getString("user.login")
             : (@Localized String) format.format(new Object[]{user.getName()});

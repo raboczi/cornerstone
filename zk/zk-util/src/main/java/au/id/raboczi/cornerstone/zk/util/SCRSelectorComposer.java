@@ -30,6 +30,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.zkoss.util.Locales;
@@ -54,13 +55,6 @@ import org.zkoss.zk.ui.select.SelectorComposer;
  * @see Reference
  */
 public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T> {
-
-    /**
-     * ZK session attribute key for the authenticated user.
-     *
-     * TODO: better (type-safe) handling for session attributes
-     */
-    public static final String USER = "user";
 
     /**
      * This method supports the convention that localized property bundles are
@@ -92,7 +86,7 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
             for (Field field: c.getDeclaredFields()) {
                 for (Annotation annotation: field.getAnnotations()) {
                     if (Reference.class.equals(annotation.annotationType())) {
-                        Object object = findService(field.getType());
+                        @Nullable Object object = findService(field.getType());
 
                         field.setAccessible(true);
                         field.set(this, object);
@@ -109,8 +103,14 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
                                 + method.toGenericString()
                                 + " because that method does not have exactly one parameter");
                         }
+
+                        @Nullable Object object = findService(method.getParameterTypes()[0]);
+                        if (object == null) {
+                            throw new Error("Null @Reference unimplemented for " +  method.toGenericString());  // TODO:
+                        }
+
                         method.setAccessible(true);
-                        method.invoke(this, findService(method.getParameterTypes()[0]));
+                        method.invoke(this, object);
                         method.setAccessible(false);
                     }
                 }
@@ -161,14 +161,9 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
      * @param clazz  the type of a desired OSGi service
      * @return the unique service of the specified <var>clazz</var>, or <code>null</code> if it doesn't exist
      */
-    protected <E> E findService(final Class<E> clazz) {
+    protected <E> @Nullable E findService(final Class<E> clazz) {
         BundleContext bundleContext = getBundleContext();
         ServiceReference<E> serviceReference = bundleContext.getServiceReference(clazz);
-        try {
-            return bundleContext.getService(serviceReference);
-
-        } catch (NullPointerException e) {
-            throw new NullPointerException("Could not find service of type " + clazz + ": " + e.getMessage());
-        }
+        return (serviceReference == null) ? null : bundleContext.getService(serviceReference);
     }
 }

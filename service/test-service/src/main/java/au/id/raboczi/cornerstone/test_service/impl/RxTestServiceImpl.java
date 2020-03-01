@@ -34,7 +34,8 @@ import org.osgi.service.component.annotations.Component;
 /**
  * Demonstrates RxJava event handling.
  */
-@Component(service = {RxTestService.class})
+@Component(service  = {RxTestService.class},
+           property = {"service.exported.interfaces=*"})
 public final class RxTestServiceImpl implements RxTestService {
 
     /** Timer frequency in seconds. */

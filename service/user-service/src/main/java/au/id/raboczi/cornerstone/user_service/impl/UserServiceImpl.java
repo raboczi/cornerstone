@@ -24,8 +24,6 @@ package au.id.raboczi.cornerstone.user_service.impl;
 
 import au.id.raboczi.cornerstone.user_service.UserService;
 import java.security.Principal;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
@@ -35,14 +33,13 @@ import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-//import org.osgi.service.useradmin.Authorization;
-import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Authentication service implementation. */
-@Component(service = {UserService.class})
+@Component(service  = {UserService.class},
+           property = {"service.exported.interfaces=*"})
 public final class UserServiceImpl implements UserService {
 
     /** Logger.  Named after the class. */
@@ -167,40 +164,7 @@ public final class UserServiceImpl implements UserService {
                 .map(principal -> principal.getName())
                 .toArray(String[]::new);
 
-            return new User() {
-
-                // Role
-
-                @Override
-                public String getName() {
-                    return user;
-                }
-
-                @Override
-                public int getType() {
-                    return Role.USER;
-                }
-
-                @Override
-                public Dictionary getProperties() {
-                    Hashtable properties = new Hashtable();
-                    properties.put("roles", roles);
-                    return properties;
-                }
-
-                // User
-
-                @Override
-                public Dictionary getCredentials() {
-                    return new Hashtable();
-                }
-
-                @Override
-                public boolean hasCredential(final String key,
-                                             final Object value) {
-                    return false;
-                }
-            };
+            return new UserImpl(user, roles);
 
             // TO DO: failure isn't invoked in the case of a
             // LoginException

@@ -34,7 +34,8 @@ import org.osgi.service.useradmin.UserAdmin;
  *
  * This implementation is backed by Apache Karaf's JAAS feature.
  */
-@Component(service = {UserAdmin.class})
+@Component(service  = {UserAdmin.class},
+           property = {"service.exported.interfaces=*"})
 public final class UserAdminImpl implements UserAdmin {
 
     @Override

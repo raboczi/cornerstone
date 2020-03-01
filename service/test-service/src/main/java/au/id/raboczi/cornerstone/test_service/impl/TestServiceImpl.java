@@ -35,7 +35,8 @@ import org.osgi.service.event.EventAdmin;
 /**
  * Demonstrates event handling.
  */
-@Component(service = {TestService.class})
+@Component(service  = {TestService.class},
+           property = {"service.exported.interfaces=*"})
 public final class TestServiceImpl implements TestService {
 
     /** A generic property on the service. */
