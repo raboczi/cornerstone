@@ -23,12 +23,13 @@ package au.id.raboczi.cornerstone.zk;
  */
 
 import au.id.raboczi.cornerstone.Caller;
+import java.io.Serializable;
 import org.osgi.service.useradmin.Authorization;
 
 /**
  * A concrete {@link Caller}.
  */
-class CallerImpl implements Caller {
+class CallerImpl implements Caller, Serializable {
 
     /** Security permissions. */
     private final Authorization authorization;

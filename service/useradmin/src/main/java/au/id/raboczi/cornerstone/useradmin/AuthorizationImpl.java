@@ -22,6 +22,7 @@ package au.id.raboczi.cornerstone.useradmin;
  * #L%
  */
 
+import java.io.Serializable;
 import java.util.Arrays;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -32,7 +33,7 @@ import org.osgi.service.useradmin.User;
  *
  * This implementation assumes a @{link User}'s roles are in the user property "roles".
  */
-class AuthorizationImpl implements Authorization {
+class AuthorizationImpl implements Authorization, Serializable {
 
     /** Name of the user, if any. */
     private final @Nullable String name;
