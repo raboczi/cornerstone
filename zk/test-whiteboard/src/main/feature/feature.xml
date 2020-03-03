@@ -21,7 +21,6 @@
 
     <bundle>mvn:org.reactivestreams/reactive-streams/1.0.3</bundle>
     <bundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</bundle>
-    <bundle>mvn:io.reactivex.rxjava3/rxjava/3.0.0-RC7</bundle>
     <bundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</bundle>
 
     <bundle>mvn:${project.groupId}/aspectjrt/${project.version}</bundle>

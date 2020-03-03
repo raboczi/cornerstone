@@ -6,7 +6,6 @@
     <vlayout>
       <user/>
       <test label="${labels.index_test_label}"/>
-      <rxtest label="${labels.index_rxtest_label}"/>
       <image src="res/cornerstone.png"/>
     </vlayout>
   </window>

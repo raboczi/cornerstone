@@ -10,10 +10,6 @@
   </feature>
 
   <feature name="${project.artifactId}-api" version="${project.version}" description="Cornerstone test web application APIs">
-    <bundle>mvn:org.reactivestreams/reactive-streams/1.0.3</bundle>
-    <bundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</bundle>
-    <bundle>mvn:io.reactivex.rxjava3/rxjava/3.0.0-RC7</bundle>
-
     <bundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/user-service-api/${project.version}</bundle>
@@ -32,10 +28,10 @@
   </feature>
 
   <feature name="${project.artifactId}-presentation" version="${project.version}" description="Cornerstone test web application presentation logic">
+    <feature>war</feature>
     <feature prerequisite="true">${project.artifactId}-api</feature>
-    <feature prerequisite="true">war</feature>
     <feature prerequisite="true">zk-framework</feature>
-    <bundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</bundle>
+    <feature prerequisite="true">rxzk</feature>
 
     <bundle>mvn:au.id.raboczi.cornerstone/zk-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</bundle>
@@ -44,7 +40,8 @@
     <bundle>webbundle:mvn:${project.groupId}/${project.artifactId}/${project.version}/war?Web-ContextPath=cornerstone</bundle>
   </feature>
 
-  <feature name="zk-framework">
+  <feature name="zk-framework" version="${project.version}" description="ZK framework">
+    <feature prerequisite="true">war</feature>
     <bundle>mvn:commons-codec/commons-codec/1.14</bundle>
     <bundle>mvn:commons-io/commons-io/2.6</bundle>
     <bundle>mvn:commons-fileupload/commons-fileupload/1.4</bundle>
@@ -52,5 +49,13 @@
     <bundle>mvn:javax.websocket/javax.websocket-api/1.1</bundle>
     <bundle>mvn:org.javassist/javassist/3.26.0-GA</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-embed/${project.version}</bundle>
+  </feature>
+
+  <feature name="rxzk" version="${project.version}" description="Reactive extensions for ZK framework">
+    <feature prerequisite="true">wrap</feature>
+    <feature prerequisite="true">zk-framework</feature>
+    <bundle>mvn:org.reactivestreams/reactive-streams/1.0.3</bundle>
+    <bundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</bundle>
+    <bundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</bundle>
   </feature>
 </features>

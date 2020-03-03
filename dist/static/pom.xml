@@ -123,7 +123,6 @@
 
             <startupBundle>mvn:org.reactivestreams/reactive-streams/1.0.3</startupBundle>
             <startupBundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</startupBundle>
-            <startupBundle>mvn:io.reactivex.rxjava3/rxjava/3.0.0-RC7</startupBundle>
             <startupBundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</startupBundle>
 
             <startupBundle>mvn:${project.groupId}/aspectjrt/${project.version}</startupBundle>

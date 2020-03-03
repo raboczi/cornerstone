@@ -366,12 +366,6 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.reactivex.rxjava3</groupId>
-        <artifactId>rxjava</artifactId>
-        <version>3.0.0-RC7</version>
-      </dependency>
-
-      <dependency>
         <groupId>javax.servlet</groupId>
         <artifactId>javax.servlet-api</artifactId>
         <version>${servlet-api.version}</version>
@@ -535,6 +529,7 @@
                   <Xmaxerrs>10000</Xmaxerrs>
                   <Xmaxwarns>10000</Xmaxwarns>
                 </compilerArguments>
+<!--
                 <annotationProcessorPaths>
                   <path>
                     <groupId>org.checkerframework</groupId>
@@ -543,13 +538,18 @@
                   </path>
                 </annotationProcessorPaths>
                 <annotationProcessors>
+-->
                   <!-- Add all the checkers you want to enable here -->
                   <!-- <annotationProcessor>org.checkerframework.checker.formatter.FormatChecker</annotationProcessor> -->
+<!--
                   <annotationProcessor>org.checkerframework.checker.i18n.I18nChecker</annotationProcessor>
                   <annotationProcessor>org.checkerframework.checker.i18nformatter.I18nFormatterChecker</annotationProcessor>
                   <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+-->
                   <!-- <annotationProcessor>org.checkerframework.checker.signature.SignatureChecker</annotationProcessor> -->
+<!--
                 </annotationProcessors>
+-->
                 <compilerArgs>
                   <!-- If using JDK 8, use only the two arguments immediately below. -->
 <!--
