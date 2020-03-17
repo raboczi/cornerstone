@@ -10,7 +10,7 @@
 
   <name>Cornerstone :: ZK framework ${zk.version}</name>
   <description>ZK is a web application framework (https://www.zkoss.org).  To accommodate its OSGi-incompatible native plugin scheme, all its components are embedded within this bundle.</description>
-  <artifactId>zk-embed</artifactId>
+  <artifactId>zk-framework</artifactId>
   <packaging>bundle</packaging>
 
   <properties>

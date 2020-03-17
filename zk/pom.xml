@@ -18,8 +18,8 @@
     <module>test-whiteboard</module>
     <module>user-service-zk</module>
     <module>zk-api</module>
-    <module>zk-embed</module>
     <module>zk-event-queue-provider</module>
+    <module>zk-framework</module>
     <module>zk-util</module>
   </modules>
 
