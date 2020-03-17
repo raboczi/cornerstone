@@ -16,7 +16,6 @@
   <modules>
     <module>aspectjrt</module>
     <module>service</module>
-    <module>test-aspect</module>
     <module>zk</module>
 
     <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
@@ -76,7 +75,7 @@
   </scm>
 
   <build>
-    <defaultGoal>install</defaultGoal>
+    <defaultGoal>clean install</defaultGoal>
     <pluginManagement>
       <plugins>
         <plugin>

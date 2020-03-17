@@ -6,11 +6,12 @@
     <groupId>au.id.raboczi.cornerstone</groupId>
     <artifactId>parent</artifactId>
     <version>0.1-SNAPSHOT</version>
+    <relativePath>../..</relativePath>
   </parent>
 
-  <artifactId>test-aspect</artifactId>
-  <name>Cornerstone :: Test AspectJ aspect library</name>
-  <description>Contains an annotation and aspect library for logging annotated methods.</description>
+  <artifactId>security-aspect</artifactId>
+  <name>Cornerstone :: Security aspect</name>
+  <description>Contains an annotation and aspect library for enforcing authorized access to methods.</description>
   <packaging>bundle</packaging>
 
   <build>
@@ -20,7 +21,7 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Export-Package>au.id.raboczi.cornerstone.test_aspect</Export-Package>
+            <Export-Package>au.id.raboczi.cornerstone.security_aspect</Export-Package>
           </instructions>
         </configuration>
       </plugin>
@@ -59,6 +60,12 @@
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>service-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>

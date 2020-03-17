@@ -17,10 +17,11 @@
   </feature>
 
   <feature name="${project.artifactId}-domain" version="${project.version}" description="Cornerstone test web application domain logic">
+    <feature>scr</feature>
     <feature prerequisite="true">${project.artifactId}-api</feature>
 
     <bundle>mvn:au.id.raboczi.cornerstone/aspectjrt/${project.version}</bundle>
-    <bundle>mvn:au.id.raboczi.cornerstone/test-aspect/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/security-aspect/${project.version}</bundle>
 
     <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/user-service/${project.version}</bundle>

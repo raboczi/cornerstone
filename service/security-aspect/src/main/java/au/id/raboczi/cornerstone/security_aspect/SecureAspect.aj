@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.test_aspect;
+package au.id.raboczi.cornerstone.security_aspect;
 
 import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public aspect SecureAspect {
 
-    static Logger LOGGER = LoggerFactory.getLogger("SecureAspect");
+    static Logger LOGGER = LoggerFactory.getLogger("SecurityAspect");
 
     pointcut secure(Caller caller) : execution(* *(..)) && args(caller) && @annotation(Secure);
 

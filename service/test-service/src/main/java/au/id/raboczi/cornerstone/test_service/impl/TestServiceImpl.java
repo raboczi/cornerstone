@@ -22,7 +22,7 @@ package au.id.raboczi.cornerstone.test_service.impl;
  * #L%
  */
 
-import au.id.raboczi.cornerstone.test_aspect.Secure;
+import au.id.raboczi.cornerstone.security_aspect.Secure;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import java.util.HashMap;
 import java.util.Map;

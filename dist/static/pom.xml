@@ -126,7 +126,7 @@
             <startupBundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</startupBundle>
 
             <startupBundle>mvn:${project.groupId}/aspectjrt/${project.version}</startupBundle>
-            <startupBundle>mvn:${project.groupId}/test-aspect/${project.version}</startupBundle>
+            <startupBundle>mvn:${project.groupId}/security-aspect/${project.version}</startupBundle>
 
             <startupBundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</startupBundle>

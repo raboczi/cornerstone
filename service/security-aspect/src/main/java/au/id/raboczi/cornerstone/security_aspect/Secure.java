@@ -1,8 +1,8 @@
-package au.id.raboczi.cornerstone.test_aspect;
+package au.id.raboczi.cornerstone.security_aspect;
 
 /*-
  * #%L
- * Cornerstone :: Test AspectJ aspect library
+ * Cornerstone :: Security aspect
  * %%
  * Copyright (C) 2019 - 2020 Simon Raboczi
  * %%

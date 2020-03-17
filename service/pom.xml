@@ -13,6 +13,7 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>security-aspect</module>
     <module>service-api</module>
     <module>test-service</module>
     <module>test-service-api</module>
@@ -59,7 +60,7 @@
           <aspectLibraries>
             <aspectLibrary>
               <groupId>${project.groupId}</groupId>
-              <artifactId>test-aspect</artifactId>
+              <artifactId>security-aspect</artifactId>
             </aspectLibrary>
           </aspectLibraries>
           <complianceLevel>${java.source.version}</complianceLevel>
@@ -89,7 +90,7 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>test-aspect</artifactId>
+      <artifactId>security-aspect</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
