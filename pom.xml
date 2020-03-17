@@ -15,8 +15,8 @@
 
   <modules>
     <module>aspectjrt</module>
-    <module>service</module>
-    <module>zk</module>
+    <module>domain-layer</module>
+    <module>presentation-layer-zk</module>
 
     <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
     <module>itest</module>
@@ -625,7 +625,6 @@
             </executions>
           </plugin>
 
-<!--
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
@@ -655,7 +654,8 @@
                         <limit>
                           <counter>COMPLEXITY</counter>
                           <value>COVEREDRATIO</value>
-                          <minimum>0.60</minimum>
+                          <!-- <minimum>0.60</minimum> -->
+                          <minimum>0.00</minimum>
                         </limit>
                       </limits>
                     </rule>
@@ -664,7 +664,6 @@
               </execution>
             </executions>
           </plugin>
--->
 
           <plugin>
             <groupId>pl.project13.maven</groupId>
