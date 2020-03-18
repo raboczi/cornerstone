@@ -25,7 +25,27 @@ package au.id.raboczi.cornerstone.security_aspect;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
+/**
+ * When applied to methods in the domain layer, checks that the method's
+ * {@link au.id.raboczi.cornerstone.Caller} argument is authorized with the
+ * permission in the annotation's argument.
+ *
+ * If the caller lacks the annotated permission,
+ * {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException} is thrown.
+ * The method must have one {@link au.id.raboczi.cornerstone.Caller} argument
+ * and throw {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException},
+ * otherwise a compilation will fail.
+ *
+ * An example of use:
+ *
+ * <pre>
+ * @Secure("foo:write")
+ * void incrementFoo(Caller caller) throws CallerNotAuthorizedException {
+ *     // ....
+ * }
+ * </pre>
+ */
+@Retention(java.lang.annotation.RetentionPolicy.SOURCE)
 @Target(java.lang.annotation.ElementType.METHOD)
 public @interface Secure {
     String value() default "";
