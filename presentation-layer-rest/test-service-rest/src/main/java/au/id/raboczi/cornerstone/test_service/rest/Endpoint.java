@@ -23,8 +23,10 @@ package au.id.raboczi.cornerstone.test_service.rest;
  */
 
 import au.id.raboczi.cornerstone.test_service.TestService;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -45,5 +47,13 @@ public class Endpoint {
     @Produces("application/json")
     public String getValue() {
         return testService.getValue();
+    }
+
+    /** @param newValue the new test value */
+    @POST
+    @Path("/value")
+    @Consumes("application/json")
+    public void setValue(final String newValue) {
+        testService.setValue(newValue);
     }
 }

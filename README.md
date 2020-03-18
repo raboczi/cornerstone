@@ -64,3 +64,11 @@ It is suited for production.
 2. Browse [http://localhost:8181/index.zul](http://localhost:8181/index.zul).
 
 3. Shut down the server by executing `dist/static/target/assembly/bin/stop`
+
+
+## Notes
+
+The REST endpoint can be directly accessed using (for example) the following:
+
+`curl http://localhost:8181/test/value`
+`curl -H "Content-Type: application/json" -d "Lorem ipsum dolor" http://localhost:8181/test/value`
