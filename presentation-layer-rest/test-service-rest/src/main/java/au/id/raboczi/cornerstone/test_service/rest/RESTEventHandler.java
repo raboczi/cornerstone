@@ -23,18 +23,34 @@ package au.id.raboczi.cornerstone.test_service.rest;
  */
 
 import au.id.raboczi.cornerstone.test_service.TestService;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
 import org.osgi.service.event.EventHandler;
+import org.osgi.service.http.HttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Forward OSGi events to REST clients.
  */
-@Component(service = EventHandler.class,
-           property = {EVENT_TOPIC + "=" + TestService.EVENT_TOPIC})
+@Component(service   = EventHandler.class,
+           immediate = true,
+           name      = "example-websocket",
+           property  = {EVENT_TOPIC + "=" + TestService.EVENT_TOPIC})
+@SuppressWarnings("all")
+@WebSocket
 public class RESTEventHandler implements EventHandler {
 
     /** Logger. */
@@ -43,17 +59,47 @@ public class RESTEventHandler implements EventHandler {
     @Override
     public final void handleEvent(final Event event) {
         LOGGER.info("Forward OSGi event to REST clients: " + event);
+        sessions.stream().forEach(session -> {
+            try {
+                switch (event.getTopic()) {
+                case TestService.EVENT_TOPIC:
+                    session.getRemote().sendString((String) event.getProperty("value"));
+                    break;
 
-        /*
-        switch (event.getTopic()) {
-        case TestService.EVENT_TOPIC:
-            eventQueue.publish(new ConsumerEvent<T>((T) event.getProperty("value"), consumer));
-            break;
+                default:
+                    LOGGER.warn("Unsupported topic: " + event.getTopic());
+                    break;
+                }
+            } catch (IOException e) {
+                LOGGER.error("Unable to forward OSGi event to REST client", e);
+            }
+        });
+    }
 
-        default:
-            LOGGER.warn("Unsupported topic: " + event.getTopic());
-            break;
-        }
-        */
+
+    private static final Set<Session> sessions = Collections.synchronizedSet(new HashSet<>());
+
+    @Reference
+    private HttpService httpService;
+
+    @OnWebSocketConnect
+    public void onOpen(final Session session) {
+        session.setIdleTimeout(-1);
+        sessions.add(session);
+    }
+
+    @OnWebSocketClose
+    public void onClose(final Session session, int statusCode, final String reason) {
+        sessions.remove(session);
+    }
+
+    @Activate
+    public void activate() throws Exception {
+        httpService.registerServlet("/example-websocket", new RESTEventHandlerServlet(), null, null);
+    }
+
+    @Deactivate
+    public void deactivate() throws Exception {
+        httpService.unregister("/example-websocket");
     }
 }

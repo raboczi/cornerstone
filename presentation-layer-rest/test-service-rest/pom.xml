@@ -12,6 +12,10 @@
   <name>Cornerstone :: Test service REST UI</name>
   <packaging>bundle</packaging>
 
+  <properties>
+    <jetty.version>9.4.22.v20191022</jetty.version>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -37,6 +41,13 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>test-service-api</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty.websocket</groupId>
+      <artifactId>websocket-servlet</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
