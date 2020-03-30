@@ -22,20 +22,22 @@ package au.id.raboczi.cornerstone.zk.util;
  * #L%
  */
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 
 /**
@@ -55,6 +57,9 @@ import org.zkoss.zk.ui.select.SelectorComposer;
  * @see Reference
  */
 public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T> {
+
+    /** Logger.  Named after the class. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(SCRSelectorComposer.class);
 
     /**
      * This method supports the convention that localized property bundles are
@@ -86,7 +91,13 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
             for (Field field: c.getDeclaredFields()) {
                 for (Annotation annotation: field.getAnnotations()) {
                     if (Reference.class.equals(annotation.annotationType())) {
-                        @Nullable Object object = findService(field.getType());
+                        @Nullable Object object;
+                        if (Collection.class.isAssignableFrom(field.getType())) {
+                            ParameterizedType p = (ParameterizedType) field.getGenericType();
+                            object = findServiceCollection((Class) p.getActualTypeArguments()[0]);
+                        } else {
+                            object = findService(field.getType());
+                        }
 
                         field.setAccessible(true);
                         field.set(this, object);
@@ -128,21 +139,10 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
      * @throws ClassCastException if the ZUL doesn't describe the expected type T
      */
     protected <T extends Component> T createComponent(final String path) {
-        try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            assert classLoader != null : "@AssumeAssertion(nullness)";
-            InputStream in = classLoader.getResourceAsStream(path);
-            if (in == null) {
-                throw new IllegalArgumentException(path + " is not in " + classLoader);
-            }
-            Reader r = new InputStreamReader(in, "UTF-8");
-            Component component = Executions.createComponentsDirectly(r, "zul", null, null);
+        ClassLoader classLoader = getClass().getClassLoader();
+        assert classLoader != null : "@AssumeAssertion(nullness)";
 
-            return (T) component;
-
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Invalid ZUL path: " + path, e);
-        }
+        return Components.createComponent(path, classLoader);
     }
 
     /** @return the bundle context of the servlet */
@@ -165,5 +165,25 @@ public class SCRSelectorComposer<T extends Component> extends SelectorComposer<T
         BundleContext bundleContext = getBundleContext();
         ServiceReference<E> serviceReference = bundleContext.getServiceReference(clazz);
         return (serviceReference == null) ? null : bundleContext.getService(serviceReference);
+    }
+
+    /**
+     * @param <E>  the type of a desired OSGi service
+     * @param clazz  the type of a desired OSGi service
+     * @return the collection of services of the specified <var>clazz</var>
+     */
+    @SuppressWarnings("nullness")
+    protected <E> Set<E> findServiceCollection(final Class<E> clazz) {
+        LOGGER.info("Find service collection of " + clazz);
+        BundleContext bundleContext = getBundleContext();
+        try {
+            return bundleContext.getServiceReferences(clazz, null)
+                                .stream()
+                                .map(serviceReference -> bundleContext.getService(serviceReference))
+                                .collect(Collectors.toSet());
+
+        } catch (InvalidSyntaxException e) {
+            throw new Error("This can't happen", e);
+        }
     }
 }

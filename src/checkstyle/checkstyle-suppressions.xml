@@ -9,6 +9,6 @@
   <!-- The automatically-included license header contains trailing spaces -->
   <suppress checks="RegexpSingleline" files="\S*\.java" lines="13, 18"/>
 
-  <suppress checks="TodoComment" files="SCRSelectorComposer\.java" lines="109"/>
+  <suppress checks="TodoComment" files="SCRSelectorComposer\.java" lines="120"/>
 
 </suppressions>
