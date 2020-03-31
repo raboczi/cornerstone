@@ -30,11 +30,19 @@ import org.zkoss.zul.Menuitem;
  * Menu item for login.
  */
 @Component(service = MenuitemService.class,
-           property = { "menubar=main" })
-public class LoginMenuitemService implements MenuitemService {
+           property = {"menubar=main"})
+public final class LoginMenuitemService implements MenuitemService {
+
+    /** Menu path. */
+    private static final String[] PATH = {"file", "session"};
 
     @Override
-    public final Menuitem newMenuitem() {
+    public String[] getPath() {
+        return PATH;
+    }
+
+    @Override
+    public Menuitem newMenuitem() {
         return new LoginMenuitem();
     }
 }

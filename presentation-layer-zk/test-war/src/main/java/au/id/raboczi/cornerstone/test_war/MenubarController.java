@@ -26,15 +26,29 @@ import au.id.raboczi.cornerstone.zk.MenuitemService;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.util.resource.Labels;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menubar;
 import org.zkoss.zul.Menupopup;
 
 /**
  * Populate a menubar from the {@link MenuitemService}s present.
+ *
+ * The menus are localized from the test-war bundle using keys similar to:
+ * <pre>
+ * menubar.main.file = File
+ * </pre>
+ *
+ * Submenus work in the same way, just with a longer suffix:
+ * <pre>
+ * menubar.main.file.settings = Settings
+ * </pre>
  */
 public class MenubarController extends SCRSelectorComposer<Menubar> {
 
@@ -45,17 +59,31 @@ public class MenubarController extends SCRSelectorComposer<Menubar> {
     @Reference
     private Set<MenuitemService> services = Collections.emptySet();
 
-    /** {@inheritDoc} */
     @Override
     public void doFinally() {
-        Menu menu = new Menu("Menu");
-        Menupopup menupopup = new Menupopup();
-        menu.appendChild(menupopup);
-        getSelf().appendChild(menu);
-
+        Map<String, Menu> menuMap = new HashMap<>();
         for (MenuitemService service: services) {
             try {
-                menupopup.appendChild(service.newMenuitem());
+                Component parent = getSelf();
+                String path = "menubar.main";
+                for (String pathElement: service.getPath()) {
+                    path += "." + pathElement;
+
+                    if (menuMap.containsKey(path)) {
+                        Menu menu = menuMap.get(path);
+                        parent = menu.getMenupopup();
+
+                    } else {
+                        Menu menu = new Menu(Labels.getLabel(path, path));
+                        menuMap.put(path, menu);
+                        parent.appendChild(menu);
+
+                        Menupopup menupopup = new Menupopup();
+                        menu.appendChild(menupopup);
+                        parent = menupopup;
+                    }
+                }
+                parent.appendChild(service.newMenuitem());
 
             } catch (Exception e) {
                 LOGGER.error("Unable to add item using " + service, e);

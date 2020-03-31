@@ -30,6 +30,13 @@ import org.zkoss.zul.Menuitem;
 public interface MenuitemService {
 
     /**
+     * @return a list of localization keys describing the submenu hierarchy for this item.
+     *     An empty array indicates the item will appear directly on the menubar.
+     *     Implementations should not return <code>null</code>.
+     */
+    String[] getPath();
+
+    /**
      * @return a menu item
      */
     Menuitem newMenuitem();
