@@ -73,8 +73,8 @@ public class IT extends KarafTestSupport {
     public void before() throws Exception {
         assertServiceAvailable(FeaturesService.class);
         FeaturesService featuresService = getOsgiService(FeaturesService.class);
-        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/test-war/" + System.getProperty("project.version") + "/xml/features");
-        installAndAssertFeature("test-war");
+        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/zk-main-war/" + System.getProperty("project.version") + "/xml/features");
+        installAndAssertFeature("zk-main-war");
     }
 
     /** Test the domain logic. */

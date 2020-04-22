@@ -8,9 +8,9 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>test-whiteboard</artifactId>
-  <name>Cornerstone :: Test Whiteboard</name>
-  <description>Test application, packaged as an HTTP Whiteboard service</description>
+  <artifactId>zk-main-whiteboard</artifactId>
+  <name>Cornerstone :: ZK main page (Whiteboard)</name>
+  <description>ZK main page, packaged as an HTTP Whiteboard service</description>
   <packaging>bundle</packaging>
 
   <build>

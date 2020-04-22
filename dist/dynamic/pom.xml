@@ -24,7 +24,7 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>test-war</artifactId>
+      <artifactId>zk-main-war</artifactId>
       <version>${project.version}</version>
       <type>xml</type>
       <classifier>features</classifier>
@@ -119,7 +119,7 @@
             <feature>scr</feature>
             <feature>http-whiteboard</feature>
 
-            <feature>test-war</feature>
+            <feature>zk-main-war</feature>
             <feature>webconsole</feature>
           </bootFeatures>
           <libraries>

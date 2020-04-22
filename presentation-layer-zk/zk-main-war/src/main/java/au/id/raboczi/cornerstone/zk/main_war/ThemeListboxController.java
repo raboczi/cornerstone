@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.test_war;
+package au.id.raboczi.cornerstone.zk.main_war;
 
 /*-
  * #%L

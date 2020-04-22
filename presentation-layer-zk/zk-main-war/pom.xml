@@ -8,9 +8,9 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>test-war</artifactId>
-  <name>Cornerstone :: Test WAR</name>
-  <description>Test application, packaged as a web application bundle</description>
+  <artifactId>zk-main-war</artifactId>
+  <name>Cornerstone :: ZK main page (WAR)</name>
+  <description>ZK main page, packaged as a web application bundle</description>
   <packaging>war</packaging>
 
   <build>
