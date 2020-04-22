@@ -119,7 +119,7 @@
             <startupBundle>mvn:javax.portlet/portlet-api/3.0.1</startupBundle>
             <startupBundle>mvn:javax.websocket/javax.websocket-api/1.1</startupBundle>
             <startupBundle>mvn:org.javassist/javassist/3.26.0-GA</startupBundle>
-            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-embed/0.1-SNAPSHOT</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-framework/0.1-SNAPSHOT</startupBundle>
 
             <startupBundle>mvn:org.reactivestreams/reactive-streams/1.0.3</startupBundle>
             <startupBundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</startupBundle>

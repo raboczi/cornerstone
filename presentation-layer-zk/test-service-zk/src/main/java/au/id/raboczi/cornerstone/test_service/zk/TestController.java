@@ -22,7 +22,11 @@ package au.id.raboczi.cornerstone.test_service.zk;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.test_service.TestService;
+import au.id.raboczi.cornerstone.zk.CallerImpl;
+import au.id.raboczi.cornerstone.zk.Users;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import java.util.Hashtable;
@@ -32,9 +36,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
 import org.osgi.service.event.EventHandler;
+import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Sessions;
 //import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.EventQueue;
@@ -62,6 +69,10 @@ public final class TestController extends SCRSelectorComposer<Component>
     @Reference
     private @Nullable TestService testService;
 
+    /** Authorization lookup service. */
+    @Reference
+    private @Nullable UserAdmin userAdmin;
+
     /** The view for this controller. */
     @Wire("#label1")
     private @Nullable Label label1;
@@ -71,13 +82,20 @@ public final class TestController extends SCRSelectorComposer<Component>
         return s;
     }
 
+    private Caller getCaller() {
+        @Nullable User user = (User) Sessions.getCurrent().getAttribute(Users.USER);
+        assert userAdmin != null : "@AssumeAssertion(nullness)";
+
+        return new CallerImpl(userAdmin.getAuthorization(user));
+    }
+
     @Override
     public void doAfterCompose(final Component comp) throws Exception {
         super.doAfterCompose(comp);
         assert label1 != null : "@AssumeAssertion(nullness)";
         assert testService != null : "@AssumeAssertion(nullness)";
 
-        label1.setValue(fakeLocalizer(testService.getValue()));
+        label1.setValue(fakeLocalizer(testService.getValue(getCaller())));
 
         // ZK events
         EventQueue eventQueue = EventQueues.lookup(QUEUE, comp.getDesktop().getSession(), true);
@@ -128,11 +146,14 @@ public final class TestController extends SCRSelectorComposer<Component>
         }, ht);
     }
 
-    /** @param mouseEvent  button click */
+    /**
+     * @param mouseEvent  button click
+     * @throws CallerNotAuthorizedException if not authorized to set value
+     */
     @Listen("onClick = button#button1; onClick = button#button2")
-    public void onClickButton(final MouseEvent mouseEvent) {
+    public void onClickButton(final MouseEvent mouseEvent) throws CallerNotAuthorizedException {
         assert testService != null : "@AssumeAssertion(nullness)";
-        testService.setValue(((Button) mouseEvent.getTarget()).getLabel());
+        testService.setValue(((Button) mouseEvent.getTarget()).getLabel(), getCaller());
     }
 
 

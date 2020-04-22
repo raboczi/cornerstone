@@ -29,7 +29,6 @@ import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import javax.security.auth.login.LoginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -66,9 +65,7 @@ public final class LoginController extends SCRSelectorComposer<Window> {
     @Listen("onClick = #loginButton")
     public void onClickLoginButton(final MouseEvent event) {
         try {
-            Sessions.getCurrent().setAttribute(Users.USER, userService.authenticate(
-                usernameTextbox.getValue(),
-                passwordTextbox.getValue()));
+            Users.setUser(userService.authenticate(usernameTextbox.getValue(), passwordTextbox.getValue()));
             getSelf().detach();
 
         } catch (LoginException e) {

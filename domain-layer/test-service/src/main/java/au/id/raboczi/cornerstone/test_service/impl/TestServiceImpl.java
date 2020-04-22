@@ -22,6 +22,8 @@ package au.id.raboczi.cornerstone.test_service.impl;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.security_aspect.Secure;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import java.util.HashMap;
@@ -47,13 +49,14 @@ public final class TestServiceImpl implements TestService {
     private @Nullable EventAdmin eventAdmin;
 
     @Override
-    public String getValue() {
+    @Secure("test:read")
+    public String getValue(final Caller caller) throws CallerNotAuthorizedException {
         return value;
     }
 
     @Override
     @Secure("test:write")
-    public void setValue(final String newValue) {
+    public void setValue(final String newValue, final Caller caller) throws CallerNotAuthorizedException {
         this.value = newValue;
 
         // OSGi EventAdmin notification

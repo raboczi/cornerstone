@@ -23,6 +23,7 @@ package au.id.raboczi.cornerstone.test_service.rest;
  */
 
 import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import au.id.raboczi.cornerstone.user_service.UserService;
 import java.io.Serializable;
@@ -95,7 +96,12 @@ public class Endpoint {
     public String getValue(final @Context HttpServletRequest request) {
         Caller caller = callerOfRequest(request);
 
-        return testService.getValue();
+        try {
+            return testService.getValue(caller);
+
+        } catch (CallerNotAuthorizedException e) {
+            throw new NotAuthorizedException("Permission denied", "Basic");
+        }
     }
 
     /**
@@ -108,7 +114,12 @@ public class Endpoint {
     public void setValue(final String newValue, final @Context HttpServletRequest request) {
         Caller caller = callerOfRequest(request);
 
-        testService.setValue(newValue);
+        try {
+            testService.setValue(newValue, caller);
+
+        } catch (CallerNotAuthorizedException e) {
+            throw new NotAuthorizedException("Permission denied", "Basic");
+        }
     }
 
 
@@ -128,7 +139,7 @@ public class Endpoint {
 
         // Check whether the request is attempting to authenticate
         String authorization = request.getHeader("Authorization");
-        if (authorization != null) {
+        if (authorization == null) {
             // Unauthenticated caller
             return new CallerImpl(userAdmin.getAuthorization(null));
         }

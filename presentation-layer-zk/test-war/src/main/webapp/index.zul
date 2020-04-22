@@ -1,12 +1,9 @@
 <?component name="test" macroURI="au/id/raboczi/cornerstone/test_service/zk/test.zul"?>
-<?component name="rxtest" macroURI="au/id/raboczi/cornerstone/test_service/zk/rxtest.zul"?>
-<?component name="user" macroURI="au/id/raboczi/cornerstone/user_service/zk/user.zul"?>
 <zk>
   <style src="style.css"/>
   <window>
     <vlayout>
-      <menubar id="menubar" apply="au.id.raboczi.cornerstone.test_war.MenubarController"/>
-      <user/>
+      <menubar id="menubar" apply="au.id.raboczi.cornerstone.zk.menubar.MenubarController"/>
       <test label="${labels.index_test_label}"/>
       <listbox id="themeListbox" mold="select" apply="au.id.raboczi.cornerstone.test_war.ThemeListboxController"/>
     </vlayout>

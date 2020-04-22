@@ -23,10 +23,16 @@ package au.id.raboczi.cornerstone.zk;
  */
 
 import au.id.raboczi.cornerstone.Caller;
+import io.reactivex.Observable;
+import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
+import org.zkoss.addons.rxzk.ZkObservable;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventQueues;
 
 /**
  * Convenience method for interacting with the ZK session.
@@ -41,6 +47,30 @@ public abstract class Users {
      * @return the caller details for the current ZK session
      */
     public static Caller getCaller(final UserAdmin userAdmin) {
-        return new CallerImpl(userAdmin.getAuthorization((@Nullable User) Sessions.getCurrent().getAttribute(USER)));
+        return new CallerImpl(userAdmin.getAuthorization(getUser()));
+    }
+
+    /** @return this session's authenticated {@link User}, or <code>null</code> if the session is unauthenticated. */
+    public static @Nullable User getUser() {
+        return (@Nullable User) Sessions.getCurrent().getAttribute(USER);
+    }
+
+    /** @param user  the new authenticated {@link User}, or <code>null</code> to make it unauthenticated. */
+    @SuppressWarnings("nullness")
+    public static void setUser(final @Nullable User user) {
+        Session session = Sessions.getCurrent();
+        if (user == null) {
+             session.removeAttribute(USER);
+        } else {
+             session.setAttribute(USER, user);
+        }
+        EventQueues.lookup(USER, session, true).publish(new Event("onChange", null, user));
+    }
+
+    /** @return the stream of {@link User}s for this {@link Session}; empty if the session is unauthenticated */
+    public static Observable<Optional<User>> observable() {
+        return ZkObservable
+            .fromEventQueue(Users.USER, EventQueues.SESSION, true, false)
+            .map(event -> Optional.ofNullable((@Nullable User) event.getData()));
     }
 }

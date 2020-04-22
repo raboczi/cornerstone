@@ -13,6 +13,7 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>apple</module>
     <module>test-service-rest</module>
   </modules>
 
@@ -33,6 +34,11 @@
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.core</artifactId>
     </dependency>
   </dependencies>
 </project>

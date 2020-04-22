@@ -22,14 +22,25 @@ package au.id.raboczi.cornerstone.test_service;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
+
 public interface TestService {
 
     /** OSGi EventAdmin event topic. */
     String EVENT_TOPIC = "au/id/raboczi/cornerstone/test_service/EVENT";
 
-    /** @return the persistent value */
-    String getValue();
+    /**
+     * @param caller  caller context
+     * @return the persistent value
+     * @throws CallerNotAuthorizedException if <var>caller</var> isn't authorized
+     */
+    String getValue(Caller caller) throws CallerNotAuthorizedException;
 
-    /** @param newValue  the new value to persist */
-    void setValue(String newValue);
+    /**
+     * @param newValue  the new value to persist
+     * @param caller  caller context
+     * @throws CallerNotAuthorizedException if <var>caller</var> isn't authorized
+     */
+    void setValue(String newValue, Caller caller) throws CallerNotAuthorizedException;
 }

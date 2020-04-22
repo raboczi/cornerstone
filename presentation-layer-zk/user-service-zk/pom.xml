@@ -16,14 +16,6 @@
     <i18n.propfiles>${basedir}/src/main/resources/WEB-INF/zk-label.properties</i18n.propfiles>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>zk</id>
-      <name>ZK Community Edition repository</name>
-      <url>http://mavensync.zkoss.org/maven2</url>
-    </repository>
-  </repositories>
-
   <build>
     <plugins>
       <plugin>
@@ -64,11 +56,6 @@
     </dependency>
 
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.annotation</artifactId>
     </dependency>
@@ -81,12 +68,6 @@
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.core</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.zkoss.addons</groupId>
-      <artifactId>rxzk</artifactId>
-      <version>0.8.0</version>
     </dependency>
 
     <dependency>

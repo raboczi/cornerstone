@@ -37,18 +37,15 @@ import org.zkoss.zul.Window;
 
 /**
  * Menu item for login.
- *
- * This item toggles between allowing login and logout.
- * It has a secondary function of displaying the authenticated user's name.
  */
-public class LoginMenuitem extends Menuitem {
+public class AccountMenuitem extends Menuitem {
 
     /** Class loader. */
     @SuppressWarnings("nullness")
-    private static final ClassLoader CLASSLOADER = LoginMenuitem.class.getClassLoader();
+    private static final ClassLoader CLASSLOADER = AccountMenuitem.class.getClassLoader();
 
     @SuppressWarnings("method.invocation.invalid")  // this.setLabel could theoretically be called within constructor
-    public LoginMenuitem() {
+    public AccountMenuitem() {
         super(findLabel(Users.getUser()));
 
         Users.observable().subscribe(user -> setLabel(findLabel(user.orElse(null))));
@@ -67,19 +64,13 @@ public class LoginMenuitem extends Menuitem {
         }
     }
 
-    /**
-     * Generate label text for the menu item.
-     *
-     * @param user  the authenticated {@link User}, or <code>null</code> if unauthenticated
-     * @return localized text for the menu item label, e.g. "Login" or "Logout user123"
-     */
     private static @Localized String findLabel(final @Nullable User user) {
         ResourceBundle labels = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent(), CLASSLOADER);
         if (user == null) {
-            return labels.getString("loginMenuitem.login");
+            return labels.getString("account.login");
 
         } else {
-            MessageFormat format = new MessageFormat(labels.getString("loginMenuitem.logout"), Locales.getCurrent());
+            MessageFormat format = new MessageFormat(labels.getString("account.logout"), Locales.getCurrent());
 
             return (@Localized String) format.format(new Object[]{user.getName()});
         }

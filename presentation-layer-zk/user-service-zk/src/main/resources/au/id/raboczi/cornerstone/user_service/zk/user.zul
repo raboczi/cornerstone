@@ -1,3 +1,0 @@
-<zk>
-  <button id="button1" apply="au.id.raboczi.cornerstone.user_service.zk.UserController"/>
-</zk>

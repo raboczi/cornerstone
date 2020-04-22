@@ -12,6 +12,14 @@
   <name>Cornerstone :: ZK API</name>
   <packaging>bundle</packaging>
 
+  <repositories>
+    <repository>
+      <id>zk</id>
+      <name>ZK Community Edition repository</name>
+      <url>http://mavensync.zkoss.org/maven2</url>
+    </repository>
+  </repositories>
+
   <build>
     <plugins>
       <plugin>
@@ -38,6 +46,12 @@
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>osgi.cmpn</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.addons</groupId>
+      <artifactId>rxzk</artifactId>
+      <version>0.8.0</version>
     </dependency>
 
     <dependency>

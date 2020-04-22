@@ -29,13 +29,13 @@ import org.osgi.service.useradmin.Authorization;
 /**
  * A concrete {@link Caller}.
  */
-class CallerImpl implements Caller, Serializable {
+public final class CallerImpl implements Caller, Serializable {
 
     /** Security permissions. */
     private final Authorization authorization;
 
     /** @param newAuthorization  currently the only content */
-    CallerImpl(final Authorization newAuthorization) {
+    public CallerImpl(final Authorization newAuthorization) {
         this.authorization = newAuthorization;
     }
 

@@ -78,7 +78,7 @@
               <goal>archive</goal>
             </goals>
           </execution>
-          <!-- Disabled because it's not @threadSafe and I like parallel builds
+          <!-- This execution is not @threadSafe, so there will be warnings if parallel builds are attempted. -->
           <execution>
             <id>dockerfile</id>
             <goals>
@@ -88,7 +88,6 @@
               <command>["karaf"]</command>
             </configuration>
           </execution>
-          -->
         </executions>
         <configuration>
           <installedFeatures>

@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.test_war;
+package au.id.raboczi.cornerstone.zk.menubar;
 
 /*-
  * #%L
@@ -50,7 +50,7 @@ import org.zkoss.zul.Menupopup;
  * menubar.main.file.settings = Settings
  * </pre>
  */
-public class MenubarController extends SCRSelectorComposer<Menubar> {
+public final class MenubarController extends SCRSelectorComposer<Menubar> {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(MenubarController.class);
