@@ -31,6 +31,8 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.useradmin.User;
@@ -38,8 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Authentication service implementation. */
-@Component(service  = {UserService.class},
-           property = {"service.exported.interfaces=*"})
+@Component(service          = {UserService.class},
+           configurationPid = "au.id.raboczi.cornerstone.user_service")
 public final class UserServiceImpl implements UserService {
 
     /** Logger.  Named after the class. */
@@ -51,66 +53,41 @@ public final class UserServiceImpl implements UserService {
     /** Which {@link Principal} class identifies a user? */
     private Class userPrincipalClass = Object.class;
 
+    /** Which {@link Principal} class identifies a group? */
+    private Class groupPrincipalClass = Object.class;
+
     /** Which {@link Principal} class identifies a role? */
     private Class rolePrincipalClass = Object.class;
 
 
-    // Property accessors
-
-    /** @param newLoginConfigurationName  JAAS login configuration name */
-    public void setLoginConfigurationName(
-        final String newLoginConfigurationName) {
-        this.loginConfigurationName = newLoginConfigurationName;
-    }
-
     /**
-     * @param newUserPrincipalClass  of the various principals associated
-     *     with a subject, which one is used as the user id?
+     * Configure this instance.
+     *
+     * @param context  automatically supplied by OSGi runtime
+     * @throws ClassNotFoundException if jaas.userPrincipalClass or
+     *     jaas.rolePrincipalClass aren't available
      */
-    public void setUserPrincipalClass(final Class newUserPrincipalClass) {
-        this.userPrincipalClass = newUserPrincipalClass;
-    }
-
-    /**
-     * @param newRolePrincipalClass  of the various principals associated
-     *     with a subject, which ones are used for roles?
-     */
-    public void setRolePrincipalClass(final Class newRolePrincipalClass) {
-        this.rolePrincipalClass = newRolePrincipalClass;
-    }
-
-
-    // OSGi Config service
-
-    /** Configuration. */
-    public @interface Config {
-        /**
-         * @return which login configuration to use
-         * @see javax.security.auth.login.Configuration
-         */
-        String jaas_loginConfigurationName() default "karaf";
-
-        /** @return which {@link Principal} class identifies a group? */
-        String jaas_groupPrincipalClass() default "org.apache.karaf.jaas.boot.principal.GroupPrincipal";
-
-        /** @return which {@link Principal} class identifies a role? */
-        String jaas_rolePrincipalClass() default "org.apache.karaf.jaas.boot.principal.RolePrincipal";
-
-        /** @return which {@link Principal} class identifies a user? */
-        String jaas_userPrincipalClass() default "org.apache.karaf.jaas.boot.principal.UserPrincipal";
-    }
-
-    /** @param config  automatically supplied by OSGi runtime */
     @Activate
-    protected void activate(final Config config) {
-        LOGGER.info("Activate with config " + config);
-        setLoginConfigurationName(config.jaas_loginConfigurationName());
-        //setGroupPrincipalClass(config.jaas_groupPrincipalClass
+    protected void activate(final ComponentContext context) throws ClassNotFoundException {
+        LOGGER.info("Activate with context properties " + context.getProperties());
+
+        this.loginConfigurationName =
+            (@NonNull String) context.getProperties().get("jaas.loginConfigurationName");
+
+        this.userPrincipalClass =
+            Class.forName((@NonNull String) context.getProperties().get("jaas.userPrincipalClass"));
+
+        this.groupPrincipalClass =
+            Class.forName((@NonNull String) context.getProperties().get("jaas.groupPrincipalClass"));
+
+        this.rolePrincipalClass =
+            Class.forName((@NonNull String) context.getProperties().get("jaas.rolePrincipalClass"));
     }
 
 
     // Implementation of UserService
 
+    @SuppressWarnings("checkstyle:TodoComment")
     @Override
     public User authenticate(final String username, final String password) throws LoginException {
         LoginContext loginContext = new LoginContext(
@@ -138,35 +115,39 @@ public final class UserServiceImpl implements UserService {
 
         loginContext.login();
         try {
-            for (Principal principal: loginContext.getSubject()
-                                                  .getPrincipals()) {
-                LOGGER.info("Principal: " + principal
-                    + "  name: " + principal.getName()
-                    + "  class: " + principal.getClass());
+            for (Principal principal: loginContext.getSubject().getPrincipals()) {
+                LOGGER.info("Principal: " + principal + "  name: " + principal.getName() + "  class: "
+                    + principal.getClass());
             }
 
             final String user = loginContext
                 .getSubject()
                 .getPrincipals()
                 .stream()
-                .filter(principal -> userPrincipalClass
-                    .isAssignableFrom(principal.getClass()))
-                .findAny()  // TO DO: validate a unique result
+                .filter(principal -> userPrincipalClass.isAssignableFrom(principal.getClass()))
+                .findAny()  // TODO: validate a unique result
                 .get()
                 .getName();
+
+            final String[] groups = loginContext
+                .getSubject()
+                .getPrincipals()
+                .stream()
+                .filter(principal -> groupPrincipalClass.isAssignableFrom(principal.getClass()))
+                .map(principal -> principal.getName())
+                .toArray(String[]::new);
 
             final String[] roles = loginContext
                 .getSubject()
                 .getPrincipals()
                 .stream()
-                .filter(principal -> rolePrincipalClass
-                    .isAssignableFrom(principal.getClass()))
+                .filter(principal -> rolePrincipalClass.isAssignableFrom(principal.getClass()))
                 .map(principal -> principal.getName())
                 .toArray(String[]::new);
 
             return new UserImpl(user, roles);
 
-            // TO DO: failure isn't invoked in the case of a
+            // TODO: failure isn't invoked in the case of a
             // LoginException
 
         } finally {

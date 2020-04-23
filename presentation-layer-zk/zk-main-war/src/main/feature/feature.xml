@@ -23,6 +23,13 @@
     <feature>scr</feature>
     <feature prerequisite="true">${project.artifactId}-api</feature>
 
+    <config name="au.id.raboczi.cornerstone.user_service">
+      jaas.loginConfigurationName = karaf
+      jaas.groupPrincipalClass    = org.apache.karaf.jaas.boot.principal.GroupPrincipal
+      jaas.rolePrincipalClass     = org.apache.karaf.jaas.boot.principal.RolePrincipal
+      jaas.userPrincipalClass     = org.apache.karaf.jaas.boot.principal.UserPrincipal
+    </config>
+
     <bundle>mvn:au.id.raboczi.cornerstone/aspectjrt/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/security-aspect/${project.version}</bundle>
 
