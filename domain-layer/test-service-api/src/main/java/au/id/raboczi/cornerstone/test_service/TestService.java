@@ -31,6 +31,11 @@ public interface TestService {
     String EVENT_TOPIC = "au/id/raboczi/cornerstone/test_service/EVENT";
 
     /**
+     * @return a dummy {@link Caller} instance
+     */
+    Caller getCaller();
+
+    /**
      * @param caller  caller context
      * @return the persistent value
      * @throws CallerNotAuthorizedException if <var>caller</var> isn't authorized

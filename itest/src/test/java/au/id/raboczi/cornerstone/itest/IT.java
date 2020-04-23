@@ -91,13 +91,15 @@ public class IT extends KarafTestSupport {
     /** Test the domain logic again. */
     @Test
     public void testDomainLogic_testService() throws Exception {
-        //final Caller CALLER = new TestCaller();
+
+        assertServiceAvailable(TestService.class);
+        TestService testService = getOsgiService(TestService.class);
+
+        final Caller CALLER = testService.getCaller();
         final String VALUE = "Dummy";
 
         // Write and read back a test value
-        assertServiceAvailable(TestService.class);
-        TestService testService = getOsgiService(TestService.class);
-        //testService.setValue(VALUE, CALLER);
-        //assertEquals(VALUE, testService.getValue(CALLER));
+        testService.setValue(VALUE, CALLER);
+        assertEquals(VALUE, testService.getValue(CALLER));
     }
 }

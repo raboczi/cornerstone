@@ -49,6 +49,16 @@ public final class TestServiceImpl implements TestService {
     private @Nullable EventAdmin eventAdmin;
 
     @Override
+    public Caller getCaller() {
+        return new Caller() {
+            @Override
+            public org.osgi.service.useradmin.Authorization authorization() {
+                throw new Error("Not implemented");
+            }
+        };
+    }
+
+    @Override
     @Secure("test:read")
     public String getValue(final Caller caller) throws CallerNotAuthorizedException {
         return value;
