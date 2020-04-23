@@ -36,8 +36,8 @@ A command line shell allows components to be interactively modified at runtime.
 1. Start an Apache Karaf server, version 4.2.7 or later.
 
 2. From the command line of the server, execute the following commands:
-  - `feature:repo-add mvn:au.id.raboczi.cornerstone/test-war/0.1-SNAPSHOT/xml/features`
-  - `feature:install test-war`
+  - `feature:repo-add mvn:au.id.raboczi.cornerstone/zk-main-war/0.1-SNAPSHOT/xml/features`
+  - `feature:install zk-main-war`
 
 3. Browse [http://localhost:8181/cornerstone](http://localhost:8181/cornerstone).
 
