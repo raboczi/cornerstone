@@ -33,8 +33,7 @@ import java.lang.annotation.Target;
  * If the caller lacks the annotated permission,
  * {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException} is thrown.
  * The method must have one {@link au.id.raboczi.cornerstone.Caller} argument
- * and throw {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException},
- * otherwise a compilation will fail.
+ * and throw {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException}.
  *
  * An example of use:
  *
