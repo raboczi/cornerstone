@@ -30,6 +30,7 @@ import au.id.raboczi.cornerstone.zk.Users;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import java.util.Hashtable;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import org.checkerframework.checker.i18n.qual.Localized;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -59,8 +60,7 @@ public final class TestController extends SCRSelectorComposer<Component>
     implements EventListener<ConsumerEvent<String>> {
 
     /** Logger.  Named after the class. */
-    private static final Logger LOGGER =
-        LoggerFactory.getLogger(TestController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 
     /** The name of the ZK queue. */
     private static final String QUEUE = "test-consumer-queue-name";
@@ -78,8 +78,16 @@ public final class TestController extends SCRSelectorComposer<Component>
     private @Nullable Label label1;
 
     @SuppressWarnings({"i18n"})
-    private @Localized String fakeLocalizer(final String s) {
-        return s;
+    private static @Localized String fakeLocalizer(final Callable<String> s) {
+        try {
+            return s.call();
+
+        } catch (CallerNotAuthorizedException e) {
+            return "?";
+
+        } catch (Exception e) {
+            return "!";
+        }
     }
 
     private Caller getCaller() {
@@ -93,9 +101,11 @@ public final class TestController extends SCRSelectorComposer<Component>
     public void doAfterCompose(final Component comp) throws Exception {
         super.doAfterCompose(comp);
         assert label1 != null : "@AssumeAssertion(nullness)";
-        assert testService != null : "@AssumeAssertion(nullness)";
 
-        label1.setValue(fakeLocalizer(testService.getValue(getCaller())));
+        label1.setValue(fakeLocalizer(() -> {
+            assert testService != null : "@AssumeAssertion(nullness)";
+            return testService.getValue(getCaller());
+        }));
 
         // ZK events
         EventQueue eventQueue = EventQueues.lookup(QUEUE, comp.getDesktop().getSession(), true);
@@ -110,8 +120,12 @@ public final class TestController extends SCRSelectorComposer<Component>
 
         // OSGi events
         connect(TestService.EVENT_TOPIC, eventQueue, (Consumer<String>) s -> {
+            LOGGER.info("Updating label " + label1 + " to " + s);
             assert label1 != null : "@AssumeAssertion(nullness)";
-            label1.setValue(fakeLocalizer(s));
+            label1.setValue(fakeLocalizer(() -> {
+                assert testService != null : "@AssumeAssertion(nullness)";
+                return testService.getValue(getCaller());
+            }));
         });
     }
 

@@ -23,6 +23,7 @@ package au.id.raboczi.cornerstone.itest;
  */
 
 import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import au.id.raboczi.cornerstone.user_service.UserService;
 import java.util.stream.Stream;
@@ -31,6 +32,7 @@ import org.apache.karaf.features.FeaturesService;
 import org.apache.karaf.itests.KarafTestSupport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -77,9 +79,11 @@ public class IT extends KarafTestSupport {
         installAndAssertFeature("zk-main-war");
     }
 
-    /** Test the domain logic. */
+    /**
+     * Confirm that {@link UserService.authenticate} works on the stock "karaf" user.
+     */
     @Test
-    public void testDomainLogic_userService() throws Exception {
+    public void userService_authenticate() throws Exception {
 
         // Authenticate against the built-in credentials
         assertServiceAvailable(UserService.class);
@@ -88,18 +92,65 @@ public class IT extends KarafTestSupport {
         assertNotNull(user);
     }
 
-    /** Test the domain logic again. */
+    /**
+     * Confirm that {@link TestService#getValue} and {@link TestService#setValue} work
+     * when the {@link Caller} has the required "viewer" and "manager" roles.
+     */
     @Test
-    public void testDomainLogic_testService() throws Exception {
+    public void testService() throws Exception {
 
         assertServiceAvailable(TestService.class);
         TestService testService = getOsgiService(TestService.class);
 
-        final Caller CALLER = testService.getCaller();
+        final Caller CALLER = testService.getCaller("dummy", "viewer", "manager");
         final String VALUE = "Dummy";
 
         // Write and read back a test value
+        assertEquals("Service initial value", testService.getValue(CALLER));
         testService.setValue(VALUE, CALLER);
         assertEquals(VALUE, testService.getValue(CALLER));
+    }
+
+    /**
+     * {@link TestService#getValue} should throw {@CallerNotAuthorizedException} if invoked
+     * by a {@link Caller} that lacks the "manager" role.
+     */
+    @Ignore("Not yet implemented")
+    @Test
+    public void testService_setValue_badCredentials() throws Exception {
+
+        assertServiceAvailable(TestService.class);
+        TestService testService = getOsgiService(TestService.class);
+
+        final Caller CALLER = testService.getCaller("dummy");
+
+        try {
+            testService.setValue("Placeholder", CALLER);
+            fail("Unauthorized invocation of TestService.setValue should fail.");
+
+        } catch (Exception e) {
+            // Expected behavior
+        }
+    }
+
+    /**
+     * {@link TestService#getValue} should throw {@CallerNotAuthorizedException} if invoked
+     * by a {@link Caller} that lacks the "viewer" role.
+     */
+    @Test
+    public void testService_getValue_badCredentials() throws Exception {
+
+        assertServiceAvailable(TestService.class);
+        TestService testService = getOsgiService(TestService.class);
+
+        final Caller CALLER = testService.getCaller("dummy");
+
+        try {
+            assertEquals("Service initial value", testService.getValue(CALLER));
+            fail("Unauthorized invocation of TestService.setValue should fail.");
+
+        } catch (Exception e) {
+            // Expected behavior
+        }
     }
 }

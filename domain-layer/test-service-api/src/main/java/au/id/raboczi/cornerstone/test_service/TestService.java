@@ -31,9 +31,12 @@ public interface TestService {
     String EVENT_TOPIC = "au/id/raboczi/cornerstone/test_service/EVENT";
 
     /**
-     * @return a dummy {@link Caller} instance
+     * @param userName  name of the user
+     * @param roleNames  optional list of roles
+     * @return a dummy {@link Caller} instance with the specified <var>userName</var>
+     *     and <var>roleNames</var>
      */
-    Caller getCaller();
+    Caller getCaller(String userName, String... roleNames);
 
     /**
      * @param caller  caller context

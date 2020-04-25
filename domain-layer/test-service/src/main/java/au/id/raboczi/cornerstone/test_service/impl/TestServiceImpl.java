@@ -26,6 +26,7 @@ import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.security_aspect.Secure;
 import au.id.raboczi.cornerstone.test_service.TestService;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -33,13 +34,17 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Demonstrates event handling.
  */
-@Component(service  = {TestService.class},
-           property = {"service.exported.interfaces=*"})
+@Component(service  = {TestService.class})
 public final class TestServiceImpl implements TestService {
+
+    /** Logger.  Named after the class. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestServiceImpl.class);
 
     /** A generic property on the service. */
     private String value = "Service initial value";
@@ -49,24 +54,46 @@ public final class TestServiceImpl implements TestService {
     private @Nullable EventAdmin eventAdmin;
 
     @Override
-    public Caller getCaller() {
+    public Caller getCaller(final String userName, final String... userRoles) {
         return new Caller() {
+            private final String name = userName;
+            private final String[] roles = userRoles;
+
             @Override
             public org.osgi.service.useradmin.Authorization authorization() {
-                throw new Error("Not implemented");
+                return new org.osgi.service.useradmin.Authorization() {
+                    @Override
+                    public @Nullable String getName() {
+                        return name;
+                    }
+
+                    @Override
+                    public boolean hasRole(final String roleName) {
+                        return Arrays.asList(roles).contains(roleName);
+                    }
+
+                    @Override
+                    public String[] getRoles() {
+                        return roles;
+                    }
+                };
             }
         };
     }
 
     @Override
-    @Secure("test:read")
+    @Secure("viewer")
     public String getValue(final Caller caller) throws CallerNotAuthorizedException {
+        LOGGER.info("Reading value {} for caller {}", value, caller);
+
         return value;
     }
 
     @Override
-    @Secure("test:write")
+    @Secure("manager")
     public void setValue(final String newValue, final Caller caller) throws CallerNotAuthorizedException {
+        LOGGER.info("Writing value from {} to {} for caller {}", value, newValue, caller);
+
         this.value = newValue;
 
         // OSGi EventAdmin notification

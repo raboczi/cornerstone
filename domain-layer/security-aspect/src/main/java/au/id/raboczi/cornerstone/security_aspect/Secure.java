@@ -45,7 +45,7 @@ import java.lang.annotation.Target;
  * }
  * </pre>
  */
-@Retention(java.lang.annotation.RetentionPolicy.SOURCE)
+@Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(java.lang.annotation.ElementType.METHOD)
 public @interface Secure {
     String value() default "";

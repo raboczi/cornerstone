@@ -23,7 +23,7 @@ package au.id.raboczi.cornerstone.user_service.impl;
  */
 
 import au.id.raboczi.cornerstone.user_service.UserService;
-import java.security.Principal;
+import java.util.Arrays;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
@@ -64,7 +64,7 @@ public final class UserServiceImpl implements UserService {
      * Configure this instance.
      *
      * @param context  automatically supplied by OSGi runtime
-     * @throws ClassNotFoundException if jaas.userPrincipalClass or
+     * @throws ClassNotFoundException if jaas.userPrincipalClass, jaas.groupPrincipalClass, or
      *     jaas.rolePrincipalClass aren't available
      */
     @Activate
@@ -115,12 +115,7 @@ public final class UserServiceImpl implements UserService {
 
         loginContext.login();
         try {
-            for (Principal principal: loginContext.getSubject().getPrincipals()) {
-                LOGGER.info("Principal: " + principal + "  name: " + principal.getName() + "  class: "
-                    + principal.getClass());
-            }
-
-            final String user = loginContext
+            final String name = loginContext
                 .getSubject()
                 .getPrincipals()
                 .stream()
@@ -145,7 +140,12 @@ public final class UserServiceImpl implements UserService {
                 .map(principal -> principal.getName())
                 .toArray(String[]::new);
 
-            return new UserImpl(user, roles);
+            User user = new UserImpl(name, roles);
+            LOGGER.info("Authenticated user=" + name
+                + " groups=" + Arrays.asList(groups)
+                + " roles=" + Arrays.asList(roles));
+
+            return user;
 
             // TODO: failure isn't invoked in the case of a
             // LoginException
