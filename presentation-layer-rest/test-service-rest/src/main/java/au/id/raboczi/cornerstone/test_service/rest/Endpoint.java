@@ -46,11 +46,16 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** REST endpoint for the test service. */
 @Path("/test")
 @Component(service = Endpoint.class, property = {"osgi.jaxrs.resource=true"})
 public class Endpoint {
+
+    /** Logger.  Named after the class. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(Endpoint.class);
 
     /**
      * Regular expression for HTTP Authorization headers.
@@ -95,6 +100,7 @@ public class Endpoint {
     @Produces(APPLICATION_JSON)
     public String getValue(final @Context HttpServletRequest request) {
         Caller caller = callerOfRequest(request);
+        LOGGER.info("REST get value for caller {}", caller);
 
         try {
             return testService.getValue(caller);
@@ -113,6 +119,7 @@ public class Endpoint {
     @Consumes(APPLICATION_JSON)
     public void setValue(final String newValue, final @Context HttpServletRequest request) {
         Caller caller = callerOfRequest(request);
+        LOGGER.info("REST set value for caller {}", caller);
 
         try {
             testService.setValue(newValue, caller);
@@ -141,6 +148,7 @@ public class Endpoint {
         String authorization = request.getHeader("Authorization");
         if (authorization == null) {
             // Unauthenticated caller
+            LOGGER.info("No HTTP Authorization header present; caller is unauthenticated");
             return new CallerImpl(userAdmin.getAuthorization(null));
         }
 
@@ -162,6 +170,7 @@ public class Endpoint {
         try {
             User user = userService.authenticate(matcher2.group("name"), matcher2.group("password"));
 
+            LOGGER.info("Authorization header present; caller is authenticated");
             return new CallerImpl(userAdmin.getAuthorization(user));
 
         } catch (LoginException e) {
@@ -182,6 +191,11 @@ public class Endpoint {
             this.authorization = newAuthorization;
         }
 
+        /** @return includes authorization */
+        @Override
+        public String toString() {
+            return super.toString() + "(authorization=" + authorization + ")";
+        }
 
         // Implementation of Caller
 

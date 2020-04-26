@@ -16,7 +16,7 @@ public aspect SecureAspect {
     before(Caller caller) throws CallerNotAuthorizedException : secure(caller) {
         MethodSignature ms = (MethodSignature) thisJoinPoint.getSignature();
         String value = ms.getMethod().getAnnotation(Secure.class).value();
-        LOGGER.info("@Secure permission={} caller.roles={}", value, caller.authorization().getRoles());
+        LOGGER.info("@Secure(\"{}\") caller.roles={}", value, caller.authorization().getRoles());
 
         if (!Arrays.asList(caller.authorization().getRoles()).contains(value)) {
             throw new CallerNotAuthorizedException(caller, value);

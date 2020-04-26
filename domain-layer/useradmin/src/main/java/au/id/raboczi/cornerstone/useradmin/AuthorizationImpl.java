@@ -73,4 +73,10 @@ class AuthorizationImpl implements Authorization, Serializable {
     public String[] getRoles() {
         return roles;
     }
+
+    /** @return includes name and roles */
+    @Override
+    public String toString() {
+        return super.toString() + "(name=" + name + " roles=" + Arrays.asList(roles) + ")";
+    }
 }

@@ -24,6 +24,7 @@
         <configuration>
           <instructions>
             <Export-Package>au.id.raboczi.cornerstone.test_service.rest</Export-Package>
+            <Import-Package>!org.checkerframework.*, *</Import-Package>
           </instructions>
         </configuration>
       </plugin>
