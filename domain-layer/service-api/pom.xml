@@ -21,7 +21,8 @@
         <configuration>
           <instructions>
             <Export-Package>
-              au.id.raboczi.cornerstone
+              au.id.raboczi.cornerstone,
+              au.id.raboczi.cornerstone.impl
             </Export-Package>
           </instructions>
         </configuration>
