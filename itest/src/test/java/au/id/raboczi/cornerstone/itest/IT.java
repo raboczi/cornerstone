@@ -24,6 +24,7 @@ package au.id.raboczi.cornerstone.itest;
 
 import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
+import au.id.raboczi.cornerstone.Callers;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import au.id.raboczi.cornerstone.user_service.UserService;
 import java.util.stream.Stream;
@@ -102,7 +103,7 @@ public class IT extends KarafTestSupport {
         assertServiceAvailable(TestService.class);
         TestService testService = getOsgiService(TestService.class);
 
-        final Caller CALLER = testService.getCaller("dummy", "viewer", "manager");
+        final Caller CALLER = Callers.newCaller("dummy", "viewer", "manager");
         final String VALUE = "Dummy";
 
         // Write and read back a test value
@@ -121,7 +122,7 @@ public class IT extends KarafTestSupport {
         assertServiceAvailable(TestService.class);
         TestService testService = getOsgiService(TestService.class);
 
-        final Caller CALLER = testService.getCaller("dummy");
+        final Caller CALLER = Callers.newCaller("dummy");
 
         try {
             testService.setValue("Placeholder", CALLER);
@@ -142,7 +143,7 @@ public class IT extends KarafTestSupport {
         assertServiceAvailable(TestService.class);
         TestService testService = getOsgiService(TestService.class);
 
-        final Caller CALLER = testService.getCaller("dummy");
+        final Caller CALLER = Callers.newCaller("dummy");
 
         try {
             assertEquals("Service initial value", testService.getValue(CALLER));

@@ -26,7 +26,6 @@ import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.security_aspect.Secure;
 import au.id.raboczi.cornerstone.test_service.TestService;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -52,34 +51,6 @@ public final class TestServiceImpl implements TestService {
     /** Notifies changes to {@link #value}. */
     @Reference
     private @Nullable EventAdmin eventAdmin;
-
-    @Override
-    public Caller getCaller(final String userName, final String... userRoles) {
-        return new Caller() {
-            private final String name = userName;
-            private final String[] roles = userRoles;
-
-            @Override
-            public org.osgi.service.useradmin.Authorization authorization() {
-                return new org.osgi.service.useradmin.Authorization() {
-                    @Override
-                    public @Nullable String getName() {
-                        return name;
-                    }
-
-                    @Override
-                    public boolean hasRole(final String roleName) {
-                        return Arrays.asList(roles).contains(roleName);
-                    }
-
-                    @Override
-                    public String[] getRoles() {
-                        return roles;
-                    }
-                };
-            }
-        };
-    }
 
     @Override
     @Secure("viewer")
