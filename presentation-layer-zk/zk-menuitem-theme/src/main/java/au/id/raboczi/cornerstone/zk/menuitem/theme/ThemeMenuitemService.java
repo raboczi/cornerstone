@@ -59,6 +59,8 @@ public final class ThemeMenuitemService implements MenuitemService {
         Menupopup menupopup = new Menupopup();
         for (String theme: themes) {
             Menuitem menuitem = new Menuitem(Themes.getDisplayName(theme));
+            menuitem.setChecked(theme.equals(Themes.getCurrentTheme()));
+            menuitem.setCheckmark(true);
             menuitem.addEventListener("onClick", new EventListener() {
                 public void onEvent(final Event event) {
                     Themes.setTheme(Executions.getCurrent(), theme);
