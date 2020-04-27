@@ -5,7 +5,6 @@
     <vlayout>
       <menubar id="menubar" apply="au.id.raboczi.cornerstone.zk.menubar.MenubarController"/>
       <test label="${labels.index_test_label}"/>
-      <listbox id="themeListbox" mold="select" apply="au.id.raboczi.cornerstone.zk.main_war.ThemeListboxController"/>
     </vlayout>
   </window>
 </zk>

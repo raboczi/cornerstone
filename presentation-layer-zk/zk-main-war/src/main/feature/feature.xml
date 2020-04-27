@@ -61,6 +61,7 @@
     <bundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/user-service-zk/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/zk-menuitem-theme/${project.version}</bundle>
     <bundle>webbundle:mvn:${project.groupId}/${project.artifactId}/${project.version}/war?Web-ContextPath=cornerstone</bundle>
   </feature>
 

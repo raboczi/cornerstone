@@ -22,10 +22,13 @@ package au.id.raboczi.cornerstone.zk;
  * #L%
  */
 
-import org.zkoss.zul.Menuitem;
+import org.zkoss.zk.ui.Component;
 
 /**
- * Factory for {@link Menuitem} instances.
+ * Factory for menu items.
+ *
+ * Any component which is a valid child for {@link org.zkoss.zul.Menubar} and
+ * {@link org.zkoss.zul.Menupopup} may be used, not only {@link org.zkoss.zul.Menuitem}.
  */
 public interface MenuitemService {
 
@@ -37,7 +40,9 @@ public interface MenuitemService {
     String[] getPath();
 
     /**
-     * @return a menu item
+     * @return a menu item; any component which is a valid child for
+     *     {@link org.zkoss.zul.Menubar} and {@link org.zkoss.zul.Menupopup}
+     *     may be returned, not only {@link org.zkoss.zul.Menuitem}
      */
-    Menuitem newMenuitem();
+    Component newMenuitem();
 }
