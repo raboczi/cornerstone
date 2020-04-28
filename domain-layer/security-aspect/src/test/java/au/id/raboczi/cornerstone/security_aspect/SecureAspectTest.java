@@ -23,8 +23,8 @@ package au.id.raboczi.cornerstone.security_aspect;
  */
 
 import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.Callers;
 import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
-import au.id.raboczi.cornerstone.impl.CallerImpl;
 import org.junit.Test;
 
 /**
@@ -32,20 +32,65 @@ import org.junit.Test;
  */
 public class SecureAspectTest {
 
-    /** Test the happy path. */
+    // Test cases
+
+    /** A secured method can be invoked if the caller has the required role. */
     @Test
     public void test_happy() throws Exception {
-        testMethod(new CallerImpl("user", "requiredRole"));
+        secureMethod(Callers.newCaller("user", "requiredRole"));
+        secureMethod2("Dummy", Callers.newCaller("user", "requiredRole"));
     }
 
-    /** Test the unhappy path. */
+    /** A secured method can't be invoked if the caller lacks the required role. */
     @Test(expected = CallerNotAuthorizedException.class)
-    public void test_unhappy() throws Exception {
-        testMethod(new CallerImpl("user"));
+    public void test_unhappy1() throws Exception {
+        secureMethod(Callers.newCaller("user"));
     }
 
+    /** A secured method can't be invoked if the caller lacks the required role. */
+    @Test(expected = CallerNotAuthorizedException.class)
+    public void test_unhappy2() throws Exception {
+        secureMethod2("Dummy", Callers.newCaller("user"));
+    }
+
+    /** Expect an error if the method lacks a {@link Caller} parameter. */
+    @Test(expected = Error.class)
+    public void test_badSignature1() throws Exception {
+        secureMethodWithoutCallerParameter();
+    }
+
+    /** Expect an error if the method {@link Caller} isn't the last parameter. */
+    @Test(expected = Error.class)
+    public void test_badSignature2() throws Exception {
+        secureMethodWithoutTrailingCallerParameter(Callers.newCaller("user"), "Dummy");
+    }
+
+
+    // Object methods to be tested
+
+    /** A secured method requiring the role named "requiredRole". */
     @Secure("requiredRole")
-    private void testMethod(Caller caller) throws CallerNotAuthorizedException {
+    private void secureMethod(Caller caller) throws CallerNotAuthorizedException {
+        // null implementation
+    }
+
+    /** A secured method requiring the role named "requiredRole". */
+    @Secure("requiredRole")
+    private void secureMethod2(String dummy, Caller caller) throws CallerNotAuthorizedException {
+        // null implementation
+    }
+
+    /** A secured method without a {@link Caller} parameter. */
+    @Secure("requiredRole")
+    private void secureMethodWithoutCallerParameter() throws CallerNotAuthorizedException {
+        // null implementation
+    }
+
+    /** A secured method with a {@link Caller} that isn't the last parameter. */
+    @Secure("requiredRole")
+    private void secureMethodWithoutTrailingCallerParameter(Caller caller, String dummy)
+        throws CallerNotAuthorizedException {
+
         // null implementation
     }
 }
