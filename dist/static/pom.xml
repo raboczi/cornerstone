@@ -137,6 +137,7 @@
             <startupBundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/user-service-zk/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-menuitem-theme/${project.version}</startupBundle>
             <startupBundle>mvn:au.id.raboczi.cornerstone/zk-main-whiteboard/${project.version}</startupBundle>
           </startupBundles>
           <framework>static</framework>
