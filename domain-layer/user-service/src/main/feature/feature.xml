@@ -8,8 +8,9 @@
       jaas.rolePrincipalClass     = org.apache.karaf.jaas.boot.principal.RolePrincipal
       jaas.userPrincipalClass     = org.apache.karaf.jaas.boot.principal.UserPrincipal
     </config>
-    <bundle>mvn:${project.groupId}/user-service/${project.version}</bundle>
+    <feature>scr</feature>
     <bundle>mvn:${project.groupId}/user-service-api/${project.version}</bundle>
     <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
+    <bundle>mvn:${project.groupId}/user-service/${project.version}</bundle>
   </feature>
 </features>

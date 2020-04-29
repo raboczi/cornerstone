@@ -68,7 +68,6 @@ public class UserServiceIT extends KarafTestSupport {
     public void before() throws Exception {
         assertServiceAvailable(FeaturesService.class);
         executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/user-service/" + System.getProperty("project.version") + "/xml/features");
-        installAndAssertFeature("scr");
         installAndAssertFeature("user-service");
         assertServiceAvailable(UserService.class);
     }
