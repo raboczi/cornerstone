@@ -16,8 +16,8 @@
   <modules>
     <module>aspectjrt</module>
     <module>domain-layer</module>
-    <module>presentation-layer-rest</module>
-    <module>presentation-layer-zk</module>
+    <module>rest</module>
+    <module>zk</module>
 
     <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
     <module>itest</module>
