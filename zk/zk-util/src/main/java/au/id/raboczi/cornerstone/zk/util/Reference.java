@@ -43,7 +43,7 @@ import java.lang.annotation.Target;
  * When the annotation is applied to a field, the field will contain the bound
  * service(s) of the reference.
  * <p>
- * This annotation is processed at runtime by @{link SCRSelectorComposer}.
+ * This annotation is processed at runtime by {@link SCRSelectorComposer}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.METHOD })

@@ -37,6 +37,7 @@ import org.osgi.service.component.annotations.Component;
  *
  * @see <a href="https://developer.apple.com/documentation/safariservices/supporting_associated_domains_in_your_app"
  *     >Supporting Associated Domains in Your App</a>
+ * @see <a href="https://developer.apple.com/videos/play/wwdc2019/717/">What's New in Universal Links</a>
  */
 @Path("/.well-known/apple-app-site-association")
 @Component(service = AppleAppSiteAssociationEndpoint.class, property = {"osgi.jaxrs.resource=true"})
@@ -47,12 +48,20 @@ public class AppleAppSiteAssociationEndpoint {
 
     /** @return a freshly-constructed site app association object */
     private static Map<String, Object> init() {
-        String applicationId = "foo";
+        String applicationId = "0123456789.au.id.raboczi.cornerstone";
+        String path = "/path/*/filename";
+
+        Map component = new HashMap();
+        component.put("/", path);
 
         Map detail = new HashMap();
+        //detail.put("appID", applicationId);  // obsolete 2019
         detail.put("appIDs", new String[] {applicationId});
+        //detail.put("paths", new String[] {path});  // obsolete 2020
+        detail.put("components", new Map[] {component});
 
         Map applinks = new HashMap();
+        applinks.put("apps", new String[] {});
         applinks.put("details", new Map[] {detail});
 
         Map webcredentials = new HashMap();

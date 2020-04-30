@@ -37,12 +37,14 @@ import java.lang.annotation.Target;
  *
  * An example of use:
  *
+ * <blockquote>
  * <pre>
- * @Secure("foo:write")
+ * &#x40;Secure("foo:write")
  * void incrementFoo(Caller caller) throws CallerNotAuthorizedException {
  *     // ....
  * }
  * </pre>
+ * </blockquote>
  */
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(java.lang.annotation.ElementType.METHOD)

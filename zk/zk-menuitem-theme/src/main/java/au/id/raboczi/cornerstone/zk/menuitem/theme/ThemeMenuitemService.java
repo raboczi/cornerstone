@@ -34,10 +34,7 @@ import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.theme.Themes;
 
 /**
- * Menu item for login.
- *
- * The empty path means that the login menu item appears directly on the menu bar.
- * This allows it to do double-duty as ia display of who's currently logged in.
+ * Menu item for selecting the ZK theme.
  */
 @Component(service = MenuitemService.class,
            property = {"menubar=main"})

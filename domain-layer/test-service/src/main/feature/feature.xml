@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.6.0" name="${project.artifactId}-${project.version}">
+  <feature name="${project.artifactId}" description="${project.name}" version="${project.version}">
+    <details>Cornerstone test service.  Broadcasts a string value.</details>
+    <!--
+    <config name="au.id.raboczi.cornerstone.test_service">
+      jaas.loginConfigurationName = karaf
+      jaas.groupPrincipalClass    = org.apache.karaf.jaas.boot.principal.GroupPrincipal
+      jaas.rolePrincipalClass     = org.apache.karaf.jaas.boot.principal.RolePrincipal
+      jaas.userPrincipalClass     = org.apache.karaf.jaas.boot.principal.UserPrincipal
+    </config>
+    -->
+    <feature>scr</feature>
+    <bundle>mvn:${project.groupId}/aspectjrt/${project.version}</bundle>
+    <bundle>mvn:${project.groupId}/security-aspect/${project.version}</bundle>
+    <bundle>mvn:${project.groupId}/service-api/${project.version}</bundle>
+    <bundle>mvn:${project.groupId}/test-service-api/${project.version}</bundle>
+    <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
+    <bundle>mvn:${project.groupId}/test-service/${project.version}</bundle>
+  </feature>
+</features>

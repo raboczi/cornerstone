@@ -30,7 +30,7 @@ import org.zkoss.zul.Menuitem;
  * Menu item for login.
  *
  * The empty path means that the login menu item appears directly on the menu bar.
- * This allows it to do double-duty as ia display of who's currently logged in.
+ * This allows it to do double-duty as a display of who's currently logged in.
  */
 @Component(service = MenuitemService.class,
            property = {"menubar=main"})
