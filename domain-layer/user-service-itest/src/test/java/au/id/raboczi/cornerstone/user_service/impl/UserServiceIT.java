@@ -51,7 +51,7 @@ public class UserServiceIT extends KarafTestSupport {
     public Option[] config() {
         String projectVersion = System.getProperty("project.version");
         if (projectVersion == null) {
-            throw new Error("project.version system property must be set in the pom.xml failsafe-maven-plugin entry");
+            throw new Error("project.version system property must be set in the pom.xml maven-failsafe-plugin entry");
         }
 
         Option[] options = new Option[]{
