@@ -10,6 +10,7 @@
     <feature>${project.artifactId}-domain</feature>
     <feature>${project.artifactId}-presentation-zk</feature>
     <feature>${project.artifactId}-presentation-rest</feature>
+    <feature>${project.artifactId}-presentation-shell</feature>
   </feature>
 
   <feature name="${project.artifactId}-api" version="${project.version}" description="Cornerstone test web application APIs">
@@ -49,6 +50,10 @@
 
     <bundle>mvn:au.id.raboczi.cornerstone/apple/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-rest/${project.version}</bundle>
+  </feature>
+
+  <feature name="${project.artifactId}-presentation-shell" version="${project.version}" description="Cornerstone test web application shell commands">
+    <bundle>mvn:au.id.raboczi.cornerstone/test-service-shell/${project.version}</bundle>
   </feature>
 
   <feature name="${project.artifactId}-presentation-zk" version="${project.version}" description="Cornerstone test web application presentation logic">
