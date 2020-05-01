@@ -125,6 +125,9 @@ public final class TestController extends SCRSelectorComposer<Component> {
             .map(event -> (String) event.getProperty("value"))
             .subscribe(string -> {
                 Desktop desktop = comp.getDesktop();
+                if (desktop == null) {
+                    return;
+                }
                 try {
                     Executions.activate(desktop);
                     try {
