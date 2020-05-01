@@ -1,3 +1,4 @@
+<?component name="dmimage" macroURI="dmimage.zul"?>
 <?component name="test" macroURI="au/id/raboczi/cornerstone/test_service/zk/test.zul"?>
 <zk>
   <style src="style.css"/>
@@ -5,6 +6,7 @@
     <vlayout>
       <menubar id="menubar" apply="au.id.raboczi.cornerstone.zk.menubar.MenubarController"/>
       <test label="${labels.index_test_label}"/>
+      <dmimage src="cornerstone.png" darksrc="cornerstone-dark.png"/>
     </vlayout>
   </window>
 </zk>
