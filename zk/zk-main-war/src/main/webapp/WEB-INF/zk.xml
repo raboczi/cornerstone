@@ -13,7 +13,7 @@
 
   <library-property>
     <name>org.zkoss.theme.preferred</name>
-    <value>chiaroscuro_c</value>
+    <value>iceblue_c</value>
   </library-property>
 
 <!--
