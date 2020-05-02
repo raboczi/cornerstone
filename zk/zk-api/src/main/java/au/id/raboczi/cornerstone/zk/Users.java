@@ -35,7 +35,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;
 
 /**
- * Convenience method for interacting with the ZK session.
+ * Convenience methods for interacting with the ZK session.
  */
 public abstract class Users {
 
