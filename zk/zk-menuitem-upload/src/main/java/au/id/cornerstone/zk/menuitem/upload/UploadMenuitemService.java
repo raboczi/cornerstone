@@ -26,12 +26,14 @@ import au.id.raboczi.cornerstone.zk.Users;
 import au.id.raboczi.cornerstone.zk.MenuitemService;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.util.Locales;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.UploadEvent;
@@ -68,8 +70,13 @@ public final class UploadMenuitemService implements MenuitemService {
         menuitem.addEventListener("onClick", new EventListener() {
             @Override
             public void onEvent(final Event event) {
+                ResourceBundle labels = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent());
                 Map<String, Object> params = new HashMap<>();
-                Fileupload.get(params, "Message", "Title", "*", 1000, 1000000, false,
+                Fileupload.get(params, labels.getString("message"), labels.getString("title"),
+                    "*",      // accept content type
+                    1000,     // maximum simultaneous uploads
+                    1000000,  // maximum upload size (kilobytes)
+                    false,    // don't override content type to always be binary
                     new EventListener<UploadEvent>() {
                         @Override
                         public void onEvent(final UploadEvent uploadEvent) {
