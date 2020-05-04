@@ -22,11 +22,11 @@ package au.id.raboczi.cornerstone.user_service.zk;
  * #L%
  */
 
-import au.id.raboczi.cornerstone.user_service.UserService;
 import au.id.raboczi.cornerstone.zk.Users;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
-import javax.security.auth.login.LoginException;
+import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.MouseEvent;
@@ -47,7 +47,7 @@ public final class LoginController extends SCRSelectorComposer<Window> {
     /** Used to authenticate the entered credentials. */
     @Reference
     @SuppressWarnings("nullness")
-    private UserService userService;
+    private UserAdmin userAdmin;
 
     /** Username. */
     @Wire("#username")
@@ -64,11 +64,12 @@ public final class LoginController extends SCRSelectorComposer<Window> {
      */
     @Listen("onClick = #loginButton")
     public void onClickLoginButton(final MouseEvent event) {
-        try {
-            Users.setUser(userService.authenticate(usernameTextbox.getValue(), passwordTextbox.getValue()));
+        User user = userAdmin.getUser("username", usernameTextbox.getValue());
+        if (user != null && user.hasCredential("password", passwordTextbox.getValue())) {
+            Users.setUser(user);
             getSelf().detach();
 
-        } catch (LoginException e) {
+        } else {
             Messagebox.show(getLabels().getString("login.failed_login"));
         }
     }

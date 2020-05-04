@@ -31,7 +31,7 @@ import org.apache.karaf.shell.api.action.lifecycle.Reference;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
 
 /**
- * Invoke {@list TestService#getValue} from the Karaf shell.
+ * Invoke {@link TestService#getValue} from the Karaf shell.
  */
 @Service
 @Command(scope       = "test",

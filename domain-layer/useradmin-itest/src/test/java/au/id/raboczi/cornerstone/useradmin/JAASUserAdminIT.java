@@ -1,8 +1,8 @@
-package au.id.raboczi.cornerstone.user_service.impl;
+package au.id.raboczi.cornerstone.useradmin;
 
 /*-
  * #%L
- * Cornerstone :: User service
+ * Cornerstone :: JAAS user admin service integration tests
  * %%
  * Copyright (C) 2019 - 2020 Simon Raboczi
  * %%
@@ -22,12 +22,10 @@ package au.id.raboczi.cornerstone.user_service.impl;
  * #L%
  */
 
-import au.id.raboczi.cornerstone.user_service.UserService;
 import java.util.stream.Stream;
-import javax.security.auth.login.FailedLoginException;
 import org.apache.karaf.features.FeaturesService;
 import org.apache.karaf.itests.KarafTestSupport;
-import static org.junit.Assert.assertNotNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,13 +36,14 @@ import org.ops4j.pax.exam.karaf.options.KarafDistributionOption;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerClass;
 import org.osgi.service.useradmin.User;
+import org.osgi.service.useradmin.UserAdmin;
 
 /**
- * Integration test for {@link UserServiceImpl}.
+ * Integration test for {@link JAASUserAdmin}.
  */
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerClass.class)
-public class UserServiceIT extends KarafTestSupport {
+public class JAASUserAdminIT extends KarafTestSupport {
 
     /** Additional configuration.  Propagates the <code>project.version</code> system property. */
     @Configuration
@@ -67,30 +66,33 @@ public class UserServiceIT extends KarafTestSupport {
     @Before
     public void before() throws Exception {
         assertServiceAvailable(FeaturesService.class);
-        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/user-service/" + System.getProperty("project.version") + "/xml/features");
-        installAndAssertFeature("user-service");
-        assertServiceAvailable(UserService.class);
+        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/useradmin/" + System.getProperty("project.version") + "/xml/features");
+        installAndAssertFeature("useradmin");
+        assertServiceAvailable(UserAdmin.class);
     }
 
     /** Authenticate a valid username and password. */
     @Test
     public void testAuthenticate_valid() throws Exception {
-        UserService userService = getOsgiService(UserService.class);
-        User user = userService.authenticate("karaf", "karaf");
-        assertNotNull(user);
+        UserAdmin userAdmin = getOsgiService(UserAdmin.class);
+        @Nullable User user = userAdmin.getUser("username", "karaf");
+        assert user != null: "@AssumeAssertion(nullness)";
+        assert user.hasCredential("password", "karaf");
     }
 
     /** Authenticate a nonexistent username. */
-    @Test(expected = FailedLoginException.class)
+    @Test
     public void testAuthenticate_badUser() throws Exception {
-        UserService userService = getOsgiService(UserService.class);
-        userService.authenticate("baduser", "badpassword");
+        UserAdmin userAdmin = getOsgiService(UserAdmin.class);
+        assert null == userAdmin.getUser("username", "nonexistent");
     }
 
     /** Authenticate an existing user with the wrong password. */
-    @Test(expected = FailedLoginException.class)
+    @Test
     public void testAuthenticate_badPassword() throws Exception {
-        UserService userService = getOsgiService(UserService.class);
-        userService.authenticate("karaf", "badpassword");
+        UserAdmin userAdmin = getOsgiService(UserAdmin.class);
+        @Nullable User user = userAdmin.getUser("username", "karaf");
+        assert user != null: "@AssumeAssertion(nullness)";
+        assert !user.hasCredential("password", "wrong");
     }
 }

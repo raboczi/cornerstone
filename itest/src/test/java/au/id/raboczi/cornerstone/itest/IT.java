@@ -22,7 +22,6 @@ package au.id.raboczi.cornerstone.itest;
  * #L%
  */
 
-import au.id.raboczi.cornerstone.user_service.UserService;
 import java.util.stream.Stream;
 import org.apache.karaf.features.FeaturesService;
 import org.apache.karaf.itests.KarafTestSupport;
@@ -37,7 +36,6 @@ import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.karaf.options.KarafDistributionOption;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerClass;
-import org.osgi.service.useradmin.User;
 
 /**
  * Integration test.
@@ -72,16 +70,10 @@ public class IT extends KarafTestSupport {
         installAndAssertFeature("zk-main-war");
     }
 
-    /**
-     * Confirm that {@link UserService.authenticate} works on the stock "karaf" user.
-     */
+    /** Placeholder test. */
     @Test
-    public void userService_authenticate() throws Exception {
+    public void test() throws Exception {
 
-        // Authenticate against the built-in credentials
-        assertServiceAvailable(UserService.class);
-        UserService userService = getOsgiService(UserService.class);
-        User user = userService.authenticate("karaf", "karaf");
-        assertNotNull(user);
+        // Placeholder
     }
 }

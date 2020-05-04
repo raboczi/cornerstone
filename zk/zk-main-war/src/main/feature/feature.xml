@@ -16,7 +16,6 @@
   <feature name="${project.artifactId}-api" version="${project.version}" description="Cornerstone test web application APIs">
     <bundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</bundle>
-    <bundle>mvn:au.id.raboczi.cornerstone/user-service-api/${project.version}</bundle>
     <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
   </feature>
 
@@ -24,7 +23,7 @@
     <feature>scr</feature>
     <feature prerequisite="true">${project.artifactId}-api</feature>
 
-    <config name="au.id.raboczi.cornerstone.user_service">
+    <config name="au.id.raboczi.cornerstone.useradmin">
       jaas.loginConfigurationName = karaf
       jaas.groupPrincipalClass    = org.apache.karaf.jaas.boot.principal.GroupPrincipal
       jaas.rolePrincipalClass     = org.apache.karaf.jaas.boot.principal.RolePrincipal
@@ -35,7 +34,6 @@
     <bundle>mvn:au.id.raboczi.cornerstone/security-aspect/${project.version}</bundle>
 
     <bundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</bundle>
-    <bundle>mvn:au.id.raboczi.cornerstone/user-service/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/useradmin/${project.version}</bundle>
   </feature>
 

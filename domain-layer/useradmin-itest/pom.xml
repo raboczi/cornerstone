@@ -8,8 +8,8 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>user-service-itest</artifactId>
-  <name>Cornerstone :: User service integration tests</name>
+  <artifactId>useradmin-itest</artifactId>
+  <name>Cornerstone :: JAAS user admin service integration tests</name>
   <packaging>jar</packaging>
 
   <properties>
@@ -71,13 +71,6 @@
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>user-service-api</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

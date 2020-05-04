@@ -25,13 +25,11 @@ package au.id.raboczi.cornerstone.test_service.rest;
 import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.test_service.TestService;
-import au.id.raboczi.cornerstone.user_service.UserService;
 import java.io.Serializable;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import java.util.Base64;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -82,11 +80,6 @@ public class Endpoint {
     @Reference
     @SuppressWarnings("nullness")
     private UserAdmin userAdmin;
-
-    /** The user authenication service. */
-    @Reference
-    @SuppressWarnings("nullness")
-    private UserService userService;
 
 
     // REST services
@@ -166,16 +159,14 @@ public class Endpoint {
             throw new NotAuthorizedException("Malformed Basic authorization header", "Basic");
         }
 
-        // Authenticate via the user service
-        try {
-            User user = userService.authenticate(matcher2.group("name"), matcher2.group("password"));
-
-            LOGGER.info("Authorization header present; caller is authenticated");
-            return new CallerImpl(userAdmin.getAuthorization(user));
-
-        } catch (LoginException e) {
+        // Authenticate via the user admin service
+        User user = userAdmin.getUser("username", matcher2.group("name"));
+        if (user == null || !user.hasCredential("password", matcher2.group("password"))) {
             throw new NotAuthorizedException("Credentials rejected", "Basic");
         }
+        LOGGER.info("Authorization header present; caller is authenticated");
+
+        return new CallerImpl(userAdmin.getAuthorization(user));
     }
 
     /**

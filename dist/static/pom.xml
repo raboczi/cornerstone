@@ -18,18 +18,6 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>user-service</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>user-service-api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>zk-main-whiteboard</artifactId>
       <version>${project.version}</version>
       <type>xml</type>
@@ -109,8 +97,6 @@
 
             <startupFeature>aries-blueprint</startupFeature>
             <startupFeature>http-whiteboard</startupFeature>
-
-            <startupFeature>user-service</startupFeature>
           </startupFeatures>
           <startupBundles>
             <startupBundle>mvn:commons-codec/commons-codec/1.14</startupBundle>

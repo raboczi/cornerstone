@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.6.0" name="${project.artifactId}-${project.version}">
   <feature name="${project.artifactId}" description="${project.name}" version="${project.version}">
-    <details>Cornerstone user service.  Uses JAAS to obtain user account details.</details>
-    <config name="au.id.raboczi.cornerstone.user_service">
+    <details>JAAS-based implementation of OSGi User Admin service.</details>
+    <config name="au.id.raboczi.cornerstone.useradmin">
       jaas.loginConfigurationName = karaf
       jaas.groupPrincipalClass    = org.apache.karaf.jaas.boot.principal.GroupPrincipal
       jaas.rolePrincipalClass     = org.apache.karaf.jaas.boot.principal.RolePrincipal
       jaas.userPrincipalClass     = org.apache.karaf.jaas.boot.principal.UserPrincipal
     </config>
     <feature>scr</feature>
-    <bundle>mvn:${project.groupId}/user-service-api/${project.version}</bundle>
     <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
-    <bundle>mvn:${project.groupId}/user-service/${project.version}</bundle>
+    <bundle>mvn:${project.groupId}/useradmin/${project.version}</bundle>
   </feature>
 </features>
