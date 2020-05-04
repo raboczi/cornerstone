@@ -23,6 +23,9 @@
     <module>zk-menuitem-theme</module>
     <module>zk-menuitem-upload</module>
     <module>zk-util</module>
+
+    <!-- Do this last to avoid diligent dependency specification -->
+    <module>zk-main-war-itest</module>
   </modules>
 
   <properties>

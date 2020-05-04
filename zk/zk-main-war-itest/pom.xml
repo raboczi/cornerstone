@@ -4,12 +4,12 @@
 
   <parent>
     <groupId>au.id.raboczi.cornerstone</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>parent-zk</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>itest</artifactId>
-  <name>Cornerstone :: Integration tests</name>
+  <artifactId>zk-main-war-itest</artifactId>
+  <name>Cornerstone :: ZK main page (WAR) integration tests</name>
   <packaging>jar</packaging>
 
   <properties>
@@ -68,13 +68,6 @@
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>test-service-api</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
