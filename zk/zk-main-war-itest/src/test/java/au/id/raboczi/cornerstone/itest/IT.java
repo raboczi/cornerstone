@@ -2,7 +2,7 @@ package au.id.raboczi.cornerstone.itest;
 
 /*-
  * #%L
- * Cornerstone :: Integration tests
+ * Cornerstone :: ZK main page (WAR) integration tests
  * %%
  * Copyright (C) 2019 - 2020 Simon Raboczi
  * %%
@@ -22,14 +22,20 @@ package au.id.raboczi.cornerstone.itest;
  * #L%
  */
 
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import org.apache.karaf.features.FeaturesService;
 import org.apache.karaf.itests.KarafTestSupport;
 import static org.junit.Assert.assertNotNull;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
@@ -64,16 +70,38 @@ public class IT extends KarafTestSupport {
     /** Starts the entire web application inside the test container. */
     @Before
     public void before() throws Exception {
+
         assertServiceAvailable(FeaturesService.class);
-        FeaturesService featuresService = getOsgiService(FeaturesService.class);
+
+        // Start up the application
         executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/zk-main-war/" + System.getProperty("project.version") + "/xml/features");
         installAndAssertFeature("zk-main-war");
+
+/*
+        // Start up the webdriver service
+        executeCommand("feature:repo-add mvn:au.id.raboczi.cornerstone/webdriver/" + System.getProperty("project.version") + "/xml/features");
+        installAndAssertFeature("webdriver");
+        assertServiceAvailable(WebDriver.class);
+*/
+    }
+
+    /** Shut down the browser. */
+    @After
+    public void after() throws Exception {
     }
 
     /** Placeholder test. */
     @Test
     public void test() throws Exception {
-
-        // Placeholder
+/*
+        WebDriver driver = getOsgiService(WebDriver.class);
+        try {
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            driver.get("http://localhost:8181/cornerstone/");
+            driver.findElement(By.xpath("//span[text()='Login']")).click();
+        } finally {
+            driver.quit();
+        }
+*/
     }
 }

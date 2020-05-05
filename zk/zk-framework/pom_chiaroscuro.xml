@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>au.id.raboczi.cornerstone</groupId>
+    <artifactId>parent-zk</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <name>Cornerstone :: ZK framework ${zk.version}</name>
+  <description>ZK is a web application framework (https://www.zkoss.org).  To accommodate its OSGi-incompatible native plugin scheme, all its components are embedded within this bundle.</description>
+  <artifactId>zk-framework</artifactId>
+  <packaging>bundle</packaging>
+
+  <properties>
+    <zcommons-el.version>1.1.0</zcommons-el.version>
+    <zsoup.version>1.8.2.5</zsoup.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <unpackBundle>false</unpackBundle>
+          <instructions>
+            <Embed-Dependency>groupId=org.apromore|org.zkoss.*</Embed-Dependency>
+            <Embed-Directory>OSGI-INF/lib</Embed-Directory>
+            <Export-Package>
+              org.zkoss.zsoup.*;version=${zsoup.version},
+              org.zkoss.*;version=${zk.version},
+            </Export-Package>
+            <Import-Package>
+              bsh;resolution:=optional,
+              com.google.debugging.sourcemap;resolution:=optional,
+              groovy.lang;resolution:=optional,
+              javax.servlet.jsp.el;resolution:=optional,
+              org.jruby.*;resolution:=optional,
+              org.mozilla.javascript;resolution:=optional,
+              org.python.*;resolution:=optional,
+              *
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apromore</groupId>
+      <artifactId>ui-theme-compact</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss</groupId>
+      <artifactId>zsoup</artifactId>
+      <version>${zsoup.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.common</groupId>
+      <artifactId>zcommon</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.common</groupId>
+      <artifactId>zel</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.common</groupId>
+      <artifactId>zweb</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.theme</groupId>
+      <artifactId>breeze</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.theme</groupId>
+      <artifactId>iceblue_c</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.theme</groupId>
+      <artifactId>sapphire</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.theme</groupId>
+      <artifactId>silvertail</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zhtml</artifactId>
+      <version>${zk.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zk</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zul</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.zkoss.zkforge.el</groupId>
+      <artifactId>zcommons-el</artifactId>
+      <version>${zcommons-el.version}</version>
+    </dependency>
+  </dependencies>
+</project>

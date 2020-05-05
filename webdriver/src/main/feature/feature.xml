@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.6.0" name="${project.artifactId}-${project.version}">
+  <feature name="${project.artifactId}" description="${project.name}" version="${project.version}">
+    <details>Selenium HQ webdriver as an OSGi server.</details>
+
+    <feature>aries-blueprint</feature>
+
+    <bundle>mvn:com.google.guava/guava/25.0-jre</bundle>
+    <bundle>mvn:net.bytebuddy/byte-buddy-agent/1.4.33</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.gson/2.1_1</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jsr305/3.0.2_1</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.okio/1.15.0_1</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.okhttp/3.14.1_1</bundle>
+
+    <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}</bundle>
+  </feature>
+</features>

@@ -18,6 +18,7 @@
     <module>domain-layer</module>
     <module>rest</module>
     <module>shell</module>
+    <module>webdriver</module>
     <module>zk</module>
 
     <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->

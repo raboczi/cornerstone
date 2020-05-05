@@ -1,0 +1,4 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+  <bean id="webdriverService" class="org.openqa.selenium.firefox.FirefoxDriver"/>
+  <service ref="webdriverService" interface="org.openqa.selenium.WebDriver"/>
+</blueprint>
