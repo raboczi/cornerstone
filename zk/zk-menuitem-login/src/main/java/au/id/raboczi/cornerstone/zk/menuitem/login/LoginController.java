@@ -1,8 +1,8 @@
-package au.id.raboczi.cornerstone.user_service.zk;
+package au.id.raboczi.cornerstone.zk.menuitem.login;
 
 /*-
  * #%L
- * Cornerstone :: User service ZK UI
+ * Cornerstone :: ZK menu item :: Login
  * %%
  * Copyright (C) 2019 - 2020 Simon Raboczi
  * %%
@@ -37,7 +37,7 @@ import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 /**
- * Controller for the macro <code>login.zul</code>.
+ * Controller for <code>login.zul</code>.
  */
 public final class LoginController extends SCRSelectorComposer<Window> {
 

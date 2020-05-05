@@ -14,12 +14,12 @@
 
   <modules>
     <module>test-service-zk</module>
-    <module>user-service-zk</module>
     <module>zk-api</module>
     <module>zk-event-queue-provider</module>
     <module>zk-framework</module>
     <module>zk-main-war</module>
     <module>zk-main-whiteboard</module>
+    <module>zk-menuitem-login</module>
     <module>zk-menuitem-theme</module>
     <module>zk-menuitem-upload</module>
     <module>zk-util</module>

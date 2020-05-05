@@ -8,8 +8,8 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>user-service-zk</artifactId>
-  <name>Cornerstone :: User service ZK UI</name>
+  <artifactId>zk-menuitem-login</artifactId>
+  <name>Cornerstone :: ZK menu item :: Login</name>
   <packaging>bundle</packaging>
 
   <properties>
@@ -23,7 +23,7 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Export-Package>au.id.raboczi.cornerstone.user_service.zk</Export-Package>
+            <Export-Package>au.id.raboczi.cornerstone.zk.menuitem.login</Export-Package>
           </instructions>
         </configuration>
       </plugin>

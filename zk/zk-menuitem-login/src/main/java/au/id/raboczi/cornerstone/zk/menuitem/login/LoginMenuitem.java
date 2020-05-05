@@ -1,8 +1,8 @@
-package au.id.raboczi.cornerstone.user_service.zk;
+package au.id.raboczi.cornerstone.zk.menuitem.login;
 
 /*-
  * #%L
- * Cornerstone :: User service ZK UI
+ * Cornerstone :: ZK menu item :: Login
  * %%
  * Copyright (C) 2019 - 2020 Simon Raboczi
  * %%
@@ -58,8 +58,8 @@ public class LoginMenuitem extends Menuitem {
     @Listen("onClick")
     public void onClick(final MouseEvent event) {
         if (Users.getUser() == null) {
-            Window window =
-                (Window) Components.createComponent("au/id/raboczi/cornerstone/user_service/zk/login.zul", CLASSLOADER);
+            Window window = (Window)
+                Components.createComponent("au/id/raboczi/cornerstone/zk/menuitem/login/login.zul", CLASSLOADER);
             window.doModal();
 
         } else {

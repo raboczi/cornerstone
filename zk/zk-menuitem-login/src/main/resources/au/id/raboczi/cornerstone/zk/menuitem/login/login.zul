@@ -1,5 +1,5 @@
 <window id="win" width="450px" closable="true" position="center" title="${win$composer.labels.login_title}"
-        apply="au.id.raboczi.cornerstone.user_service.zk.LoginController">
+        apply="au.id.raboczi.cornerstone.zk.menuitem.login.LoginController">
     <grid>
         <columns>
             <column width="140px"/>
