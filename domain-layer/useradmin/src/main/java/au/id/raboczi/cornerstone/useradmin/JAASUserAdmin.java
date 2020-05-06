@@ -22,16 +22,21 @@ package au.id.raboczi.cornerstone.useradmin;
  * #L%
  */
 
+import java.util.Set;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.FieldOption;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
+import org.osgi.service.useradmin.UserAdminListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +50,14 @@ public final class JAASUserAdmin implements UserAdmin {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JAASUserAdmin.class);
+
+    /** The listeners we need to notify about any role changes. */
+    @Reference(fieldOption = FieldOption.UPDATE, policy = ReferencePolicy.DYNAMIC)
+    @SuppressWarnings("initialization.fields.uninitialized")
+    private Set<UserAdminListener> userAdminListeners;
+
+
+    // Parameters set by OSGi Configuration service
 
     /** Which {@link Principal} class identifies a group? */
     private Class groupPrincipalClass = Object.class;

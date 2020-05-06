@@ -33,14 +33,16 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+import org.osgi.service.useradmin.UserAdminEvent;
+import org.osgi.service.useradmin.UserAdminListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Demonstrates event handling.
  */
-@Component(service  = {TestService.class})
-public final class TestServiceImpl implements TestService {
+@Component(service = {TestService.class, UserAdminListener.class})
+public final class TestServiceImpl implements TestService, UserAdminListener {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(TestServiceImpl.class);
@@ -51,6 +53,9 @@ public final class TestServiceImpl implements TestService {
     /** Notifies changes to {@link #value}. */
     @Reference
     private @Nullable EventAdmin eventAdmin;
+
+
+    // Implementation of TestService
 
     @Override
     @Secure("viewer")
@@ -72,5 +77,13 @@ public final class TestServiceImpl implements TestService {
         properties.put("value", this.value);
         assert eventAdmin != null : "@AssumeAssertion(nullness)";
         eventAdmin.postEvent(new Event(EVENT_TOPIC, properties));
+    }
+
+
+    // Implementation of UserAdminListener
+
+    @Override
+    public void roleChanged(final UserAdminEvent event) {
+        LOGGER.info("Role changed: {}", event);
     }
 }
