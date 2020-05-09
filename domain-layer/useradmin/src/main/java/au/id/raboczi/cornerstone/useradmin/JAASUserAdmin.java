@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.security.auth.login.AppConfigurationEntry;
 import org.apache.karaf.jaas.boot.ProxyLoginModule;
+import org.apache.karaf.jaas.boot.principal.GroupPrincipal;
 import org.apache.karaf.jaas.boot.principal.UserPrincipal;
 import org.apache.karaf.jaas.config.JaasRealm;
 import org.apache.karaf.jaas.modules.BackingEngine;
@@ -56,7 +57,7 @@ import org.slf4j.LoggerFactory;
 
 /** {@inheritDoc}
  *
- * This implementation is backed by Apache Karaf's JAAS feature.
+ * This implementation adapts Apache Karaf's JAAS feature to satisfy the {@link UserAdmin} API.
  */
 @Component(service = UserAdmin.class, configurationPid = "au.id.raboczi.cornerstone.useradmin")
 public final class JAASUserAdmin implements UserAdmin {
@@ -103,8 +104,6 @@ public final class JAASUserAdmin implements UserAdmin {
      */
     @Activate
     protected void activate(final ComponentContext context) throws ClassNotFoundException {
-        LOGGER.info("Activate with context properties " + context.getProperties());
-
         this.groupPrincipalClass =
             Class.forName((@NonNull String) context.getProperties().get("jaas.groupPrincipalClass"));
 
@@ -120,7 +119,7 @@ public final class JAASUserAdmin implements UserAdmin {
 
     /**
      * @param entry
-     * @return null if not found
+     * @return <code>null</code> if not found
      * @see org.apache.karaf.jaas.command.ManageRealmCommand#execute
      */
     private @Nullable BackingEngine getBackingEngine(final AppConfigurationEntry entry) {
@@ -137,6 +136,7 @@ public final class JAASUserAdmin implements UserAdmin {
 
     /**
      * @return the login module
+     * @throws RuntimeException if the app configuration entry or backing engine aren't configured and available
      * @see org.apache.karaf.jaas.command.ManageRealmCommand#execute
      */
     private BackingEngine getBackingEngine() {
@@ -180,13 +180,11 @@ public final class JAASUserAdmin implements UserAdmin {
                     }
                 }
 
-        LOGGER.info("Realm " + realm + ", Entry " + entry);
         if (entry == null) {
             throw new RuntimeException("No app configuration entry");
         }
 
         @Nullable BackingEngine backingEngine = getBackingEngine(entry);
-        LOGGER.info("BackingEngine " + backingEngine);
         if (backingEngine == null) {
             throw new RuntimeException("Backing engine not found");
         }
@@ -202,11 +200,14 @@ public final class JAASUserAdmin implements UserAdmin {
 
         switch (type) {
         case Role.USER:
-            BackingEngine engine = getBackingEngine();
-            engine.addUser(name, "password");
-            engine.addGroup(name, "admingroup");
+            getBackingEngine().addUser(name, "password");
 
             return new RoleImpl(name, Role.USER);
+
+        case Role.GROUP:
+            getBackingEngine().createGroup(name);
+
+            return new RoleImpl(name, Role.GROUP);
 
         default:
             throw new IllegalArgumentException("Unsupported type: " + type);
@@ -214,13 +215,59 @@ public final class JAASUserAdmin implements UserAdmin {
     }
 
     @Override
+    @SuppressWarnings({"checkstyle:AvoidNestedBlocks", "argument.type.incompatible"})
     public boolean removeRole(final String name) {
-        throw new Error("Not implemented");
+        BackingEngine backingEngine = getBackingEngine();
+
+        // Remove the role if it's a user
+        {
+            @Nullable UserPrincipal userPrincipal = backingEngine.lookupUser(name);
+            if (userPrincipal != null) {
+                backingEngine.deleteUser(userPrincipal.getName());
+
+                return true;
+            }
+        }
+
+        // Remove the role if it's a group
+        @Nullable GroupPrincipal groupPrincipal = backingEngine
+            .listGroups()
+            .keySet()
+            .stream()
+            .filter(groupPrincipal2 -> groupPrincipal2.getName().equals(name))
+            .findAny()
+            .orElse(null);
+        if (groupPrincipal != null) {
+            // Deleting the group from every user causes it to be removed, which is weird since groups are created empty
+            for (UserPrincipal userPrincipal : backingEngine.listUsers()) {
+                backingEngine.deleteGroup(userPrincipal.getName(), groupPrincipal.getName());
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public @Nullable Role getRole(final String name) {
-        throw new Error("Not implemented");
+        BackingEngine backingEngine = getBackingEngine();
+        UserPrincipal userPrincipal = backingEngine.lookupUser(name);
+        if (userPrincipal != null) {
+            return new RoleImpl(name, Role.USER);
+        }
+
+        if (backingEngine.listGroups()
+                         .keySet()
+                         .stream()
+                         .map(groupPrincipal -> groupPrincipal.getName())
+                         .collect(Collectors.toSet())
+                         .contains(name)) {
+
+            return new RoleImpl(name, Role.GROUP);
+        }
+
+        return null;
     }
 
     @Override

@@ -24,14 +24,17 @@ package au.id.raboczi.cornerstone.useradmin.zk;
 
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
+import java.util.Optional;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.MouseEvent;
+import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListModelArray;
 import org.zkoss.zul.Window;
 
@@ -66,9 +69,34 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
         Role newuserRole = userAdmin.createRole("newuser", Role.USER);
     }
 
-    /** @param event  clicked cancel button */
+    /** @param event  clicked "Create group" button */
+    @Listen("onClick = #createGroupButton")
+    public void onClickCreateGroupButton(final MouseEvent event) {
+        Role newgroupRole = userAdmin.createRole("newgroup", Role.GROUP);
+    }
+
+    /** @param event  clicked "Delete" button */
+    @Listen("onClick = #deleteButton")
+    public void onClickDeleteButton(final MouseEvent event) {
+        Listitem selectedItem = roleListbox.getSelectedItem();
+        if (selectedItem != null) {
+            Role selectedRole = (Role) selectedItem.getValue();
+            userAdmin.removeRole(selectedRole.getName());
+        }
+    }
+
+    /** @param event  clicked "Cancel" button */
     @Listen("onClick = #cancelButton")
     public void onClickCancelButton(final MouseEvent event) {
         getSelf().detach();
+    }
+
+    /** @param event  selected role listbox */
+    @Listen("onSelect = #roleListbox")
+    public void onSelectRoleListbox(final SelectEvent event) {
+        Optional<Role> selectedRole = event.getSelectedObjects().stream().findAny();
+        if (selectedRole.isPresent()) {
+            LOGGER.info("Detail {}", selectedRole.get());
+        }
     }
 }
