@@ -45,29 +45,23 @@ public final class UserImpl implements Serializable, User {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserImpl.class);
 
     /** Login configuration.  @see javax.security.auth.login.Configuration */
-    private String loginConfigurationName = "Uninitialized";
+    private String loginConfigurationName;
 
     /** User name. */
     private final String name;
 
-    /** {@inheritDoc}
-     *
-     * The property "roles" contains the authenticated roles if the {@link #hasCredential} method has been successfully
-     * invoked.
-     */
+    /** {@inheritDoc}. */
     private final Dictionary properties = new Hashtable();
 
     // Constructor
 
     /**
      * @param username  user name
-     * @param roles  the {@link java.security Principal} class for roles
      * @param newLoginConfigurationName  as per {@link javax.security.auth.login.Configuration}
      */
-    public UserImpl(final String username, final String[] roles, final String newLoginConfigurationName) {
+    public UserImpl(final String username, final String newLoginConfigurationName) {
         this.loginConfigurationName = newLoginConfigurationName;
         this.name = username;
-        properties.put("roles", roles);
     }
 
 
@@ -91,6 +85,7 @@ public final class UserImpl implements Serializable, User {
 
     // Implementation of the User interface
 
+    /** @throws Error  always, "Not implemented" */
     @Override
     public Dictionary getCredentials() {
         throw new Error("Not implemented");

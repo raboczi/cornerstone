@@ -123,7 +123,7 @@ public final class JAASUserAdmin implements UserAdmin {
      * @return null if not found
      * @see org.apache.karaf.jaas.command.ManageRealmCommand#execute
      */
-    public @Nullable BackingEngine getBackingEngine(final AppConfigurationEntry entry) {
+    private @Nullable BackingEngine getBackingEngine(final AppConfigurationEntry entry) {
         if (backingEngineFactories != null) {
             for (BackingEngineFactory factory : backingEngineFactories) {
                 String loginModuleClass = (String) entry.getOptions().get(ProxyLoginModule.PROPERTY_MODULE);
@@ -143,7 +143,7 @@ public final class JAASUserAdmin implements UserAdmin {
 
         boolean hidden = false;
         String moduleName = null;
-        String realmName = "karaf";
+        String realmName = loginConfigurationName;
 
         JaasRealm realm = null;
         AppConfigurationEntry entry = null;
@@ -313,13 +313,8 @@ public final class JAASUserAdmin implements UserAdmin {
         if (userPrincipal == null) {
             return null;
         }
-        String[] roles = engine
-            .listRoles(userPrincipal)
-            .stream()
-            .map(rolePrincipal -> rolePrincipal.getName())
-            .toArray(String[]::new);
 
-        return new UserImpl(userPrincipal.getName(), roles, loginConfigurationName);
+        return new UserImpl(userPrincipal.getName(), loginConfigurationName);
     }
 
     @Override
@@ -328,7 +323,15 @@ public final class JAASUserAdmin implements UserAdmin {
             return new AuthorizationImpl(null, new String[] {});
 
         } else {
-            return new AuthorizationImpl(user.getName(), (String @NonNull []) user.getProperties().get("roles"));
+            BackingEngine engine = getBackingEngine();
+            UserPrincipal userPrincipal = engine.lookupUser(user.getName());
+            String[] roles = engine
+                .listRoles(userPrincipal)
+                .stream()
+                .map(rolePrincipal -> rolePrincipal.getName())
+                .toArray(String[]::new);
+
+            return new AuthorizationImpl(user.getName(), roles);
         }
     }
 }
