@@ -14,6 +14,7 @@ Theoretically it should run anywhere JDK 8+ can.
 1. Ensure that the following software is present:
   - Java Development Kit 8 or later
   - Apache Maven 3
+  - Mozilla Firefox and [Geckodriver](https://github.com/mozilla/geckodriver)
 
 2. Obtain the source code, e.g. via `git clone https://github.com/raboczi/cornerstone.git`
 
