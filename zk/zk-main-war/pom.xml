@@ -21,7 +21,8 @@
         <configuration>
           <instructions>
             <Import-Package>
-              au.id.raboczi.cornerstone.test_service.zk,
+              au.id.raboczi.cornerstone.test_service.zk;resolution:=optional,
+              au.id.raboczi.cornerstone.useradmin.zk;resolution:=optional,
               au.id.raboczi.cornerstone.zk.menubar,
               au.id.raboczi.cornerstone.zk.menuitem.login;resolution:=optional,
               !org.checkerframework.checker.*,

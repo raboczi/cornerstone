@@ -44,14 +44,11 @@ public final class UserImpl implements Serializable, User {
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(UserImpl.class);
 
-    /** @see {@link javax.security.auth.login.Configuration} */
+    /** Login configuration.  @see javax.security.auth.login.Configuration */
     private String loginConfigurationName = "Uninitialized";
 
     /** User name. */
     private final String name;
-
-    /** {@link java.security Principal} class for roles. */
-    private final Class roleClass;
 
     /** {@inheritDoc}
      *
@@ -64,13 +61,13 @@ public final class UserImpl implements Serializable, User {
 
     /**
      * @param username  user name
+     * @param roles  the {@link java.security Principal} class for roles
      * @param newLoginConfigurationName  as per {@link javax.security.auth.login.Configuration}
-     * @param rolePrincipalClass  the {@link java.security Principal} class for roles
      */
-    public UserImpl(final String username, final String newLoginConfigurationName, final Class rolePrincipalClass) {
+    public UserImpl(final String username, final String[] roles, final String newLoginConfigurationName) {
         this.loginConfigurationName = newLoginConfigurationName;
         this.name = username;
-        this.roleClass = rolePrincipalClass;
+        properties.put("roles", roles);
     }
 
 
@@ -100,7 +97,6 @@ public final class UserImpl implements Serializable, User {
     }
 
     @Override
-    @SuppressWarnings("checkstyle:ToDoComment")
     public boolean hasCredential(final String key, final Object value) {
 
         // The only credential that exists is "password"
@@ -136,34 +132,6 @@ public final class UserImpl implements Serializable, User {
         // Return whether login is successful
         try {
             loginContext.login();
-
-/*
-            final String name = loginContext
-                .getSubject()
-                .getPrincipals()
-                .stream()
-                .filter(principal -> userPrincipalClass.isAssignableFrom(principal.getClass()))
-                .findAny()  // TODO: validate a unique result
-                .get()
-                .getName();
-
-            final String[] groups = loginContext
-                .getSubject()
-                .getPrincipals()
-                .stream()
-                .filter(principal -> groupPrincipalClass.isAssignableFrom(principal.getClass()))
-                .map(principal -> principal.getName())
-                .toArray(String[]::new);
-*/
-
-            // Set the "roles" property
-            properties.put("roles", loginContext
-                .getSubject()
-                .getPrincipals()
-                .stream()
-                .filter(principal -> roleClass.isAssignableFrom(principal.getClass()))
-                .map(principal -> principal.getName())
-                .toArray(String[]::new));
 
             return true;
 

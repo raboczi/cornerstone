@@ -1,0 +1,17 @@
+<window id="win" width="450px" closable="true" position="center" title="${win$composer.labels.manage_users_title}"
+        apply="au.id.raboczi.cornerstone.useradmin.zk.ManageUsersController">
+  <listbox id="roleListbox">
+    <listhead>
+      <listheader label="Name"/>
+      <listheader label="Type"/>
+    </listhead>
+    <template name="model">
+      <listitem>
+        <listcell label="${each.name}"/>
+        <listcell label="${each.type}"/>
+      </listitem>
+    </template>
+  </listbox>
+  <button id="createUserButton" label="${win$composer.labels.manage_users_createUserButton_label}"/>
+  <button id="cancelButton" label="${labels._cancel}"/>
+</window>

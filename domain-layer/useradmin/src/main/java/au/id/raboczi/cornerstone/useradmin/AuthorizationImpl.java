@@ -24,26 +24,12 @@ package au.id.raboczi.cornerstone.useradmin;
 
 import java.io.Serializable;
 import java.util.Arrays;
-/*
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-*/
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.useradmin.Authorization;
-import org.osgi.service.useradmin.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** {@inheritDoc}
- *
- * This implementation assumes a @{link User}'s roles are in the user property "roles".
- */
+/** {@inheritDoc}. */
 class AuthorizationImpl implements Authorization, Serializable {
 
     /** Logger.  Named after the class. */
@@ -53,67 +39,17 @@ class AuthorizationImpl implements Authorization, Serializable {
     private final @Nullable String name;
 
     /** Roles of the user. */
-    private /*final*/ String[] roles;
+    private final String[] roles;
 
     /**
-     * @param user  if <code>null</code>, the unauthorized user
-     * @param loginConfigurationName  as per {@link javax.security.auth.login.Configuration}
-     * @param rolePrincipalClass  the {@link java.security Principal} class for roles
+     * @param userName  <code>null</code> for the unauthorized user
+     * @param userRoles  may be empty, but never <code>null</code>
      */
-    AuthorizationImpl(final @Nullable User user, final String loginConfigurationName, final Class rolePrincipalClass) {
-        LOGGER.info("user=" + user + " config={} role={}", loginConfigurationName, rolePrincipalClass);
+    AuthorizationImpl(final @Nullable String userName, final String[] userRoles) {
+        assert userRoles != null;
 
-        if (user == null) {
-            this.name = null;
-            this.roles = new String[] {};
-
-        } else {
-            this.name = user.getName();
-            this.roles = (String @NonNull []) user.getProperties().get("roles");  // Kludge until the code below works
-
-/*
-            // Create JAAS login context
-            @Nullable LoginContext loginContext = null;
-            try {
-                LOGGER.info("Creating login context");
-                loginContext = new LoginContext(loginConfigurationName, new CallbackHandler() {
-                    @Override
-                    public void handle(final Callback[] callbacks) throws UnsupportedCallbackException {
-                        for (Callback callback: callbacks) {
-                            if (callback instanceof NameCallback) {
-                                ((NameCallback) callback).setName("karaf");
-
-                            } else if (callback instanceof PasswordCallback) {
-                                ((PasswordCallback) callback).setPassword("karaf".toCharArray());
-
-                            } else {
-                                throw new UnsupportedCallbackException(callback, "Unimplemented callback");
-                            }
-                        }
-                    }
-                });
-                LOGGER.info("Created login context {}", loginContext);
-
-            } catch (LoginException e) {
-                LOGGER.warn("Unable to create login context", e);
-                //throw new RuntimeException("Unable to create JAAS login context", e);
-            }
-
-            assert loginContext != null : "@AssumeAssertion(nullness)";
-
-            LOGGER.info("Subject " + loginContext.getSubject());
-
-            this.roles = loginContext
-                .getSubject()
-                .getPrincipals()
-                .stream()
-                .filter(principal -> rolePrincipalClass.isAssignableFrom(principal.getClass()))
-                .map(principal -> principal.getName())
-                .toArray(String[]::new);
-
-            LOGGER.info("Functional evaluation complete, roles=" + Arrays.asList(this.roles));
-*/
-        }
+        this.name  = userName;
+        this.roles = userRoles;
     }
 
     @Override
@@ -126,10 +62,9 @@ class AuthorizationImpl implements Authorization, Serializable {
         return Arrays.asList(roles).contains(roleName);
     }
 
-    /* {@inheritDoc}
-     *
-     * This implementation never returns <code>null</code>, instead
-     * returning and empty array if no roles are present.
+    /**
+     * @return {@inheritDoc}  This implementation never returns <code>null</code>, instead
+     *     returning an empty array if no roles are present.
      */
     @Override
     public String[] getRoles() {
