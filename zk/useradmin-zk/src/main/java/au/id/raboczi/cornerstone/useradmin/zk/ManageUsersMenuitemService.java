@@ -33,8 +33,10 @@ import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Window;
 
@@ -67,9 +69,15 @@ public final class ManageUsersMenuitemService implements MenuitemService {
         menuitem.addEventListener("onClick", new EventListener() {
             @Override
             public void onEvent(final Event event) {
-                assert cl != null : "@AssumeAssertion(nullness)";
-                ((Window) Components.createComponent("au/id/raboczi/cornerstone/useradmin/zk/manageUsers.zul", cl))
-                                    .doModal();
+                MouseEvent mouseEvent = (MouseEvent) event;
+                if ((mouseEvent.getKeys() & MouseEvent.META_KEY) != 0) {
+                    Executions.getCurrent().sendRedirect("manage-users", "_blank");
+
+                } else {
+                    assert cl != null : "@AssumeAssertion(nullness)";
+                    String zul = "au/id/raboczi/cornerstone/useradmin/zk/manageUsers.zul";
+                    ((Window) Components.createComponent(zul, cl)).doModal();
+                }
             }
         });
 
@@ -80,9 +88,6 @@ public final class ManageUsersMenuitemService implements MenuitemService {
 
         // Reactively maintain the enabled/disabled status
         Users.observable().subscribe(user -> {
-            assert userAdmin != null : "@AssumeAssertion(nullness)";
-            LOGGER.info("Useradmin {}", userAdmin);
-            LOGGER.info("Caller {}", Users.getCaller(userAdmin));
             assert userAdmin != null : "@AssumeAssertion(nullness)";
             boolean notManager2 = !Users.getCaller(userAdmin).authorization().hasRole("manager");
             menuitem.setDisabled(notManager2);

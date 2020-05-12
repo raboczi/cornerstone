@@ -26,8 +26,10 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.security.auth.login.AppConfigurationEntry;
@@ -40,16 +42,20 @@ import org.apache.karaf.jaas.modules.BackingEngineFactory;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.FieldOption;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
+import org.osgi.service.useradmin.UserAdminEvent;
 import org.osgi.service.useradmin.UserAdminListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +75,11 @@ public final class JAASUserAdmin implements UserAdmin {
     @Reference
     @SuppressWarnings("initialization.fields.uninitialized")
     private List<BackingEngineFactory> backingEngineFactories;
+
+    /** Used to implement {@link UserAdminListener}s. */
+    @Reference
+    @SuppressWarnings("initialization.fields.uninitialized")
+    private EventAdmin eventAdmin;
 
     /** JAAS realms. */
     @Reference
@@ -192,22 +203,63 @@ public final class JAASUserAdmin implements UserAdmin {
         return backingEngine;
     }
 
+    private void notify(final UserAdminEvent userAdminEvent) {
+
+        // Derive event topic
+        String topic = "org/osgi/service/useradmin/UserAdmin/";
+        switch (userAdminEvent.getType()) {
+        case UserAdminEvent.ROLE_CREATED:
+            topic += "ROLE_CREATED";
+            break;
+
+        case UserAdminEvent.ROLE_CHANGED:
+            topic += "ROLE_CHANGED";
+            break;
+
+        case UserAdminEvent.ROLE_REMOVED:
+            topic += "ROLE_REMOVED";
+            break;
+
+        default:
+            throw new IllegalArgumentException("User admin event with unsupported type: " + userAdminEvent.getType());
+        }
+
+        // Create properties
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("event", userAdminEvent);
+        properties.put("role", userAdminEvent.getRole());
+        properties.put("role.name", userAdminEvent.getRole().getName());
+        properties.put("role.type", userAdminEvent.getRole().getType());
+        properties.put("service", userAdminEvent.getServiceReference());
+        properties.put("service.id", 0L);
+        properties.put("service.objectClass", new String[] {UserAdmin.class.getName()});
+        properties.put("service.pid", "dummy");
+
+        eventAdmin.postEvent(new Event(topic, properties));
+    }
+
 
     // Methods implementing UserAdmin
 
     @Override
     public @Nullable Role createRole(final String name, final int type) {
 
+        ServiceReference<UserAdmin> serviceReference = (@NonNull ServiceReference<UserAdmin>) null;
+
         switch (type) {
         case Role.USER:
             getBackingEngine().addUser(name, "password");
+            Role userRole = new RoleImpl(name, Role.USER);
+            notify(new UserAdminEvent(serviceReference, UserAdminEvent.ROLE_CREATED, userRole));
 
-            return new RoleImpl(name, Role.USER);
+            return userRole;
 
         case Role.GROUP:
             getBackingEngine().createGroup(name);
+            Role groupRole = new RoleImpl(name, Role.GROUP);
+            notify(new UserAdminEvent(serviceReference, UserAdminEvent.ROLE_CREATED, groupRole));
 
-            return new RoleImpl(name, Role.GROUP);
+            return groupRole;
 
         default:
             throw new IllegalArgumentException("Unsupported type: " + type);
@@ -217,13 +269,17 @@ public final class JAASUserAdmin implements UserAdmin {
     @Override
     @SuppressWarnings({"checkstyle:AvoidNestedBlocks", "argument.type.incompatible"})
     public boolean removeRole(final String name) {
+
         BackingEngine backingEngine = getBackingEngine();
+        ServiceReference<UserAdmin> serviceReference = (@NonNull ServiceReference<UserAdmin>) null;
 
         // Remove the role if it's a user
         {
             @Nullable UserPrincipal userPrincipal = backingEngine.lookupUser(name);
             if (userPrincipal != null) {
                 backingEngine.deleteUser(userPrincipal.getName());
+                Role userRole = new RoleImpl(userPrincipal.getName(), Role.USER);
+                notify(new UserAdminEvent(serviceReference, UserAdminEvent.ROLE_REMOVED, userRole));
 
                 return true;
             }
@@ -242,6 +298,10 @@ public final class JAASUserAdmin implements UserAdmin {
             for (UserPrincipal userPrincipal : backingEngine.listUsers()) {
                 backingEngine.deleteGroup(userPrincipal.getName(), groupPrincipal.getName());
             }
+
+            // Notify listeners
+            Role groupRole = new RoleImpl(groupPrincipal.getName(), Role.GROUP);
+            notify(new UserAdminEvent(serviceReference, UserAdminEvent.ROLE_REMOVED, groupRole));
 
             return true;
         }

@@ -13,7 +13,7 @@
         </listitem>
       </template>
     </listbox>
-    <zk id="detail"/>
+    <box id="detail"/>
   </hlayout>
   <button id="createUserButton" label="${win$composer.labels.manage_users_createUserButton_label}"/>
   <button id="createGroupButton" label="${win$composer.labels.manage_users_createGroupButton_label}"/>

@@ -103,9 +103,6 @@ public final class UploadMenuitemService implements MenuitemService {
         // Reactively maintain the enabled/disabled status
         Users.observable().subscribe(user -> {
             assert userAdmin != null : "@AssumeAssertion(nullness)";
-            LOGGER.info("Useradmin {}", userAdmin);
-            LOGGER.info("Caller {}", Users.getCaller(userAdmin));
-            assert userAdmin != null : "@AssumeAssertion(nullness)";
             boolean notManager2 = !Users.getCaller(userAdmin).authorization().hasRole("manager");
             menuitem.setDisabled(notManager2);
         });
