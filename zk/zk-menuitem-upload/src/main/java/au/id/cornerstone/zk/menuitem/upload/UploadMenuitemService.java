@@ -66,13 +66,13 @@ public final class UploadMenuitemService implements MenuitemService {
     @Override
     @SuppressWarnings("MagicNumber")
     public Menuitem newMenuitem() {
-        Menuitem menuitem = new Menuitem("Upload");
+        ResourceBundle labels = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent());
+        Menuitem menuitem = new Menuitem(labels.getString("menuitem.label"));
         menuitem.addEventListener("onClick", new EventListener() {
             @Override
             public void onEvent(final Event event) {
-                ResourceBundle labels = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent());
                 Map<String, Object> params = new HashMap<>();
-                Fileupload.get(params, labels.getString("message"), labels.getString("title"),
+                Fileupload.get(params, labels.getString("fileupload.message"), labels.getString("fileupload.title"),
                     "*",      // accept content type
                     1000,     // maximum simultaneous uploads
                     1000000,  // maximum upload size (kilobytes)
