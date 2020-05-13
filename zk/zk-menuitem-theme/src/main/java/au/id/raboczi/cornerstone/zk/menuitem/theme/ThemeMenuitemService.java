@@ -24,7 +24,9 @@ package au.id.raboczi.cornerstone.zk.menuitem.theme;
 
 import au.id.raboczi.cornerstone.zk.MenuitemService;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 import org.osgi.service.component.annotations.Component;
+import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -67,7 +69,10 @@ public final class ThemeMenuitemService implements MenuitemService {
             menupopup.appendChild(menuitem);
         }
 
-        Menu menu = new Menu("Theme");
+        ClassLoader classLoader = ThemeMenuitemService.class.getClassLoader();
+        assert classLoader != null : "@AssumeAssertion(nullness)";
+        ResourceBundle labels = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent(), classLoader);
+        Menu menu = new Menu(labels.getString("theme.menu.label"));
         menu.appendChild(menupopup);
 
         return menu;
