@@ -26,10 +26,13 @@ import au.id.raboczi.cornerstone.util.RxOSGi;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import java.util.Optional;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.zk.ui.Desktop;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -63,9 +66,30 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
 
         roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
 
-        RxOSGi
-            .fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_CREATED", getBundleContext())
-            .subscribe(userAdminEvent -> LOGGER.info("Manage user {}", userAdminEvent));
+        RxOSGi.fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_CREATED", getBundleContext())
+              .subscribe(userAdminEvent -> updateRoleListbox());
+
+        RxOSGi.fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_REMOVED", getBundleContext())
+              .subscribe(userAdminEvent -> updateRoleListbox());
+    }
+
+    /**
+     * Update {@list #roleListbox}.
+     *
+     * @throws InterruptedException if the current ZK desktop couldn't be made active
+     */
+    private void updateRoleListbox() throws InterruptedException {
+        Desktop desktop = roleListbox.getDesktop();
+        Executions.activate(desktop);
+        try {
+            roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
+
+        } catch (InvalidSyntaxException e) {
+            throw new Error("Bad hardcoded constant", e);
+
+        } finally {
+            Executions.deactivate(desktop);
+        }
     }
 
     /** @param event  clicked "Create user" button */
