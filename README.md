@@ -71,7 +71,7 @@ It is suited for production.</del>
 
 ## Notes
 
-The Karaf console is available at [http://radiostar.local:8181/system/console](http://radiostar.local:8181/system/console).
+The Karaf console is available at [http://localhost:8181/system/console](http://localhost:8181/system/console).
 
 From the Karaf command line, the test service can be accessed using `test:get` and `test:set`.
 
