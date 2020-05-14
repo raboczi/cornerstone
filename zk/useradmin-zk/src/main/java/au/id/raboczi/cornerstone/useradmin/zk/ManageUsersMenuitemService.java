@@ -37,6 +37,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.MouseEvent;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Window;
 
@@ -71,9 +72,15 @@ public final class ManageUsersMenuitemService implements MenuitemService {
             public void onEvent(final Event event) {
                 MouseEvent mouseEvent = (MouseEvent) event;
                 if ((mouseEvent.getKeys() & MouseEvent.META_KEY) != 0) {
+                    // Open in a new window/tab, but remain on the current one
                     Executions.getCurrent().sendRedirect("manage-users", "_blank");
 
+                } else if ((mouseEvent.getKeys() & MouseEvent.SHIFT_KEY) != 0) {
+                    // Open in a new window/tab, and switch to the new one
+                    Clients.evalJavaScript("window.open('manage-users')");
+
                 } else {
+                    // Open in a modal window
                     assert cl != null : "@AssumeAssertion(nullness)";
                     String zul = "au/id/raboczi/cornerstone/useradmin/zk/manageUsers.zul";
                     ((Window) Components.createComponent(zul, cl)).doModal();
