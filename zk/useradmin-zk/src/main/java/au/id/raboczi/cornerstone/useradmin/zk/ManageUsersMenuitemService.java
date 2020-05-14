@@ -67,6 +67,7 @@ public final class ManageUsersMenuitemService implements MenuitemService {
         ClassLoader cl = ManageUsersMenuitemService.class.getClassLoader();
         ResourceBundle labels = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent());
         Menuitem menuitem = new Menuitem(labels.getString("manageUsers.menuitem.label"));
+        //menuitem.setWidgetListener("onClick", "window.open('manage-users', '_blank', 'manage-users');");
         menuitem.addEventListener("onClick", new EventListener() {
             @Override
             public void onEvent(final Event event) {

@@ -64,6 +64,8 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
     public void doAfterCompose(final Window window) throws Exception {
         super.doAfterCompose(window);
 
+        window.getDesktop().enableServerPush(true);
+
         roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
 
         RxOSGi.fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_CREATED", getBundleContext())
@@ -79,7 +81,7 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
      * @throws InterruptedException if the current ZK desktop couldn't be made active
      */
     private void updateRoleListbox() throws InterruptedException {
-        Desktop desktop = roleListbox.getDesktop();
+        Desktop desktop = getSelf().getDesktop();
         Executions.activate(desktop);
         try {
             roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
