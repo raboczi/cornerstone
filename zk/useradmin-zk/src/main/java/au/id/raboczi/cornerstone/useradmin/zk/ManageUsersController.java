@@ -22,6 +22,7 @@ package au.id.raboczi.cornerstone.useradmin.zk;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.util.RxOSGi;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import java.util.Optional;
@@ -61,6 +62,10 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
         super.doAfterCompose(window);
 
         roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
+
+        RxOSGi
+            .fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_CREATED", getBundleContext())
+            .subscribe(userAdminEvent -> LOGGER.info("Manage user {}", userAdminEvent));
     }
 
     /** @param event  clicked "Create user" button */

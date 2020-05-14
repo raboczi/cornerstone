@@ -25,6 +25,7 @@ package au.id.raboczi.cornerstone.test_service.zk;
 import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.test_service.TestService;
+import au.id.raboczi.cornerstone.util.RxOSGi;
 import au.id.raboczi.cornerstone.zk.Users;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;

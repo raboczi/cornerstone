@@ -62,6 +62,7 @@
 
     <bundle>mvn:au.id.raboczi.cornerstone/zk-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</bundle>
+    <bundle>mvn:au.id.raboczi.cornerstone/service-util/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/useradmin-zk/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-menuitem-login/${project.version}</bundle>

@@ -1,8 +1,8 @@
-package au.id.raboczi.cornerstone.test_service.zk;
+package au.id.raboczi.cornerstone.util;
 
 /*-
  * #%L
- * Cornerstone :: Test service ZK UI
+ * Cornerstone :: Common utilities
  * %%
  * Copyright (C) 2019 - 2020 Simon Raboczi
  * %%

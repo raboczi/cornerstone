@@ -39,6 +39,12 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>service-util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>zk-api</artifactId>
       <version>${project.version}</version>
     </dependency>
