@@ -1,13 +1,17 @@
 <?component name="dmimage" macroURI="dmimage.zul"?>
 <?component name="test" macroURI="au/id/raboczi/cornerstone/test_service/zk/test.zul"?>
-<?link rel="icon" href="icon.jpg" type="image/jpeg"?>
+<?link rel="icon" href="cog.svg" type="image/svg"?>
 <zk>
   <style src="style.css"/>
   <window>
     <vlayout>
       <menubar id="menubar" apply="au.id.raboczi.cornerstone.zk.menubar.MenubarController"/>
       <test label="${labels.index_test_label}"/>
-      <dmimage src="cornerstone.png" darksrc="cornerstone-dark.png"/>
+      <image src="cog.svg" style="height: 100px"/>
+      <!--
+      <dmimage src="cog.svg" darksrc="cog-dark.svg" alt="Cornerstone icon" style="height: 100px"/>
+      -->
+      <dmimage src="cog.png" darksrc="cog-dark.png" alt="Cornerstone icon"/>
     </vlayout>
   </window>
 </zk>
