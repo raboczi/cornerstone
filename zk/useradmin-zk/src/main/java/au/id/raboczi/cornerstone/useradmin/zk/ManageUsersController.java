@@ -31,8 +31,8 @@ import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zkoss.addons.rxzk.ZkServerPush;
 import org.zkoss.zk.ui.Desktop;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -69,10 +69,12 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
         roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
 
         RxOSGi.fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_CREATED", getBundleContext())
-              .subscribe(userAdminEvent -> updateRoleListbox());
+              .subscribe(userAdminEvent -> updateRoleListbox(),
+                         throwable -> LOGGER.error("Unable to handle role creation", throwable));
 
         RxOSGi.fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_REMOVED", getBundleContext())
-              .subscribe(userAdminEvent -> updateRoleListbox());
+              .subscribe(userAdminEvent -> updateRoleListbox(),
+                         throwable -> LOGGER.error("Unable to handle role removal", throwable));
     }
 
     /**
@@ -82,16 +84,14 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
      */
     private void updateRoleListbox() throws InterruptedException {
         Desktop desktop = getSelf().getDesktop();
-        Executions.activate(desktop);
-        try {
-            roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
+        ZkServerPush.updateUi(desktop, () -> {
+            try {
+                roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
 
-        } catch (InvalidSyntaxException e) {
-            throw new Error("Bad hardcoded constant", e);
-
-        } finally {
-            Executions.deactivate(desktop);
-        }
+            } catch (InvalidSyntaxException e) {
+                LOGGER.error("Supposedly impossible exception", e);
+            }
+        });
     }
 
     /** @param event  clicked "Create user" button */

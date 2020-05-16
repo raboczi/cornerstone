@@ -1,10 +1,11 @@
-<window id="win" width="450px" closable="true" position="center" title="${win$composer.labels.manage_users_title}"
+<?component name="dmimage" macroURI="dmimage.zul"?>
+<window id="win" width="600px" closable="true" position="center" title="${win$composer.labels.manage_users_title}"
         apply="au.id.raboczi.cornerstone.useradmin.zk.ManageUsersController">
-  <hlayout>
+  <hlayout hflex="min">
     <listbox id="roleListbox">
       <listhead>
-        <listheader label="Name"/>
-        <listheader label="Type"/>
+        <listheader label="Name" hflex="min"/>
+        <listheader label="Type" hflex="min"/>
       </listhead>
       <template name="model">
         <listitem>
@@ -13,10 +14,12 @@
         </listitem>
       </template>
     </listbox>
-    <box id="detail"/>
+    <image src="au/id/raboczi/cornerstone/useradmin/zk/user.svg" style="height: 200px"/>
   </hlayout>
-  <button id="createUserButton" label="${win$composer.labels.manage_users_createUserButton_label}"/>
-  <button id="createGroupButton" label="${win$composer.labels.manage_users_createGroupButton_label}"/>
-  <button id="deleteButton" label="${win$composer.labels.manage_users_deleteButton_label}"/>
-  <button id="cancelButton" label="${labels._cancel}"/>
+  <hlayout>
+    <button id="createUserButton" label="${win$composer.labels.manage_users_createUserButton_label}"/>
+    <button id="createGroupButton" label="${win$composer.labels.manage_users_createGroupButton_label}"/>
+    <button id="deleteButton" label="${win$composer.labels.manage_users_deleteButton_label}"/>
+    <button id="cancelButton" label="${labels._cancel}"/>
+  </hlayout>
 </window>

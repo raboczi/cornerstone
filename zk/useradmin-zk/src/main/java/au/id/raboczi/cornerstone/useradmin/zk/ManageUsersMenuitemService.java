@@ -71,19 +71,19 @@ public final class ManageUsersMenuitemService implements MenuitemService {
         menuitem.addEventListener("onClick", new EventListener() {
             @Override
             public void onEvent(final Event event) {
+                String zul = "au/id/raboczi/cornerstone/useradmin/zk/manageUsers.zul";
                 MouseEvent mouseEvent = (MouseEvent) event;
                 if ((mouseEvent.getKeys() & MouseEvent.META_KEY) != 0) {
                     // Open in a new window/tab, but remain on the current one
-                    Executions.getCurrent().sendRedirect("manage-users", "_blank");
+                    Executions.getCurrent().sendRedirect(zul, "_blank");
 
                 } else if ((mouseEvent.getKeys() & MouseEvent.SHIFT_KEY) != 0) {
                     // Open in a new window/tab, and switch to the new one
-                    Clients.evalJavaScript("window.open('manage-users')");
+                    Clients.evalJavaScript("window.open('" + zul + "')");
 
                 } else {
                     // Open in a modal window
                     assert cl != null : "@AssumeAssertion(nullness)";
-                    String zul = "au/id/raboczi/cornerstone/useradmin/zk/manageUsers.zul";
                     ((Window) Components.createComponent(zul, cl)).doModal();
                 }
             }
