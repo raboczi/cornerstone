@@ -48,8 +48,8 @@ public final class DarkModeImageController extends SCRSelectorComposer<Component
 
         String colorScheme;
         switch (Themes.getCurrentTheme()) {
-        case "chiaroscuro":
-        case "chiaroscuro_c":
+        case "circadian":
+        case "circadian_c":
             colorScheme = "reactive";
             break;
 

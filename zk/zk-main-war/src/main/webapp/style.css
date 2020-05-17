@@ -24,7 +24,7 @@
 .z-icon-caret-left:before  { content: "\f0d9"; }
 .z-icon-caret-right:before { content: "\f0da"; }
 
-/* Chiaroscuro ZK theme, light palette (Iceblue) */
+/* ZK theme, light palette (Iceblue) */
 :root {
   color-scheme: light dark;
   --text-color-default:      rgba(0, 0, 0, 0.9);
@@ -53,9 +53,9 @@
   --slider-ticks:            '~./zul/img/slider/scale-ticks.png';
 }
 
-/* Chiaroscuro ZK theme, dark palette (Montana) */
+/* ZK theme, dark palette (Montana) */
 @media (prefers-color-scheme: dark) {
-  body.chiaroscuro_c {
+  body.circadian, body.circadian_c {
     --text-color-default:      rgba(255,255,255,0.9);
     --text-color-light:        rgba(255,255,255,0.68);
     --text-color-lighter:      rgba(255,255,255,0.24);
