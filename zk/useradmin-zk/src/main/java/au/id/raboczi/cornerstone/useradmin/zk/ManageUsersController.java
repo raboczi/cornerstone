@@ -37,6 +37,7 @@ import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListModelArray;
@@ -120,6 +121,12 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
     @Listen("onClick = #cancelButton")
     public void onClickCancelButton(final MouseEvent event) {
         getSelf().detach();
+
+        // If manageUsers.zul was opened in a new window, we want to close that window.
+        // We don't want to close the window if manageUsers.zul was opened using Window.doModal().
+        // We depend here on the fact that (at the time of writing) browsers refuse to close windows
+        // which weren't opened via a script.
+        Clients.evalJavaScript("window.close()");
     }
 
     /** @param event  selected role listbox */
