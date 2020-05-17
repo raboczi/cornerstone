@@ -1,3 +1,4 @@
+<?component name="dmimage" macroURI="/dmimage.zul"?>
 <?link rel="stylesheet" type="text/css" href="/style.css"?>
 <window id="win" width="600px" closable="true" position="center" title="${win$composer.labels.manage_users_title}"
         apply="au.id.raboczi.cornerstone.useradmin.zk.ManageUsersController">
@@ -14,7 +15,7 @@
         </listitem>
       </template>
     </listbox>
-    <image src="/au/id/raboczi/cornerstone/useradmin/zk/user.svg" style="height: 150px"/>
+    <dmimage src="/au/id/raboczi/cornerstone/useradmin/zk/user.svg" darksrc="/au/id/raboczi/cornerstone/useradmin/zk/user-dark.svg" _style="height: 150px"/>
   </hlayout>
   <hlayout>
     <button id="createUserButton" label="${win$composer.labels.manage_users_createUserButton_label}"/>

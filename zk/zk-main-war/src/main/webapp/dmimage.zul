@@ -1,17 +1,18 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 <zk xmlns:h="http://www.w3.org/1999/xhtml">
   <div apply="au.id.raboczi.cornerstone.zk.main_war.DarkModeImageController">
     <zk switch="${arg.colorscheme}">
       <zk case="reactive">  <!-- reactive themes -->
         <h:picture>
-          <h:source srcset="${arg.darksrc}" media="(prefers-color-scheme: dark)"/>
-          <h:img src="${arg.src}" style="${arg.style}" alt="${arg.alt}"/>
+          <h:source srcset="${c:encodeURL(arg.darksrc)}" media="(prefers-color-scheme: dark)"/>
+          <h:img src="${arg.src}" style="${arg._style}" alt="${arg.alt}"/>
         </h:picture>
       </zk>
       <zk case="dark">  <!-- dark themes -->
-        <h:img src="${arg.darksrc}" style="${arg.style}" alt="${arg.alt}"/>
+        <h:img src="${arg.darksrc}" style="${arg._style}" alt="${arg.alt}"/>
       </zk>
       <zk>  <!-- unknown themes (light) -->
-        <h:img src="${arg.src}" style="${arg.style}" alt="${arg.alt}"/>
+        <h:img src="${arg.src}" style="${arg._style}" alt="${arg.alt}"/>
       </zk>
     </zk>
   </div>

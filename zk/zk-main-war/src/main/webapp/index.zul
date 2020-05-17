@@ -7,10 +7,7 @@
     <vlayout>
       <menubar id="menubar" apply="au.id.raboczi.cornerstone.zk.menubar.MenubarController"/>
       <test label="${labels.index_test_label}"/>
-      <image src="cog.svg" style="height: 100px"/>
-      <!--
-      <dmimage src="cog.svg" darksrc="cog-dark.svg" alt="Cornerstone icon" style="height: 100px"/>
-      -->
+      <dmimage src="cog.svg" darksrc="cog-dark.svg" alt="Cornerstone icon" _style="height: 100px"/>
       <dmimage src="cog.png" darksrc="cog-dark.png" alt="Cornerstone icon"/>
     </vlayout>
   </window>
