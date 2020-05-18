@@ -1,0 +1,24 @@
+<?link rel="stylesheet" type="text/css" href="/style.css"?>
+<window id="win2" width="600px" closable="true" position="center" title="${win2$composer.labels.create_user_title}"
+        apply="au.id.raboczi.cornerstone.useradmin.zk.CreateUserController">
+  <grid>
+    <columns>
+      <column width="140px"/>
+      <column width="200px"/>
+    </columns>
+    <rows>
+      <row>
+        <label value="${win2$composer.labels.create_user_username_label}"/>
+        <textbox id="usernameTextbox" value="" width="100%" tabindex="1"/>
+      </row>
+      <row>
+        <label value="${win2$composer.labels.create_user_password_label}"/>
+        <textbox id="passwordTextbox" type="password" value="" width="100%" tabindex="2"/>
+      </row>
+    </rows>
+  </grid>
+  <hlayout style="text-align: center">
+    <button id="createButton" label="${win2$composer.labels.create_user_createButton_label}" type="submit"/>
+    <button id="cancelButton" label="${labels._cancel}"/>
+  </hlayout>
+</window>

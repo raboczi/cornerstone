@@ -23,6 +23,7 @@ package au.id.raboczi.cornerstone.useradmin.zk;
  */
 
 import au.id.raboczi.cornerstone.util.RxOSGi;
+import au.id.raboczi.cornerstone.zk.util.Components;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
 import java.util.Optional;
@@ -98,7 +99,10 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
     /** @param event  clicked "Create user" button */
     @Listen("onClick = #createUserButton")
     public void onClickCreateUserButton(final MouseEvent event) {
-        Role newuserRole = userAdmin.createRole("newuser", Role.USER);
+        //Role newuserRole = userAdmin.createRole("newuser", Role.USER);
+        ClassLoader cl = ManageUsersController.class.getClassLoader();
+        assert cl != null : "@AssumeAssertion(nullness)";
+        ((Window) Components.createComponent("au/id/raboczi/cornerstone/useradmin/zk/createUser.zul", cl)).doModal();
     }
 
     /** @param event  clicked "Create group" button */
