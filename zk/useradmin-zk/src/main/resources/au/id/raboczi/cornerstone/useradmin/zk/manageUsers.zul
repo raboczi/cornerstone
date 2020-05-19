@@ -1,5 +1,6 @@
 <?component name="dmimage" macroURI="/dmimage.zul"?>
 <?link rel="stylesheet" type="text/css" href="/circadian.css"?>
+<?xel-method prefix="x" name="roleType" class="au.id.raboczi.cornerstone.useradmin.zk.RoleTypeFormatter" signature="String roleType(int)"?>
 <window id="win" width="800px" closable="true" position="center" title="${win$composer.labels.manage_users_title}"
         apply="au.id.raboczi.cornerstone.useradmin.zk.ManageUsersController">
   <hlayout hflex="min">
@@ -11,7 +12,7 @@
       <template name="model">
         <listitem>
           <listcell label="${each.name}"/>
-          <listcell label="${each.type}"/>
+          <listcell label="${x:roleType(each.type)}"/>
         </listitem>
       </template>
     </listbox>
