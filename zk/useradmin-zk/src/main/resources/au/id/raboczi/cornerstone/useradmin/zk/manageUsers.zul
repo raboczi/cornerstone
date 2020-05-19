@@ -1,6 +1,6 @@
 <?component name="dmimage" macroURI="/dmimage.zul"?>
 <?link rel="stylesheet" type="text/css" href="/circadian.css"?>
-<window id="win" width="600px" closable="true" position="center" title="${win$composer.labels.manage_users_title}"
+<window id="win" width="800px" closable="true" position="center" title="${win$composer.labels.manage_users_title}"
         apply="au.id.raboczi.cornerstone.useradmin.zk.ManageUsersController">
   <hlayout hflex="min">
     <listbox id="roleListbox">
@@ -15,7 +15,9 @@
         </listitem>
       </template>
     </listbox>
-    <dmimage src="/au/id/raboczi/cornerstone/useradmin/zk/user.svg" darksrc="/au/id/raboczi/cornerstone/useradmin/zk/user-dark.svg" _style="height: 150px"/>
+    <box id="detailBox" hflex="min">
+      <dmimage src="/au/id/raboczi/cornerstone/useradmin/zk/user.svg" darksrc="/au/id/raboczi/cornerstone/useradmin/zk/user-dark.svg" _style="height: 150px"/>
+    </box>
   </hlayout>
   <hlayout>
     <button id="createUserButton" label="${win$composer.labels.manage_users_createUserButton_label}"/>

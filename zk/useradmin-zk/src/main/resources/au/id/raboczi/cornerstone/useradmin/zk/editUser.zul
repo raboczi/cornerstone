@@ -1,0 +1,16 @@
+<?link rel="stylesheet" type="text/css" href="/circadian.css"?>
+<window id="win2" width="600px" closable="true" position="center" title="${win2$composer.labels.edit_user_title}"
+        apply="au.id.raboczi.cornerstone.useradmin.zk.EditUserController">
+  <grid>
+    <columns>
+      <column width="140px"/>
+      <column width="200px"/>
+    </columns>
+    <rows>
+      <row>
+        <label value="${win2$composer.labels.create_user_username_label}"/>
+        <textbox id="usernameTextbox" value="" width="100%" tabindex="1"/>
+      </row>
+    </rows>
+  </grid>
+</window>

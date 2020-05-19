@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Map;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 
@@ -47,13 +49,36 @@ public abstract class Components {
      * @throws ClassCastException if the ZUL doesn't describe the expected type T
      */
     public static <T extends Component> T createComponent(final String path, final ClassLoader classLoader) {
+        return createComponent(path, classLoader, null, null);
+    }
+
+    /**
+     * Construct a {@link Component} from a ZUL document in the classpath.
+     *
+     * This is more type-safe than using {@link Executions} directly.
+     *
+     * @param path  a ZUL document in the classpath describing a ZK component
+     * @param classLoader  which classpath to search
+     * @param parent  the parent, or <code>null</code> for a root component
+     * @param arg  a map of parameters accessible by the <code>arg</code> EL variable, or <code>null</code>
+     * @param <T>  the specific type of the described ZK component
+     * @return a {@link Component} constructed from the ZUL document
+     * @throws IllegalArgumentException if <var>path</var> isn't an item in the classpath
+     * @throws ClassCastException if the ZUL doesn't describe the expected type T
+     */
+    public static <T extends Component> T createComponent(
+        final String path,
+        final ClassLoader classLoader,
+        final @Nullable Component parent,
+        final @Nullable Map<?, ?> arg) {
+
         try {
             InputStream in = classLoader.getResourceAsStream(path);
             if (in == null) {
                 throw new IllegalArgumentException(path + " is not in " + classLoader);
             }
             Reader r = new InputStreamReader(in, "UTF-8");
-            Component component = Executions.createComponentsDirectly(r, "zul", null, null);
+            Component component = Executions.createComponentsDirectly(r, "zul", parent, arg);
 
             return (T) component;
 

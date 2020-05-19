@@ -26,6 +26,8 @@ import au.id.raboczi.cornerstone.util.RxOSGi;
 import au.id.raboczi.cornerstone.zk.util.Components;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.service.useradmin.Role;
@@ -39,6 +41,7 @@ import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Box;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListModelArray;
@@ -56,6 +59,11 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
     @Reference
     @SuppressWarnings("nullness")
     private UserAdmin userAdmin;
+
+    /** Box to display a detail view of s selected role. */
+    @Wire("#detailBox")
+    @SuppressWarnings("initialization.fields.uninitialized")
+    private Box detailBox;
 
     /** Listbox to display roles. */
     @Wire("#roleListbox")
@@ -139,6 +147,13 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
         Optional<Role> selectedRole = event.getSelectedObjects().stream().findAny();
         if (selectedRole.isPresent()) {
             LOGGER.info("Detail {}", selectedRole.get());
+
+            ClassLoader cl = ManageUsersController.class.getClassLoader();
+            assert cl != null : "@AssumeAssertion(nullness)";
+            Map arg = new HashMap();
+            arg.put("user", selectedRole.get());
+            detailBox.getChildren().clear();
+            Components.createComponent("au/id/raboczi/cornerstone/useradmin/zk/editUser.zul", cl, detailBox, arg);
         }
     }
 }
