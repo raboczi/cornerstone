@@ -1,6 +1,6 @@
 <?component name="test" macroURI="au/id/raboczi/cornerstone/test_service/zk/test.zul"?>
 <zk>
-  <style src="res/style.css"/>
+  <style src="res/circadian.css"/>
   <window>
     <vlayout>
       <menubar id="menubar" apply="au.id.raboczi.cornerstone.zk.menubar.MenubarController"/>

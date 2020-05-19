@@ -1,8 +1,8 @@
 <?component name="dmimage" macroURI="dmimage.zul"?>
 <?component name="test" macroURI="au/id/raboczi/cornerstone/test_service/zk/test.zul"?>
-<?link rel="icon" href="cog.svg" type="image/svg"?>
+<?link rel="icon" type="image/svg" href="/cog.svg"?>
+<?link rel="stylesheet" type="text/css" href="/circadian.css"?>
 <zk>
-  <style src="style.css"/>
   <window>
     <vlayout>
       <menubar id="menubar" apply="au.id.raboczi.cornerstone.zk.menubar.MenubarController"/>
