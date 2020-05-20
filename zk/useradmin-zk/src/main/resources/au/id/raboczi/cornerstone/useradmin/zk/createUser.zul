@@ -1,4 +1,3 @@
-<?link rel="stylesheet" type="text/css" href="/circadian.css"?>
 <window id="win2" width="600px" closable="true" position="center" title="${win2$composer.labels.create_user_title}"
         apply="au.id.raboczi.cornerstone.useradmin.zk.CreateUserController">
   <grid>
