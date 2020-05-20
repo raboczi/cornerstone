@@ -1,0 +1,11 @@
+<language-addon>
+	<addon-name>circadian</addon-name>
+	<depends>zul</depends>
+	<language-name>xul/html</language-name>
+	
+	<version>
+		<version-class>org.zkoss.theme.circadian.Version</version-class>
+		<version-uid>0.1-SNAPSHOT</version-uid>
+	</version>
+
+</language-addon>

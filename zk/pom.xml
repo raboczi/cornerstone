@@ -13,6 +13,7 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>circadian</module>
     <module>test-service-zk</module>
     <module>useradmin-zk</module>
     <module>zk-api</module>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>au.id.raboczi.cornerstone</groupId>
+    <artifactId>parent-zk</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>circadian</artifactId>
+  <name>Cornerstone :: ZK theme :: Circadian</name>
+  <packaging>jar</packaging>
+  <description>A ZK theme which supports dynamic dark mode</description>
+
+  <properties>
+    <checkstyle.skip>true</checkstyle.skip>  <!-- Code from ZK's theme template is not ours to style -->
+    <zktheme.resources>${project.basedir}/src/archive</zktheme.resources>
+    <zktheme.web.resources>${zktheme.resources}/web</zktheme.web.resources>
+    <zktheme.theme.outputDirectory>${project.build.outputDirectory}/web/${project.artifactId}</zktheme.theme.outputDirectory>
+  </properties>
+
+  <repositories>
+    <repository>  <!-- Provides the evaluation version of zkmax to compile against -->
+      <id>ZK PE EE Evaluation</id>
+      <url>http://mavensync.zkoss.org/eval/</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <sourceDirectory>${project.basedir}/src/</sourceDirectory>
+    <resources>
+      <!-- handle class web resources separately below -->
+      <resource>
+        <directory>${zktheme.resources}</directory>
+        <excludes>
+          <exclude>web/**</exclude>
+        </excludes>
+      </resource>
+
+      <!-- copy non-less into theme folder (here artifactId == theme name), less files will be handled by plugin below -->
+      <resource>
+        <directory>${zktheme.web.resources}</directory>
+        <excludes>
+          <exclude>**/*.less</exclude>
+        </excludes>
+        <targetPath>${zktheme.theme.outputDirectory}</targetPath>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <id>compile-less</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>npx</executable>
+              <arguments>
+                <argument>zklessc</argument>
+                <argument>--source</argument>
+                <argument>${project.basedir}/src/archive/web</argument>
+                <argument>--output</argument>
+                <argument>${project.build.outputDirectory}/web/${project.artifactId}</argument>
+                <argument>--compress</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <excludeDependencies>*;scope=provided|compile|runtime</excludeDependencies>
+          <instructions>
+            <_include>${project.basedir}/src/archive/META-INF/MANIFEST.MF</_include>
+            <Bundle-Version>${project.version}</Bundle-Version>
+            <Bundle-Name>${project.groupId}.${project.artifactId}</Bundle-Name>
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Export-Package>*</Export-Package>
+            <Import-Package>*</Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <id>bin</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>assembly/zip.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+          <execution>
+            <id>bundle</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>assembly/bundle.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zkmax</artifactId>
+      <version>9.0.0-Eval</version>
+      <optional>true</optional>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-jdk14</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+
+</project>

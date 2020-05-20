@@ -1,0 +1,295 @@
+@import "~./zul/less/_header.less";
+
+.z-popup {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	&-content {
+		.fontStyle(@baseContentFontFamily, @fontSizeMedium, normal, @baseTextColor);
+		height: 100%;
+		padding: @popupPadding;
+		line-height: @baseLineHeight;
+		border: 1px solid @popupBorderColor;
+		.borderRadius(@baseBorderRadius);
+		background-color: @popupBackgroundColor;
+		.boxShadow('0 3px 6px 0 rgba(0,0,0,0.16), 0 2px 4px 0 rgba(0,0,0,0.24)');
+	}
+}
+
+// notification
+.z-notification {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.z-notification-icon {
+	position: absolute;
+	z-index: 1;
+
+	&.z-icon-times-circle, 
+	&.z-icon-exclamation-circle,
+	&.z-icon-info-circle {
+		.size(32px, 32px);
+		top: 50%;
+		font-size: 32px;
+		line-height: 32px;
+		margin-top: -16px;
+		left: 16px;
+	}
+}
+
+.z-notification-pointer + .z-notification-icon {
+	left: 8px;
+}
+
+.z-notification-left + .z-notification-icon {
+	left: 20px;
+}
+
+.z-notification-up + .z-notification-icon {
+	margin-top: -12px;
+}
+
+.z-notification-down + .z-notification-icon {
+	margin-top: -22px;
+}
+
+.z-notification-content {
+	font-family: @baseContentFontFamily;
+	font-size: @fontSizeMedium;
+	font-weight: normal;
+	width: 288px;
+	min-height: 80px;
+	padding: @notificationContentPadding;
+	position: relative;
+	overflow: hidden;
+	.borderRadius(@baseBorderRadius);
+	.boxShadow('0 3px 6px 0 rgba(0,0,0,0.16), 0 2px 4px 0 rgba(0,0,0,0.24)');
+}
+
+.z-notification-pointer ~ .z-notification-content {
+	.displaySize(table-cell, 260px, @notificationPointerContentHeight);
+	min-height: @notificationPointerContentHeight; // fix for IE9
+	padding: @notificationPointerContentPadding;
+	vertical-align: middle;
+}
+
+.z-notification-pointer {
+	.displaySize(none, 0, 0);
+	border: 10px solid transparent;
+	position: absolute;
+	z-index: 100;
+}
+
+// notification arrow: base style
+.z-notification-left,
+.z-notification-right,
+.z-notification-up,
+.z-notification-down {
+	border: 10px solid transparent;
+}
+
+// notification arrow: info
+.z-notification-info {
+	.z-notification-icon,
+	.z-notification-close,
+	.z-notification-content {
+		color: @notificationInfoColor;
+		background-color: @notificationInfoBackgroundColor;
+	}
+	.z-notification-left {
+		border-right-color: @notificationInfoBackgroundColor;
+	}
+	.z-notification-right {
+		border-left-color: @notificationInfoBackgroundColor;
+	}
+	.z-notification-up {
+		border-bottom-color: @notificationInfoBackgroundColor;
+	}
+	.z-notification-down {
+		border-top-color: @notificationInfoBackgroundColor;
+	}
+}
+
+// notification arrow: warning
+.z-notification-warning {
+	.z-notification-icon,
+	.z-notification-close,
+	.z-notification-content {
+		color: @notificationWarningColor;
+		background-color: @notificationWarningBackgroundColor;
+	}
+	.z-notification-left {
+		border-right-color: @notificationWarningBackgroundColor;
+	}
+	.z-notification-right {
+		border-left-color: @notificationWarningBackgroundColor;
+	}
+	.z-notification-up {
+		border-bottom-color: @notificationWarningBackgroundColor;
+	}
+	.z-notification-down {
+		border-top-color: @notificationWarningBackgroundColor;
+	}
+}
+
+// notification arrow: error
+.z-notification-error {
+	.z-notification-icon,
+	.z-notification-close,
+	.z-notification-content {
+		color: @notificationErrorColor;
+		background-color: @notificationErrorBackgroundColor;
+	}
+	.z-notification-left {
+		border-right-color: @notificationErrorBackgroundColor;
+	}
+	.z-notification-right {
+		border-left-color: @notificationErrorBackgroundColor;
+	}
+	.z-notification-up {
+		border-bottom-color: @notificationErrorBackgroundColor;
+	}
+	.z-notification-down {
+		border-top-color: @notificationErrorBackgroundColor;
+	}
+}
+
+.z-notification-close {
+	font-size: @notificationCloseFontSize;
+	.size(@notificationCloseIconSize, @notificationCloseIconSize);
+	padding: 0 2px;
+	line-height: @notificationCloseFontSize;
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	cursor: pointer;
+}
+
+.z-notification-right ~ .z-notification-close {
+	right: 16px;
+}
+.z-notification-up ~ .z-notification-close {
+	top: 16px;
+}
+
+// Toast
+.z-toast {
+	position: relative;
+	will-change: opacity;
+
+	&-content {
+		font-family: @baseContentFontFamily;
+		font-size: @fontSizeMedium;
+		font-weight: normal;
+		width: 320px;
+		min-height: 46px;
+		padding: 16px 42px 16px 56px;
+		position: relative;
+		overflow: hidden;
+		.borderRadius(@baseBorderRadius);
+		.boxShadow('0 3px 6px 0 rgba(0,0,0,0.16), 0 2px 4px 0 rgba(0,0,0,0.24)');
+	}
+	&-close {
+		font-size: 18px;
+		.size(20px, 20px);
+		padding: 0 2px;
+		position: absolute;
+		top: 50%;
+		right: 12px;
+		cursor: pointer;
+		margin-top: -10px;
+	}
+	&-icon {
+		.z-notification-icon();
+	}
+	&-error {
+		.z-toast-icon,
+		.z-toast-close,
+		.z-toast-content {
+			color: @notificationErrorColor;
+		}
+		.z-toast-content {
+			background-color: @notificationErrorBackgroundColor;
+		}
+	}
+	&-info {
+		.z-toast-icon,
+		.z-toast-close,
+		.z-toast-content {
+			color: @notificationInfoColor;
+		}
+		.z-toast-content {
+			background-color: @notificationInfoBackgroundColor;
+		}
+	}
+	&-warning {
+		.z-toast-icon,
+		.z-toast-close,
+		.z-toast-content {
+			color: @notificationWarningColor;
+		}
+		.z-toast-content {
+			background-color: @notificationWarningBackgroundColor;
+		}
+	}
+
+	.top() {
+		-ms-flex-direction: column-reverse;
+		flex-direction: column-reverse;
+		top: 0;
+	}
+
+	.middle() {
+		top: 50%;
+		transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+	}
+
+	.bottom() {
+		bottom: 0;
+	}
+
+	.left() {
+		left: 0;
+	}
+
+	.right() {
+		right: 0;
+	}
+
+	.center() {
+		left: 50%;
+		transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+	}
+
+	&-position {
+		display: -ms-flexbox;
+		display: flex;
+		position: fixed;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		z-index: 1800;
+	}
+
+	&-position > & {
+		margin-top: 10px;
+	}
+
+	&-position-top-left { .top(); .left(); }
+	&-position-top-center { .top(); .center(); }
+	&-position-top-right { .top(); .right(); }
+	&-position-middle-left { .middle(); .left(); }
+	&-position-middle-center {
+		.middle(); .center();
+		transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+	}
+	&-position-middle-right { .middle(); .right(); }
+	&-position-bottom-left { .bottom(); .left(); }
+	&-position-bottom-center { .bottom(); .center(); }
+	&-position-bottom-right { .bottom(); .right(); }
+}

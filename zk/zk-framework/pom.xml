@@ -26,7 +26,7 @@
         <configuration>
           <unpackBundle>false</unpackBundle>
           <instructions>
-            <Embed-Dependency>groupId=org.zkoss.*</Embed-Dependency>
+            <Embed-Dependency>groupId=${project.groupId}|org.zkoss.*</Embed-Dependency>
             <Embed-Directory>OSGI-INF/lib</Embed-Directory>
             <Export-Package>
               org.zkoss.zsoup.*;version=${zsoup.version},
@@ -37,6 +37,7 @@
               com.google.debugging.sourcemap;resolution:=optional,
               groovy.lang;resolution:=optional,
               javax.servlet.jsp.el;resolution:=optional,
+              !org.checkerframework.*,
               org.jruby.*;resolution:=optional,
               org.mozilla.javascript;resolution:=optional,
               org.python.*;resolution:=optional,
@@ -49,6 +50,12 @@
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>circadian</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.zkoss</groupId>
       <artifactId>zsoup</artifactId>
