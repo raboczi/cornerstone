@@ -26,9 +26,13 @@ import au.id.raboczi.cornerstone.util.RxOSGi;
 import au.id.raboczi.cornerstone.zk.util.Components;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.UserAdmin;
@@ -44,7 +48,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Box;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
-import org.zkoss.zul.ListModelArray;
+import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Window;
 
 /**
@@ -71,12 +75,24 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
     private Listbox roleListbox;
 
     @Override
+    @SuppressWarnings("nullness")
     public void doAfterCompose(final Window window) throws Exception {
         super.doAfterCompose(window);
 
-        window.getDesktop().enableServerPush(true);
+        // Populate the role listbox
+        List<Role> roles = new ArrayList<>();
+        @Nullable Role userAnyone = userAdmin.getRole(Role.USER_ANYONE);
+        if (userAnyone != null) {
+            roles.add(userAnyone);
+        }
+        Role[] userSomeones = userAdmin.getRoles("");
+        if (userSomeones != null) {
+            roles.addAll(Arrays.asList(userSomeones));
+        }
+        roleListbox.setModel(new ListModelList(roles));
 
-        roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
+        // Set up reactive event handlers
+        window.getDesktop().enableServerPush(true);
 
         RxOSGi.fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_CREATED", getBundleContext())
               .subscribe(userAdminEvent -> updateRoleListbox(),
@@ -96,7 +112,7 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
         Desktop desktop = getSelf().getDesktop();
         ZkServerPush.updateUi(desktop, () -> {
             try {
-                roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
+                roleListbox.setModel(new ListModelList(Arrays.asList(userAdmin.getRoles(""))));
 
             } catch (InvalidSyntaxException e) {
                 LOGGER.error("Supposedly impossible exception", e);

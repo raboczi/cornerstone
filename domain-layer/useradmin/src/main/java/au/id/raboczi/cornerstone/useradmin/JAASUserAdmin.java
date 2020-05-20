@@ -311,12 +311,20 @@ public final class JAASUserAdmin implements UserAdmin {
 
     @Override
     public @Nullable Role getRole(final String name) {
+
+        // Predefined roles
+        if (Role.USER_ANYONE.equals(name)) {
+            return new RoleImpl(name, Role.ROLE);
+        }
+
+        // User roles
         BackingEngine backingEngine = getBackingEngine();
         UserPrincipal userPrincipal = backingEngine.lookupUser(name);
         if (userPrincipal != null) {
             return new RoleImpl(name, Role.USER);
         }
 
+        // Group roles
         if (backingEngine.listGroups()
                          .keySet()
                          .stream()
