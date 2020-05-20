@@ -306,6 +306,7 @@ public final class JAASUserAdmin implements UserAdmin {
             return true;
         }
 
+        // Predefined roles cannot be removed
         return false;
     }
 
@@ -355,6 +356,12 @@ public final class JAASUserAdmin implements UserAdmin {
             .stream()
             .map(groupPrincipal -> new RoleImpl(groupPrincipal.getName(), Role.GROUP))
             .collect(Collectors.toList()));
+        roles.addAll(engine
+            .listUsers()
+            .stream()
+            .flatMap(userPrincipal -> engine.listRoles(userPrincipal).stream())
+            .map(rolePrincipal -> new RoleImpl(rolePrincipal.getName(), -1))
+            .collect(Collectors.toSet()));
 
         return roles.toArray(new Role[] {});
     }

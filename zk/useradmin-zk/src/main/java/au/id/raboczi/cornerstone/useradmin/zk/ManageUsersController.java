@@ -162,8 +162,6 @@ public final class ManageUsersController extends SCRSelectorComposer<Window> {
     public void onSelectRoleListbox(final SelectEvent event) {
         Optional<Role> selectedRole = event.getSelectedObjects().stream().findAny();
         if (selectedRole.isPresent()) {
-            LOGGER.info("Detail {}", selectedRole.get());
-
             ClassLoader cl = ManageUsersController.class.getClassLoader();
             assert cl != null : "@AssumeAssertion(nullness)";
             Map arg = new HashMap();
