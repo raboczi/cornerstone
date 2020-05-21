@@ -22,16 +22,25 @@ package au.id.raboczi.cornerstone.useradmin.zk;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.UserAdminExtension;
 import au.id.raboczi.cornerstone.zk.util.Reference;
 import au.id.raboczi.cornerstone.zk.util.SCRSelectorComposer;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.osgi.service.useradmin.Role;
+import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Executions;
-//import org.zkoss.zk.ui.event.MouseEvent;
-//import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.event.SelectEvent;
+import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.AbstractListModel;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.ListModelArray;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -52,28 +61,59 @@ public final class EditUserController extends SCRSelectorComposer<Window> {
     @SuppressWarnings("nullness")
     private UserAdmin userAdmin;
 
+    /** The service to manipulate. */
+    @Reference
+    @SuppressWarnings("nullness")
+    private UserAdminExtension userAdminExtension;
+
+    /** Listbox to display roles. */
+    @Wire("#roleListbox")
+    @SuppressWarnings("initialization.fields.uninitialized")
+    private Listbox roleListbox;
+
     /** Username field. */
     @Wire("#usernameTextbox")
     @SuppressWarnings("initialization.fields.uninitialized")
     private Textbox usernameTextbox;
 
     @Override
+    @SuppressWarnings("nullness")
     public void doAfterCompose(final Window window) throws Exception {
         super.doAfterCompose(window);
 
         usernameTextbox.setValue(userRole.getName());
-        /*
-        roleListbox.setModel(new ListModelArray(userAdmin.getRoles("")));
 
-        window.getDesktop().enableServerPush(true);
+        Role[] roles = userAdmin.getRoles("");
 
-        RxOSGi.fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_CREATED", getBundleContext())
-              .subscribe(userAdminEvent -> updateRoleListbox(),
-                         throwable -> LOGGER.error("Unable to handle role creation", throwable));
+        User user = userAdmin.getUser("username", userRole.getName());
+        Set<String> authorizedRoleNames = Arrays
+             .stream(userAdmin.getAuthorization(user).getRoles())
+             .collect(Collectors.toSet());
+        Set<? extends Role> selectedRoles = Arrays
+            .stream(roles)
+            .filter(role -> authorizedRoleNames.contains(role.getName()))
+            .collect(Collectors.toSet());
 
-        RxOSGi.fromTopic("org/osgi/service/useradmin/UserAdmin/ROLE_REMOVED", getBundleContext())
-              .subscribe(userAdminEvent -> updateRoleListbox(),
-                         throwable -> LOGGER.error("Unable to handle role removal", throwable));
-        */
+        AbstractListModel<Role> model = new ListModelArray<>(roles);
+        model.setMultiple(true);
+        model.setSelection(selectedRoles);
+        roleListbox.setModel(model);
+    }
+
+    /** @param event  selected role listbox */
+    @Listen("onSelect = #roleListbox")
+    public void onSelectRoleListbox(final SelectEvent<Listitem, Role> event) {
+        for (Role selected: event.getSelectedObjects()) {
+            if (selected.getType() == -1) {
+                LOGGER.info("Selected {}", selected);
+                userAdminExtension.addRole(userRole.getName(), selected.getName());
+            }
+        }
+        for (Role unselected: event.getUnselectedObjects()) {
+            if (unselected.getType() == -1) {
+                LOGGER.info("Unselected {}", unselected);
+                userAdminExtension.deleteRole(userRole.getName(), unselected.getName());
+            }
+        }
     }
 }

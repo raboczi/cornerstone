@@ -54,6 +54,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>service-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.karaf.jaas</groupId>
       <artifactId>org.apache.karaf.jaas.boot</artifactId>
       <version>${karaf.version}</version>

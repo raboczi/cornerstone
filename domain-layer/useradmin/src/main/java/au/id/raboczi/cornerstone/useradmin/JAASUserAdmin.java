@@ -22,6 +22,7 @@ package au.id.raboczi.cornerstone.useradmin;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.UserAdminExtension;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.security.auth.login.AppConfigurationEntry;
@@ -65,8 +67,9 @@ import org.slf4j.LoggerFactory;
  *
  * This implementation adapts Apache Karaf's JAAS feature to satisfy the {@link UserAdmin} API.
  */
-@Component(service = UserAdmin.class, configurationPid = "au.id.raboczi.cornerstone.useradmin")
-public final class JAASUserAdmin implements UserAdmin {
+@Component(service = {UserAdmin.class, UserAdminExtension.class},
+           configurationPid = "au.id.raboczi.cornerstone.useradmin")
+public final class JAASUserAdmin implements UserAdmin, UserAdminExtension {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JAASUserAdmin.class);
@@ -406,6 +409,7 @@ public final class JAASUserAdmin implements UserAdmin {
             }
         }
 
+
         // Methods implementing Role
 
         @Override public String getName() {
@@ -416,6 +420,26 @@ public final class JAASUserAdmin implements UserAdmin {
         }
         @Override public int getType() {
             return type;
+        }
+
+
+        // Methods overriding Object
+
+        @Override public boolean equals(final @Nullable Object o) {
+            if (o == null || !(o instanceof Role)) {
+                return false;
+            }
+            Role role = (Role) o;
+            return Objects.equals(name, role.getName()) && type == role.getType();
+        }
+
+        @Override public int hashCode() {
+            if (name == null) {
+                return type;
+
+            } else {
+                return name.hashCode() + type;
+            }
         }
     }
 
@@ -455,5 +479,20 @@ public final class JAASUserAdmin implements UserAdmin {
 
             return new AuthorizationImpl(user.getName(), roles);
         }
+    }
+
+
+    // Methods implementing UserAdminExtension
+
+    @Override
+    public void addRole(final String userName, final String roleName) {
+        BackingEngine engine = getBackingEngine();
+        engine.addRole(userName, roleName);
+    }
+
+    @Override
+    public void deleteRole(final String userName, final String roleName) {
+        BackingEngine engine = getBackingEngine();
+        engine.deleteRole(userName, roleName);
     }
 }

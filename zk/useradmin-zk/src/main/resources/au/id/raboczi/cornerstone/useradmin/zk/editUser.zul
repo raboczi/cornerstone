@@ -1,3 +1,4 @@
+<?xel-method prefix="x" name="roleType" class="au.id.raboczi.cornerstone.useradmin.zk.RoleTypeFormatter" signature="String roleType(int)"?>
 <window id="win2" width="600px" closable="true" position="center" title="${win2$composer.labels.edit_user_title}"
         apply="au.id.raboczi.cornerstone.useradmin.zk.EditUserController">
   <grid>
@@ -12,4 +13,16 @@
       </row>
     </rows>
   </grid>
+  <listbox id="roleListbox">
+    <listhead>
+      <listheader label="Name" hflex="min"/>
+      <listheader label="Type" hflex="min"/>
+    </listhead>
+    <template name="model">
+      <listitem>
+        <listcell label="${each.name}"/>
+        <listcell label="${x:roleType(each.type)}"/>
+      </listitem>
+    </template>
+  </listbox>
 </window>
