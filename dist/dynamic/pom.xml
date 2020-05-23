@@ -24,10 +24,9 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>zk-main-war</artifactId>
+      <artifactId>dist-features</artifactId>
       <version>${project.version}</version>
       <type>xml</type>
-      <classifier>features</classifier>
     </dependency>
 
     <dependency>
@@ -119,7 +118,7 @@
             <feature>scr</feature>
             <feature>http-whiteboard</feature>
 
-            <feature>zk-main-war</feature>
+            <feature>cornerstone</feature>
             <feature>webconsole</feature>
           </bootFeatures>
           <libraries>

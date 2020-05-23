@@ -17,6 +17,10 @@
   <inceptionYear>2019</inceptionYear>
 
   <modules>
+    <module>features</module>
+    <module>itest</module>
+
+    <!-- do assembly after integration testing, even though that's not strictly a dependency -->
     <module>dynamic</module>
     <module>static</module>
   </modules>
