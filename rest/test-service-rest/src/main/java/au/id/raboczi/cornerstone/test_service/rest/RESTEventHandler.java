@@ -22,6 +22,8 @@ package au.id.raboczi.cornerstone.test_service.rest;
  * #L%
  */
 
+import au.id.raboczi.cornerstone.Caller;
+import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import java.io.IOException;
 import java.util.Collections;
@@ -30,6 +32,7 @@ import java.util.Set;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -39,6 +42,7 @@ import org.osgi.service.event.Event;
 import static org.osgi.service.event.EventConstants.EVENT_TOPIC;
 import org.osgi.service.event.EventHandler;
 import org.osgi.service.http.HttpService;
+import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,10 +86,29 @@ public class RESTEventHandler implements EventHandler {
     @Reference
     private HttpService httpService;
 
+    @Reference
+    private TestService testService;
+
+    private static TestService testService2;
+
+    @Reference
+    private UserAdmin userAdmin;
+
+    private static UserAdmin userAdmin2;
+
     @OnWebSocketConnect
-    public void onOpen(final Session session) {
+    public void onOpen(final Session session)
+        throws CallerNotAuthenticatedException, CallerNotAuthorizedException, IOException {
+
+        LOGGER.info("Open websocket upgrade request {}", session.getUpgradeRequest().getHeaders());
+        LOGGER.info("Open websocket user admin {}, userAdmin2 {}", userAdmin, userAdmin2);
+        Caller caller =
+            Callers.callerForAuthorizationHeader(session.getUpgradeRequest().getHeader("Authorization"), userAdmin2);
+
         session.setIdleTimeout(-1);
         sessions.add(session);
+        LOGGER.info("Open websocket handler {}, test service {}, testService2 {}", this, testService, testService2);
+        session.getRemote().sendString(testService2.getValue(caller));
     }
 
     @OnWebSocketClose
@@ -93,13 +116,23 @@ public class RESTEventHandler implements EventHandler {
         sessions.remove(session);
     }
 
+    @OnWebSocketError
+    public void onError(final Session session, final Throwable error) {
+        LOGGER.error("REST websocket error", error);
+    }
+
     @Activate
     public void activate() throws Exception {
+        LOGGER.info("Activate websocket handler {}, test service {}, user admin {}", this, testService, userAdmin);
+        testService2 = testService;
+        userAdmin2 = userAdmin;
         httpService.registerServlet("/example-websocket", new RESTEventHandlerServlet(), null, null);
     }
 
     @Deactivate
     public void deactivate() throws Exception {
+        testService2 = null;
+        userAdmin2 = null;
         httpService.unregister("/example-websocket");
     }
 }

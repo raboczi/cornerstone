@@ -25,11 +25,6 @@ package au.id.raboczi.cornerstone.test_service.rest;
 import au.id.raboczi.cornerstone.Caller;
 import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
 import au.id.raboczi.cornerstone.test_service.TestService;
-import java.io.Serializable;
-import static java.nio.charset.StandardCharsets.ISO_8859_1;
-import java.util.Base64;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -41,8 +36,6 @@ import javax.ws.rs.core.Context;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.useradmin.Authorization;
-import org.osgi.service.useradmin.User;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,22 +47,6 @@ public class Endpoint {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(Endpoint.class);
-
-    /**
-     * Regular expression for HTTP Authorization headers.
-     *
-     * The named capturing group "basicAuthorization" contains the Base64 payload.
-     */
-    private static final Pattern AUTHORIZATION_PATTERN =
-        Pattern.compile("Basic\\s+(?<basicAuthorization>[\\d\\p{Alpha}+/]+=*)");
-
-    /**
-     * Regular expression for decoded HTTP Basic authorization payload.
-     *
-     * The named capturing groups "name" and "password" contain the payload fields.
-     */
-    private static final Pattern BASIC_PAYLOAD_PATTERN =
-        Pattern.compile("(?<name>[^:]*):(?<password>.*)");
 
     /** The test service. */
     @Reference
@@ -99,7 +76,7 @@ public class Endpoint {
             return testService.getValue(caller);
 
         } catch (CallerNotAuthorizedException e) {
-            throw new NotAuthorizedException("Permission denied", "Basic");
+            throw new NotAuthorizedException("Permission denied", "Basic", e);
         }
     }
 
@@ -118,7 +95,7 @@ public class Endpoint {
             testService.setValue(newValue, caller);
 
         } catch (CallerNotAuthorizedException e) {
-            throw new NotAuthorizedException("Permission denied", "Basic");
+            throw new NotAuthorizedException("Permission denied", "Basic", e);
         }
     }
 
@@ -133,66 +110,14 @@ public class Endpoint {
      *
      * @param request  an arbitrary HTTP request
      * @return caller information, possibly the anonymous caller
-     * @throws WebApplicationException if the <var>request</var> included bad credentials
+     * @throws NotAuthorizedException if the <var>request</var> included bad credentials
      */
     private Caller callerOfRequest(final HttpServletRequest request) {
+        try {
+            return Callers.callerForAuthorizationHeader(request.getHeader("Authorization"), userAdmin);
 
-        // Check whether the request is attempting to authenticate
-        String authorization = request.getHeader("Authorization");
-        if (authorization == null) {
-            // Unauthenticated caller
-            LOGGER.info("No HTTP Authorization header present; caller is unauthenticated");
-            return new CallerImpl(userAdmin.getAuthorization(null));
-        }
-
-        // Validate the presence of HTTP Basic authentication
-        Matcher matcher = AUTHORIZATION_PATTERN.matcher(authorization);
-        if (!matcher.matches()) {
-            throw new NotAuthorizedException("Unsupported authorization", "Basic");
-        }
-
-        // Validate the HTTP Basic authentication payload
-        String base64 = matcher.group("basicAuthorization");
-        String decoded = new String(Base64.getDecoder().decode(base64), ISO_8859_1);
-        Matcher matcher2 = BASIC_PAYLOAD_PATTERN.matcher(decoded);
-        if (!matcher2.matches()) {
-            throw new NotAuthorizedException("Malformed Basic authorization header", "Basic");
-        }
-
-        // Authenticate via the user admin service
-        User user = userAdmin.getUser("username", matcher2.group("name"));
-        if (user == null || !user.hasCredential("password", matcher2.group("password"))) {
-            throw new NotAuthorizedException("Credentials rejected", "Basic");
-        }
-        LOGGER.info("Authorization header present; caller is authenticated");
-
-        return new CallerImpl(userAdmin.getAuthorization(user));
-    }
-
-    /**
-     * The REST caller.
-     */
-    private static class CallerImpl implements Caller, Serializable {
-
-        /** Security permissions. */
-        private final Authorization authorization;
-
-        /** @param newAuthorization  currently the only content */
-        CallerImpl(final Authorization newAuthorization) {
-            this.authorization = newAuthorization;
-        }
-
-        /** @return includes authorization */
-        @Override
-        public String toString() {
-            return super.toString() + "(authorization=" + authorization + ")";
-        }
-
-        // Implementation of Caller
-
-        @Override
-        public Authorization authorization() {
-            return authorization;
+        } catch (CallerNotAuthenticatedException e) {
+            throw new NotAuthorizedException("Unable to authenicate", "Basic", e);
         }
     }
 }
