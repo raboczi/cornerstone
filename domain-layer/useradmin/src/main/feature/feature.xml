@@ -10,6 +10,7 @@
     </config>
     <feature>scr</feature>
     <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
+    <bundle>mvn:${project.groupId}/service-api/${project.version}</bundle>  <!-- contains UserAdminExtension interface -->
     <bundle>mvn:${project.groupId}/useradmin/${project.version}</bundle>
   </feature>
 </features>
