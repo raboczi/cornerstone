@@ -117,7 +117,7 @@ public class Endpoint {
             return Callers.callerForAuthorizationHeader(request.getHeader("Authorization"), userAdmin);
 
         } catch (CallerNotAuthenticatedException e) {
-            throw new NotAuthorizedException("Unable to authenicate", "Basic", e);
+            throw new NotAuthorizedException("Unable to authenticate", "Basic", e);
         }
     }
 }
