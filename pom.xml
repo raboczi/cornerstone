@@ -21,7 +21,8 @@
     <module>webdriver</module>
     <module>zk</module>
 
-    <!-- Must go last, because Maven is unaware of dependencies within feature.xml -->
+    <!-- Must go last, because assembly has to happen after all the components are built.
+         Easier and less error-prone than declaring everything as dependencies for dist. -->
     <module>dist</module>
   </modules>
 
