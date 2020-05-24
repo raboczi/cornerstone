@@ -4,22 +4,23 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
+  <repository>mvn:${project.groupId}/zk-main-war/${project.version}/xml/features</repository>
   <repository>mvn:org.apache.aries.jax.rs/org.apache.aries.jax.rs.features/1.0.3/xml</repository>
 
-  <feature name="${feature.name}" version="${project.version}" description="Cornerstone test web application">
+  <feature name="${feature.name}" version="${project.version}" description="Cornerstone server">
     <feature>${feature.name}-domain</feature>
-    <feature>${feature.name}-presentation-zk</feature>
-    <feature>${feature.name}-presentation-rest</feature>
-    <feature>${feature.name}-presentation-shell</feature>
+    <feature>${feature.name}-zk</feature>
+    <feature>${feature.name}-rest</feature>
+    <feature>${feature.name}-shell</feature>
   </feature>
 
-  <feature name="${feature.name}-api" version="${project.version}" description="Cornerstone test web application APIs">
+  <feature name="${feature.name}-api" version="${project.version}" description="Cornerstone APIs">
     <bundle>mvn:${project.groupId}/service-api/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/test-service-api/${project.version}</bundle>
     <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
   </feature>
 
-  <feature name="${feature.name}-domain" version="${project.version}" description="Cornerstone test web application domain logic">
+  <feature name="${feature.name}-domain" version="${project.version}" description="Cornerstone domain logic layer">
     <feature>scr</feature>
     <feature prerequisite="true">${feature.name}-api</feature>
 
@@ -37,7 +38,7 @@
     <bundle>mvn:${project.groupId}/useradmin/${project.version}</bundle>
   </feature>
 
-  <feature name="${feature.name}-presentation-rest" version="${project.version}" description="Cornerstone test web application REST endpoint">
+  <feature name="${feature.name}-rest" version="${project.version}" description="Cornerstone presentation layer: REST endpoint">
     <feature>scr</feature>
     <feature prerequisite="true">${feature.name}-api</feature>
 
@@ -50,43 +51,16 @@
     <bundle>mvn:${project.groupId}/test-service-rest/${project.version}</bundle>
   </feature>
 
-  <feature name="${feature.name}-presentation-shell" version="${project.version}" description="Cornerstone test web application shell commands">
+  <feature name="${feature.name}-shell" version="${project.version}" description="Cornerstone presentation layer: Karaf shell commands">
     <bundle>mvn:${project.groupId}/test-service-shell/${project.version}</bundle>
   </feature>
 
-  <feature name="${feature.name}-presentation-zk" version="${project.version}" description="Cornerstone test web application presentation logic">
-    <feature>war</feature>
-    <feature prerequisite="true">${feature.name}-api</feature>
-    <feature prerequisite="true">zk-framework</feature>
-    <feature prerequisite="true">rxzk</feature>
-
-    <bundle>mvn:${project.groupId}/zk-api/${project.version}</bundle>
-    <bundle>mvn:${project.groupId}/zk-util/${project.version}</bundle>
-    <bundle>mvn:${project.groupId}/service-util/${project.version}</bundle>
-    <bundle>mvn:${project.groupId}/test-service-zk/${project.version}</bundle>
+  <feature name="${feature.name}-zk" version="${project.version}" description="Cornerstone presentation layer: ZK web application">
+    <feature>zk-main-war</feature>
     <bundle>mvn:${project.groupId}/useradmin-zk/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/zk-menuitem-login/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/zk-menuitem-theme/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/zk-menuitem-upload/${project.version}</bundle>
-    <bundle>webbundle:mvn:${project.groupId}/zk-main-war/${project.version}/war?Web-ContextPath=cornerstone</bundle>
   </feature>
 
-  <feature name="zk-framework" version="${project.version}" description="ZK framework">
-    <feature prerequisite="true">war</feature>
-    <bundle>mvn:commons-codec/commons-codec/1.14</bundle>
-    <bundle>mvn:commons-io/commons-io/2.6</bundle>
-    <bundle>mvn:commons-fileupload/commons-fileupload/1.4</bundle>
-    <bundle>mvn:javax.portlet/portlet-api/3.0.1</bundle>
-    <bundle>mvn:javax.websocket/javax.websocket-api/1.1</bundle>
-    <bundle>mvn:org.javassist/javassist/3.26.0-GA</bundle>
-    <bundle>mvn:${project.groupId}/zk-framework/${project.version}</bundle>
-  </feature>
-
-  <feature name="rxzk" version="${project.version}" description="Reactive extensions for ZK framework">
-    <feature prerequisite="true">wrap</feature>
-    <feature prerequisite="true">zk-framework</feature>
-    <bundle>mvn:org.reactivestreams/reactive-streams/1.0.3</bundle>
-    <bundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</bundle>
-    <bundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</bundle>
-  </feature>
 </features>
