@@ -28,8 +28,6 @@ import java.util.ResourceBundle;
 import org.osgi.service.component.annotations.Component;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
@@ -60,11 +58,9 @@ public final class ThemeMenuitemService implements MenuitemService {
             Menuitem menuitem = new Menuitem(Themes.getDisplayName(theme));
             menuitem.setChecked(theme.equals(Themes.getCurrentTheme()));
             menuitem.setCheckmark(true);
-            menuitem.addEventListener("onClick", new EventListener() {
-                public void onEvent(final Event event) {
-                    Themes.setTheme(Executions.getCurrent(), theme);
-                    Executions.sendRedirect("");
-                }
+            menuitem.addEventListener("onClick", event -> {
+                Themes.setTheme(Executions.getCurrent(), theme);
+                Executions.sendRedirect("");
             });
             menupopup.appendChild(menuitem);
         }

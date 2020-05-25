@@ -35,9 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
 import org.zkoss.util.media.Media;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.UploadEvent;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Menuitem;
 
@@ -68,31 +65,25 @@ public final class UploadMenuitemService implements MenuitemService {
     public Menuitem newMenuitem() {
         ResourceBundle labels = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent());
         Menuitem menuitem = new Menuitem(labels.getString("menuitem.label"));
-        menuitem.addEventListener("onClick", new EventListener() {
-            @Override
-            public void onEvent(final Event event) {
-                Map<String, Object> params = new HashMap<>();
-                Fileupload.get(params, labels.getString("fileupload.message"), labels.getString("fileupload.title"),
-                    "*",      // accept content type
-                    1000,     // maximum simultaneous uploads
-                    1000000,  // maximum upload size (kilobytes)
-                    false,    // don't override content type to always be binary
-                    new EventListener<UploadEvent>() {
-                        @Override
-                        public void onEvent(final UploadEvent uploadEvent) {
-                            LOGGER.info("Uploaded {}", uploadEvent);
-                            Media[] medias = uploadEvent.getMedias();
-                            if (medias == null) {
-                                LOGGER.info("User uploaded zero files");
-                                return;
-                            }
-                            for (Media media: medias) {
-                                LOGGER.info("User uploaded {}", media);
-                            }
-                        }
+        menuitem.addEventListener("onClick", event -> {
+            Map<String, Object> params = new HashMap<>();
+            Fileupload.get(params, labels.getString("fileupload.message"), labels.getString("fileupload.title"),
+                "*",      // accept content type
+                1000,     // maximum simultaneous uploads
+                1000000,  // maximum upload size (kilobytes)
+                false,    // don't override content type to always be binary
+                uploadEvent -> {
+                    LOGGER.info("Uploaded {}", uploadEvent);
+                    Media[] medias = uploadEvent.getMedias();
+                    if (medias == null) {
+                        LOGGER.info("User uploaded zero files");
+                        return;
                     }
-                );
-            }
+                    for (Media media: medias) {
+                        LOGGER.info("User uploaded {}", media);
+                    }
+                }
+            );
         });
 
         // Initialize the enabled/disabled status

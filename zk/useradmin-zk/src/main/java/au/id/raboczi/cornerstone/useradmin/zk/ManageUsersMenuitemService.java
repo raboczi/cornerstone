@@ -34,8 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Menuitem;
@@ -68,24 +66,21 @@ public final class ManageUsersMenuitemService implements MenuitemService {
         ResourceBundle labels = ResourceBundle.getBundle("WEB-INF.zk-label", Locales.getCurrent());
         Menuitem menuitem = new Menuitem(labels.getString("manageUsers.menuitem.label"));
         //menuitem.setWidgetListener("onClick", "window.open('manage-users', '_blank', 'manage-users');");
-        menuitem.addEventListener("onClick", new EventListener() {
-            @Override
-            public void onEvent(final Event event) {
-                String zul = "au/id/raboczi/cornerstone/useradmin/zk/manageUsers.zul";
-                MouseEvent mouseEvent = (MouseEvent) event;
-                if ((mouseEvent.getKeys() & MouseEvent.META_KEY) != 0) {
-                    // Open in a new window/tab, but remain on the current one
-                    Executions.getCurrent().sendRedirect(zul, "_blank");
+        menuitem.addEventListener("onClick", event -> {
+            String zul = "au/id/raboczi/cornerstone/useradmin/zk/manageUsers.zul";
+            MouseEvent mouseEvent = (MouseEvent) event;
+            if ((mouseEvent.getKeys() & MouseEvent.META_KEY) != 0) {
+                // Open in a new window/tab, but remain on the current one
+                Executions.getCurrent().sendRedirect(zul, "_blank");
 
-                } else if ((mouseEvent.getKeys() & MouseEvent.SHIFT_KEY) != 0) {
-                    // Open in a new window/tab, and switch to the new one
-                    Clients.evalJavaScript("window.open('" + zul + "')");
+            } else if ((mouseEvent.getKeys() & MouseEvent.SHIFT_KEY) != 0) {
+                // Open in a new window/tab, and switch to the new one
+                Clients.evalJavaScript("window.open('" + zul + "')");
 
-                } else {
-                    // Open in a modal window
-                    assert cl != null : "@AssumeAssertion(nullness)";
-                    ((Window) Components.createComponent(zul, cl)).doModal();
-                }
+            } else {
+                // Open in a modal window
+                assert cl != null : "@AssumeAssertion(nullness)";
+                ((Window) Components.createComponent(zul, cl)).doModal();
             }
         });
 
