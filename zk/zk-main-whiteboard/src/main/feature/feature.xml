@@ -30,6 +30,7 @@
     <bundle>mvn:${project.groupId}/test-service/${project.version}</bundle>
 
     <bundle>mvn:${project.groupId}/zk-api/${project.version}</bundle>
+    <bundle>mvn:${project.groupId}/zk-menubar/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/zk-util/${project.version}</bundle>
 
     <bundle>mvn:${project.groupId}/test-service-zk/${project.version}</bundle>

@@ -2,7 +2,7 @@ package au.id.raboczi.cornerstone.zk.menubar;
 
 /*-
  * #%L
- * Cornerstone :: Test WAR
+ * Cornerstone :: ZK menubar
  * %%
  * Copyright (C) 2019 - 2020 Simon Raboczi
  * %%

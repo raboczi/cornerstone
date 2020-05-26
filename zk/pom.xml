@@ -21,6 +21,7 @@
     <module>zk-framework</module>
     <module>zk-main-war</module>
     <module>zk-main-whiteboard</module>
+    <module>zk-menubar</module>
     <module>zk-menuitem-login</module>
     <module>zk-menuitem-theme</module>
     <module>zk-menuitem-upload</module>

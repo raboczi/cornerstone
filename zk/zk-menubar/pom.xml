@@ -8,8 +8,8 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>zk-util</artifactId>
-  <name>Cornerstone :: ZK utilities</name>
+  <artifactId>zk-menubar</artifactId>
+  <name>Cornerstone :: ZK menubar</name>
   <packaging>bundle</packaging>
 
   <build>
@@ -20,7 +20,7 @@
         <configuration>
           <instructions>
             <Export-Package>
-              au.id.raboczi.cornerstone.zk.util
+              au.id.raboczi.cornerstone.zk.menubar,
             </Export-Package>
           </instructions>
         </configuration>
@@ -29,27 +29,16 @@
   </build>
 
   <dependencies>
-    <!-- This bundle is intended to be generic to any OSGi environment using ZK.
-         Do not include any dependencies with groupId au.id.raboczi.cornerstone. -->
-
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>zk-api</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.annotation</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.cmpn</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>osgi.core</artifactId>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>zk-util</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -59,7 +48,7 @@
 
     <dependency>
       <groupId>org.zkoss.zk</groupId>
-      <artifactId>zk</artifactId>
+      <artifactId>zul</artifactId>
     </dependency>
   </dependencies>
 
