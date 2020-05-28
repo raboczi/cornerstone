@@ -1,4 +1,4 @@
-package au.id.raboczi.cornerstone.zk.menuitem.theme;
+package au.id.raboczi.cornerstone.zk.menuitem.upload;
 
 /*-
  * #%L
@@ -25,11 +25,14 @@ package au.id.raboczi.cornerstone.zk.menuitem.theme;
 import au.id.raboczi.cornerstone.zk.Users;
 import au.id.raboczi.cornerstone.zk.MenuitemService;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import static org.osgi.service.component.annotations.ReferencePolicy.DYNAMIC;
 import org.osgi.service.useradmin.UserAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +53,10 @@ public final class UploadMenuitemService implements MenuitemService {
 
     /** Menu path. */
     private static final String[] PATH = {"file"};
+
+    /** The available upload handlers, each dealing with a particular file format. */
+    @Reference(policy = DYNAMIC)
+    private final Set<UploadHandler> uploadHandlers = new HashSet<>();
 
     /** Authorization lookup service. */
     @Reference
@@ -81,6 +88,9 @@ public final class UploadMenuitemService implements MenuitemService {
                     }
                     for (Media media: medias) {
                         LOGGER.info("User uploaded {}", media);
+                        for (UploadHandler uploadHandler: uploadHandlers) {
+                            uploadHandler.upload(media);
+                        }
                     }
                 }
             );
