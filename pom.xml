@@ -19,6 +19,7 @@
     <module>rest</module>
     <module>shell</module>
     <module>webdriver</module>
+    <module>wicket</module>
     <module>zk</module>
 
     <!-- Must go last, because assembly has to happen after all the components are built.

@@ -4,14 +4,16 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
+  <repository>mvn:${project.groupId}/wicket-main/${project.version}/xml/features</repository>
   <repository>mvn:${project.groupId}/zk-main-war/${project.version}/xml/features</repository>
   <repository>mvn:org.apache.aries.jax.rs/org.apache.aries.jax.rs.features/1.0.3/xml</repository>
 
   <feature name="${feature.name}" version="${project.version}" description="Cornerstone server">
     <feature>${feature.name}-domain</feature>
-    <feature>${feature.name}-zk</feature>
     <feature>${feature.name}-rest</feature>
     <feature>${feature.name}-shell</feature>
+    <feature>${feature.name}-wicket</feature>
+    <feature>${feature.name}-zk</feature>
   </feature>
 
   <feature name="${feature.name}-api" version="${project.version}" description="Cornerstone APIs">
@@ -53,6 +55,10 @@
 
   <feature name="${feature.name}-shell" version="${project.version}" description="Cornerstone presentation layer: Karaf shell commands">
     <bundle>mvn:${project.groupId}/test-service-shell/${project.version}</bundle>
+  </feature>
+
+  <feature name="${feature.name}-wicket" version="${project.version}" description="Cornerstone presentation layer: Wicket web application">
+    <feature>wicket-main</feature>
   </feature>
 
   <feature name="${feature.name}-zk" version="${project.version}" description="Cornerstone presentation layer: ZK web application">

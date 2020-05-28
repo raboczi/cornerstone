@@ -1,0 +1,13 @@
+:root {
+  color-scheme: light dark;
+}
+
+h1 {
+  color: blue;
+}
+
+@media (prefers-color-scheme: dark) {
+  h1 {
+    color: orange;
+  } 
+}
