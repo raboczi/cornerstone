@@ -5,7 +5,7 @@
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
   <feature name="${project.artifactId}" version="${project.version}" description="Cornerstone ZK web application">
-    <feature>war</feature>
+    <feature prerequisite="true">war</feature>
     <feature prerequisite="true">zk-framework</feature>
     <feature prerequisite="true">rxzk</feature>
 
