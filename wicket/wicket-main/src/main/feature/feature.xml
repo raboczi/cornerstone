@@ -6,7 +6,7 @@
 
   <feature name="${project.artifactId}" version="${project.version}" description="Cornerstone Wicket web application">
     <config name="au.id.raboczi.cornerstone.wicket">
-      wicket.configuration = deployment  <!-- options are "deployment", "development"; default is "development" -->
+      wicket.configuration = DEPLOYMENT  <!-- enum org.apache.wicket.RuntimeConfigurationType: either DEPLOYMENT or DEVELOPMENT, default is DEVELOPMENT -->
     </config>
 
     <feature prerequisite="true">war</feature>

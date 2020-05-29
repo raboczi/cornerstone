@@ -22,8 +22,17 @@ package au.id.raboczi.cornerstone.wicket;
  * #L%
  */
 
+import java.io.IOException;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
+import org.osgi.service.cm.ConfigurationListener;
 
 /**
  * Application object for your web application.
@@ -32,6 +41,12 @@ import org.apache.wicket.protocol.http.WebApplication;
  * @see au.id.raboczi.cornerstone.wicket.Start#main(String[])
  */
 public class WicketApplication extends WebApplication {
+
+    /** PID of the configuration for this bundle. */
+    private static final String CM_PID = "au.id.raboczi.cornerstone.wicket";
+
+    /** Whether the application is in deployment or development mode. */
+    private RuntimeConfigurationType configurationType = RuntimeConfigurationType.DEVELOPMENT;
 
     /**
      * @see org.apache.wicket.Application#getHomePage()
@@ -48,6 +63,50 @@ public class WicketApplication extends WebApplication {
     public void init() {
         super.init();
 
-        // add your configuration here
+        // Access OSGi configuration service to initialize configurationType
+        BundleContext bundleContext = (BundleContext) getServletContext().getAttribute("osgi-bundlecontext");
+        ServiceReference<ConfigurationAdmin> reference = bundleContext.getServiceReference(ConfigurationAdmin.class);
+        updateConfiguration(bundleContext.getService(reference));
+        bundleContext.ungetService(reference);
+
+        // Register a handler to reload this application if its configuration changes
+        Dictionary<String, Object> properties = new Hashtable<>();
+        properties.put("dummy", "value");
+        bundleContext.registerService(ConfigurationListener.class, configurationEvent -> {
+            if (configurationEvent.getPid().equals(CM_PID)) {
+                updateConfiguration(bundleContext.getService(configurationEvent.getReference()));
+            }
+        }, properties);
+    }
+
+    /**
+     * Update {@link #configurationType} based on the configuration {@link CM_PID}.
+     *
+     * @param configurationAdmin  the CM service providing the configuration
+     */
+    private void updateConfiguration(final ConfigurationAdmin configurationAdmin) {
+        try {
+            Configuration configuration = configurationAdmin.getConfiguration(CM_PID);
+            String s = (String) configuration.getProperties().get("wicket.configuration");
+            if (s != null) {
+                getServletContext().log("wicket.configuration changing from " + configurationType + " to " + s);
+                configurationType = RuntimeConfigurationType.valueOf(s);
+            }
+
+        } catch (IOException | RuntimeException e) {
+            getServletContext().log("Failed to update wicket.configuration from " + configurationType, e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}.
+     *
+     * This implementation is controlled by the "wicket.configuration" property of the
+     * OSGi Configuration Admin service with PID "au.id.raboczi.cornerstone.wicket".
+     * Valid values are the same as {@link RuntimeConfigurationType#valueOf} accepts.
+     */
+    @Override
+    public RuntimeConfigurationType getConfigurationType() {
+        return configurationType;
     }
 }
