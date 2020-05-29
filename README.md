@@ -43,7 +43,7 @@ A command line shell allows components to be interactively modified at runtime.
   - `feature:repo-add mvn:au.id.raboczi.cornerstone/dist-features/0.1-SNAPSHOT/xml`
   - `feature:install cornerstone`
 
-3. Browse [http://localhost:8181/cornerstone](http://localhost:8181/cornerstone).
+3. Browse [http://localhost:8181/zk](http://localhost:8181/zk).
 
 4. Shut down the server from the command line by pressing Ctrl-D.
 
@@ -53,7 +53,7 @@ This style of deployment is easy and still allows components to be modified at r
 
 1. Start the server by executing `dist/dynamic/target/assembly/bin/start`
 
-2. Browse [http://localhost:8181/cornerstone](http://localhost:8181/cornerstone).
+2. Browse [http://localhost:8181/zk](http://localhost:8181/zk).
 
 3. Shut down the server by executing `dist/dynamic/target/assembly/bin/stop`
 

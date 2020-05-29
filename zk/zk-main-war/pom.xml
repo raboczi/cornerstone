@@ -30,7 +30,7 @@
               org.zkoss.zk.ui.impl,
               *
             </Import-Package>
-            <Web-ContextPath>cornerstone</Web-ContextPath>
+            <Web-ContextPath>zk</Web-ContextPath>  <!-- note that this is overridden in feature.xml -->
           </instructions>
         </configuration>
       </plugin>

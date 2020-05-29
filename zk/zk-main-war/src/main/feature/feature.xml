@@ -14,7 +14,7 @@
     <bundle>mvn:au.id.raboczi.cornerstone/zk-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-menubar/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</bundle>
-    <bundle>webbundle:mvn:${project.groupId}/${project.artifactId}/${project.version}/war?Web-ContextPath=cornerstone</bundle>
+    <bundle>webbundle:mvn:${project.groupId}/${project.artifactId}/${project.version}/war?Web-ContextPath=zk</bundle>
 
     <!-- Support for the test macro -->
     <bundle>mvn:${project.groupId}/aspectjrt/${project.version}</bundle>
