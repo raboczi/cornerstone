@@ -1,0 +1,5 @@
+// Java security policy for Cornerstone.  This format is documented at https://docs.oracle.com/javase/7/docs/technotes/guides/security/PolicyFiles.html#FileSyntax
+
+grant {
+    permission java.security.AllPermission;
+};

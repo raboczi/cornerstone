@@ -96,6 +96,7 @@
           </installedFeatures>
           <startupFeatures>
             <feature>eventadmin</feature>
+            <feature>framework-security</feature>
           </startupFeatures>
           <bootFeatures>
             <feature>wrap</feature>
