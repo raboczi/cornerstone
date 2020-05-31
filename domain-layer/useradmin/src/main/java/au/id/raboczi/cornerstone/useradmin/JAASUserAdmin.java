@@ -45,7 +45,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
-import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.FieldOption;
@@ -53,6 +52,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.osgi.service.useradmin.Authorization;
 import org.osgi.service.useradmin.Role;
 import org.osgi.service.useradmin.User;
@@ -62,7 +63,6 @@ import org.osgi.service.useradmin.UserAdminListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /** {@inheritDoc}
  *
  * This implementation adapts Apache Karaf's JAAS feature to satisfy the {@link UserAdmin} API.
@@ -70,67 +70,48 @@ import org.slf4j.LoggerFactory;
 @Component(service          = {UserAdmin.class, UserAdminExtension.class},
            configurationPid = "au.id.raboczi.cornerstone.useradmin",
            property         = {"service.exported.interfaces=*"})
+@SuppressWarnings("initialization.fields.uninitialized")  // dependency injection
 public final class JAASUserAdmin implements UserAdmin, UserAdminExtension {
 
     /** Logger.  Named after the class. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JAASUserAdmin.class);
 
+    /** Configuration type. */
+    @ObjectClassDefinition(name = "User admin service configuration", description = "Used by JAASUserAdmin")
+    public @interface Configuration {
+
+        @AttributeDefinition(name = "Group principal class", description = "Class name")
+        String jaas_groupPrincipalClassName();
+
+        @AttributeDefinition(name = "Login configuration", description = "javax.security.auth.login.Configuration")
+        String jaas_loginConfigurationName();
+
+        @AttributeDefinition(name = "Role principal class", description = "Class name")
+        String jaas_rolePrincipalClassName();
+
+        @AttributeDefinition(name = "User principal class", description = "Class name")
+        String jaas_userPrincipalClassName();
+    }
+
+    /** Configuration instance. */
+    @Activate
+    private Configuration config;
+
     /** Provides access to Karaf's inbuilt JAAS security system. */
     @Reference
-    @SuppressWarnings("initialization.fields.uninitialized")
     private List<BackingEngineFactory> backingEngineFactories;
 
     /** Used to implement {@link UserAdminListener}s. */
     @Reference
-    @SuppressWarnings("initialization.fields.uninitialized")
     private EventAdmin eventAdmin;
 
     /** JAAS realms. */
     @Reference
-    @SuppressWarnings("initialization.fields.uninitialized")
     private List<JaasRealm> jaasRealms;
 
     /** The listeners we need to notify about any role changes. */
     @Reference(fieldOption = FieldOption.UPDATE, policy = ReferencePolicy.DYNAMIC)
-    @SuppressWarnings("initialization.fields.uninitialized")
     private Set<UserAdminListener> userAdminListeners;
-
-
-    // Parameters set by OSGi Configuration service
-
-    /** Which {@link Principal} class identifies a group? */
-    private Class groupPrincipalClass = Object.class;
-
-    /** @see {@link javax.security.auth.login.Configuration} */
-    private String loginConfigurationName = "Uninitialized";
-
-    /** Which {@link Principal} class identifies a role? */
-    private Class rolePrincipalClass = Object.class;
-
-    /** Which {@link Principal} class identifies a user? */
-    private Class userPrincipalClass = Object.class;
-
-    /**
-     * Configure this instance.
-     *
-     * @param context  automatically supplied by OSGi runtime
-     * @throws ClassNotFoundException if jaas.userPrincipalClass, jaas.groupPrincipalClass, or
-     *     jaas.rolePrincipalClass aren't available
-     */
-    @Activate
-    protected void activate(final ComponentContext context) throws ClassNotFoundException {
-        this.groupPrincipalClass =
-            Class.forName((@NonNull String) context.getProperties().get("jaas.groupPrincipalClass"));
-
-        this.loginConfigurationName =
-            (@NonNull String) context.getProperties().get("jaas.loginConfigurationName");
-
-        this.rolePrincipalClass =
-            Class.forName((@NonNull String) context.getProperties().get("jaas.rolePrincipalClass"));
-
-        this.userPrincipalClass =
-            Class.forName((@NonNull String) context.getProperties().get("jaas.userPrincipalClass"));
-    }
 
     /**
      * @param entry
@@ -158,7 +139,7 @@ public final class JAASUserAdmin implements UserAdmin, UserAdminExtension {
 
         boolean hidden = false;
         String moduleName = null;
-        String realmName = loginConfigurationName;
+        String realmName = config.jaas_loginConfigurationName();
 
         JaasRealm realm = null;
         AppConfigurationEntry entry = null;
@@ -391,18 +372,22 @@ public final class JAASUserAdmin implements UserAdmin, UserAdminExtension {
             type = newType;
         }
 
-        /** @param principal  the an instance to wrap */
+        /**
+         * @param principal  the an instance to wrap
+         * @throws ClassNotFoundException if the user, group, or role principal class names
+         *     are incorrect
+         */
         @SuppressWarnings("checkstyle:MagicNumber")
-        RoleImpl(final Principal principal) {
+        RoleImpl(final Principal principal) throws ClassNotFoundException {
             name = principal.getName();
 
-            if (userPrincipalClass.isAssignableFrom(principal.getClass())) {
+            if (Class.forName(config.jaas_userPrincipalClassName()).isAssignableFrom(principal.getClass())) {
                 type = Role.USER;
 
-            } else if (groupPrincipalClass.isAssignableFrom(principal.getClass())) {
+            } else if (Class.forName(config.jaas_groupPrincipalClassName()).isAssignableFrom(principal.getClass())) {
                 type = Role.GROUP;
 
-            } else if (rolePrincipalClass.isAssignableFrom(principal.getClass())) {
+            } else if (Class.forName(config.jaas_rolePrincipalClassName()).isAssignableFrom(principal.getClass())) {
                 type = 3;
 
             } else {
@@ -461,7 +446,7 @@ public final class JAASUserAdmin implements UserAdmin, UserAdminExtension {
             return null;
         }
 
-        return new UserImpl(userPrincipal.getName(), loginConfigurationName);
+        return new UserImpl(userPrincipal.getName(), config.jaas_loginConfigurationName());
     }
 
     @Override

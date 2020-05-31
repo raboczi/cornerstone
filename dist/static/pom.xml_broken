@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>au.id.raboczi.cornerstone</groupId>
+    <artifactId>dist</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>dist-static</artifactId>
+  <name>Cornerstone :: dist :: static</name>
+  <packaging>pom</packaging>
+  <description>Static distribution of Cornerstone</description>
+  <inceptionYear>2019</inceptionYear>
+
+  <properties>
+    <wicket.version>8.8.0</wicket.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>wicket-main</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>wicket-main</artifactId>
+      <version>${project.version}</version>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>zk-main-whiteboard</artifactId>
+      <version>${project.version}</version>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.karaf.features</groupId>
+      <artifactId>static</artifactId>
+      <type>kar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.karaf.features</groupId>
+      <artifactId>standard</artifactId>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.karaf.services</groupId>
+      <artifactId>org.apache.karaf.services.staticcm</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ops4j.pax.logging</groupId>
+      <artifactId>pax-logging-api</artifactId>
+      <version>1.11.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ops4j.pax.web</groupId>
+      <artifactId>pax-web-features</artifactId>
+      <version>${pax-web.version}</version>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.useradmin</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.karaf.tooling</groupId>
+        <artifactId>karaf-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>process-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>assembly</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>package</id>
+            <goals>
+              <goal>archive</goal>
+            </goals>
+          </execution>
+          <!-- This execution is not @threadSafe, so there will be warnings if parallel builds are attempted. -->
+          <execution>
+            <id>dockerfile</id>
+            <goals>
+              <goal>dockerfile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <startupFeatures>
+            <startupFeature>static-framework</startupFeature>
+            <startupFeature>eventadmin</startupFeature>
+            <startupFeature>jaas</startupFeature>
+            <startupFeature>webconsole</startupFeature>
+
+<!--
+            <startupFeature>http</startupFeature>
+            <startupFeature>wrap</startupFeature>
+
+            <startupFeature>aries-blueprint</startupFeature>
+            <startupFeature>http-whiteboard</startupFeature>
+
+-->
+            <startupFeature>war</startupFeature>
+<!--
+            <startupFeature>log</startupFeature>
+            <startupFeature>config</startupFeature>
+            <startupFeature>wicket-main</startupFeature>
+-->
+          </startupFeatures>
+          <startupBundles>
+            <startupBundle>mvn:org.apache.felix/org.apache.felix.fileinstall/3.6.4</startupBundle>
+<!--
+            <startupBundle>mvn:org.ops4j.pax.logging/pax-logging-api/2.0.2</startupBundle>
+            <startupBundle>mvn:org.apache.karaf.services/org.apache.karaf.services.staticcm/${karaf.version}</startupBundle>
+-->
+
+            <startupBundle>mvn:com.github.openjson/openjson/1.0.12</startupBundle>
+            <startupBundle>mvn:commons-io/commons-io/1.4</startupBundle>
+            <startupBundle>mvn:commons-fileupload/commons-fileupload/1.4</startupBundle>
+            <startupBundle>mvn:org.apache.commons/commons-collections4/4.4</startupBundle>
+            <startupBundle>mvn:org.danekja/jdk-serializable-functional/1.8.6</startupBundle>
+
+            <startupBundle>mvn:org.apache.wicket/wicket-core/${wicket.version}</startupBundle>
+            <startupBundle>mvn:org.apache.wicket/wicket-request/${wicket.version}</startupBundle>
+            <startupBundle>mvn:org.apache.wicket/wicket-util/${wicket.version}</startupBundle>
+
+            <startupBundle>mvn:au.id.raboczi.cornerstone/wicket-main/${project.version}/war</startupBundle>
+-->
+<!--
+
+            <startupBundle>mvn:commons-codec/commons-codec/1.14</startupBundle>
+            <startupBundle>mvn:commons-io/commons-io/2.6</startupBundle>
+            <startupBundle>mvn:commons-fileupload/commons-fileupload/1.4</startupBundle>
+            <startupBundle>mvn:javax.portlet/portlet-api/3.0.1</startupBundle>
+            <startupBundle>mvn:javax.websocket/javax.websocket-api/1.1</startupBundle>
+            <startupBundle>mvn:org.javassist/javassist/3.26.0-GA</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-framework/0.1-SNAPSHOT</startupBundle>
+
+            <startupBundle>mvn:org.reactivestreams/reactive-streams/1.0.3</startupBundle>
+            <startupBundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</startupBundle>
+            <startupBundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</startupBundle>
+
+            <startupBundle>mvn:${project.groupId}/aspectjrt/${project.version}</startupBundle>
+            <startupBundle>mvn:${project.groupId}/security-aspect/${project.version}</startupBundle>
+
+            <startupBundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-api/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/test-service/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/useradmin/${project.version}</startupBundle>
+
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-api/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-menubar/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/service-util/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/test-service-zk/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-menuitem-login/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-menuitem-theme/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-menuitem-upload/${project.version}</startupBundle>
+            <startupBundle>mvn:au.id.raboczi.cornerstone/zk-main-whiteboard/${project.version}</startupBundle>
+-->
+          </startupBundles>
+          <framework>static</framework>
+          <useReferenceUrls>true</useReferenceUrls>
+          <environment>static</environment>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>docker</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.karaf.tooling</groupId>
+            <artifactId>karaf-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>docker-image</id>
+                <goals>
+                  <goal>docker</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <imageName>${project.artifactId}</imageName>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

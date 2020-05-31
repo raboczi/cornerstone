@@ -27,10 +27,10 @@
     <feature prerequisite="true">${feature.name}-api</feature>
 
     <config name="${project.groupId}.useradmin">
-      jaas.loginConfigurationName = karaf
-      jaas.groupPrincipalClass    = org.apache.karaf.jaas.boot.principal.GroupPrincipal
-      jaas.rolePrincipalClass     = org.apache.karaf.jaas.boot.principal.RolePrincipal
-      jaas.userPrincipalClass     = org.apache.karaf.jaas.boot.principal.UserPrincipal
+      jaas.loginConfigurationName  = karaf
+      jaas.groupPrincipalClassName = org.apache.karaf.jaas.boot.principal.GroupPrincipal
+      jaas.rolePrincipalClassName  = org.apache.karaf.jaas.boot.principal.RolePrincipal
+      jaas.userPrincipalClassName  = org.apache.karaf.jaas.boot.principal.UserPrincipal
     </config>
 
     <bundle>mvn:${project.groupId}/aspectjrt/${project.version}</bundle>

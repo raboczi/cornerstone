@@ -37,7 +37,7 @@ Karaf's default login credentials are username "karaf", password "karaf".
 This style of deployment gives the finest control to the developer.
 A command line shell allows components to be interactively modified at runtime.
 
-1. Start an Apache Karaf server, version 4.2.7 or later.
+1. Start an Apache Karaf server, version 4.3 or later.
 
 2. From the command line of the server, execute the following commands:
   - `feature:repo-add mvn:au.id.raboczi.cornerstone/dist-features/0.1-SNAPSHOT/xml`
@@ -59,13 +59,13 @@ This style of deployment is easy and still allows components to be modified at r
 
 ### <del>Static</del>
 
-<del>This style of deployment is the quickest to start, leanest, and the most secure.
+This style of deployment is the quickest to start, leanest, and the most secure.
 Components cannot be dynamically added or updated.
-It is suited for production.</del>
+It is suited for production.
 
 1. Start the server by executing `dist/static/target/assembly/bin/start`
 
-2. Browse [http://localhost:8181/index.zul](http://localhost:8181/index.zul).
+2. Browse [http://localhost:8181/wicket](http://localhost:8181/wicket).
 
 3. Shut down the server by executing `dist/static/target/assembly/bin/stop`
 
