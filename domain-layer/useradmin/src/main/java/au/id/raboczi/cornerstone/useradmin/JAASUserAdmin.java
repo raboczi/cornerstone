@@ -67,8 +67,9 @@ import org.slf4j.LoggerFactory;
  *
  * This implementation adapts Apache Karaf's JAAS feature to satisfy the {@link UserAdmin} API.
  */
-@Component(service = {UserAdmin.class, UserAdminExtension.class},
-           configurationPid = "au.id.raboczi.cornerstone.useradmin")
+@Component(service          = {UserAdmin.class, UserAdminExtension.class},
+           configurationPid = "au.id.raboczi.cornerstone.useradmin",
+           property         = {"service.exported.interfaces=*"})
 public final class JAASUserAdmin implements UserAdmin, UserAdminExtension {
 
     /** Logger.  Named after the class. */

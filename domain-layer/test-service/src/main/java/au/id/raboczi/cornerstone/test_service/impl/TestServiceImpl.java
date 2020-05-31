@@ -41,7 +41,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Demonstrates event handling.
  */
-@Component(service = {TestService.class, UserAdminListener.class})
+@Component(service  = {TestService.class, UserAdminListener.class},
+           property = {"service.exported.interfaces=*"})
 public final class TestServiceImpl implements TestService, UserAdminListener {
 
     /** Logger.  Named after the class. */
