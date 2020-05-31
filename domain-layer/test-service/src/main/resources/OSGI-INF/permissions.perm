@@ -1,4 +1,4 @@
-# test-service OSGi CPA permissions
+# test-service OSGi conditional permissions
 ( org.osgi.framework.CapabilityPermission "(&(osgi.extender=osgi.component)(version>=1.4.0)(!(version>=2.0.0)))" "require" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone" "import" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.*" "import" )

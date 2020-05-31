@@ -28,7 +28,7 @@ import org.osgi.service.useradmin.Role;
 import org.zkoss.util.Locales;
 
 /**
- * Localizing formatter for {@link Role.getType()}.
+ * Localizing formatter for {@link Role#getType()}.
  */
 public abstract class RoleTypeFormatter {
 

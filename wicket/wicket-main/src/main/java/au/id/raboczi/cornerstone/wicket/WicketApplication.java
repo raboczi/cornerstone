@@ -35,10 +35,7 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ConfigurationListener;
 
 /**
- * Application object for your web application.
- * If you want to run this application without deploying, run the Start class.
- *
- * @see au.id.raboczi.cornerstone.wicket.Start#main(String[])
+ * Application object for the web application.
  */
 public class WicketApplication extends WebApplication {
 

@@ -26,23 +26,35 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * When applied to methods in the domain layer, checks that the method's
- * {@link au.id.raboczi.cornerstone.Caller} argument is authorized with the
- * permission in the annotation's argument.
- *
- * If the caller lacks the annotated permission,
+ * Prevent a method from being invoked unless its {@link au.id.raboczi.cornerstone.Caller}
+ * argument is authorized for a specified {@link org.osgi.service.useradmin.Role}.
+ * <p>
+ * If the caller lacks the specified role,
  * {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException} is thrown.
- * The method must have one {@link au.id.raboczi.cornerstone.Caller} argument
- * and throw {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException}.
- *
- * An example of use:
+ * The method must have one {@link au.id.raboczi.cornerstone.Caller} argument as its final
+ * parameter, and declare {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException}
+ * in its <code>throws</code> clause.
+ * <p>
+ * As an example of use, the following method will throw
+ * {@link au.id.raboczi.cornerstone.CallerNotAuthorizedException} if <var>caller</var>
+ * does not have the role (i.e. {@link org.osgi.service.useradmin.Authorization#hasRole})
+ * named <code>modifyFoo</code>:
  *
  * <blockquote>
  * <pre>
- * &#x40;Secure("foo:write")
+ * &#x40;Secure("modifyFoo")
  * void incrementFoo(Caller caller) throws CallerNotAuthorizedException {
  *     // ....
  * }
+ * </pre>
+ * </blockquote>
+ *
+ * When running under a security manager, the following permissions are required:
+ * <blockquote>
+ * <pre>
+ * ( java.lang.RuntimePermission "accessDeclaredMembers" )
+ * ( java.lang.RuntimePermission "getClassLoader" )
+ * ( javax.security.auth.AuthPermission "getSubject" )
  * </pre>
  * </blockquote>
  */
