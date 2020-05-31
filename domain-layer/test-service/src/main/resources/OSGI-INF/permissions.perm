@@ -1,0 +1,17 @@
+# test-service OSGi CPA permissions
+( org.osgi.framework.CapabilityPermission "(&(osgi.extender=osgi.component)(version>=1.4.0)(!(version>=2.0.0)))" "require" )
+( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone" "import" )
+( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.*" "import" )
+( org.osgi.framework.PackagePermission "org.aspectj.*" "import" )
+( org.osgi.framework.PackagePermission "org.osgi.service.event" "import" )
+( org.osgi.framework.PackagePermission "org.osgi.service.useradmin" "import" )
+( org.osgi.framework.PackagePermission "org.slf4j" "import" )
+( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "register" )
+( org.osgi.framework.ServicePermission "org.osgi.service.event.EventAdmin" "get" )
+( org.osgi.framework.ServicePermission "org.osgi.service.useradmin.UserAdminListener" "register" )
+( org.osgi.service.event.TopicPermission "au/id/raboczi/cornerstone/test_service/EVENT" "publish" )
+
+# security aspect
+( java.lang.RuntimePermission "accessDeclaredMembers" )
+( java.lang.RuntimePermission "getClassLoader" )
+( javax.security.auth.AuthPermission "getSubject" )
