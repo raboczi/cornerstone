@@ -1,5 +1,5 @@
 # wicket-main OSGi conditional permissions
-( java.io.FilePermission "<<ALL FILES>>" "read" )
+( java.io.FilePermission "<<ALL FILES>>" "read,write" )
 ( java.io.SerializablePermission "enableSubclassImplementation")
 ( org.osgi.framework.PackagePermission "*" "import" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.wicket" "export" )
