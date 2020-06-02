@@ -1,0 +1,3 @@
+# service-api OSGi conditional permissions
+( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone" "export" )
+( org.osgi.framework.PackagePermission "org.osgi.service.useradmin" "import" )
