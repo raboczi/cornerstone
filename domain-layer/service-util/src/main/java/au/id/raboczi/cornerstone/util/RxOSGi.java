@@ -74,22 +74,20 @@ public abstract class RxOSGi {
                     public void request(final long dummy) {
                         LOGGER.info("Request subscription, dummy={}", dummy);
 
-                        EventHandler eventHandler = new EventHandler() {
-                            @Override
-                            public void handleEvent(final Event event) {
+                        Hashtable ht = new Hashtable();
+                        ht.put(EVENT_TOPIC, new String[] {topic});
+
+                        registration = bundleContext.registerService(
+                            EventHandler.class.getName(),
+                            (EventHandler) event -> {
                                 try {
                                     subscriber.onNext(event);
 
                                 } catch (Exception e) {
                                     subscriber.onError(e);
                                 }
-                            }
-                        };
-
-                        Hashtable ht = new Hashtable();
-                        ht.put(EVENT_TOPIC, new String[] {topic});
-
-                        registration = bundleContext.registerService(EventHandler.class.getName(), eventHandler, ht);
+                            },
+                            ht);
                     }
                 });
             }
