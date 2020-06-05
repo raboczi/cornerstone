@@ -14,6 +14,7 @@
     <feature>${feature.name}-shell</feature>
     <feature>${feature.name}-wicket</feature>
     <feature>${feature.name}-zk</feature>
+    <bundle>mvn:${project.groupId}/condpermadmin/${project.version}</bundle>
   </feature>
 
   <feature name="${feature.name}-api" version="${project.version}" description="Cornerstone APIs">
