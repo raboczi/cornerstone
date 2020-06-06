@@ -1,4 +1,7 @@
 # condpermadmin OSGi conditional permissions
+( java.io.FilePermission "<<ALL FILES>>" "read" )
+( java.util.PropertyPermission "au.id.raboczi.cornerstone.condpermadmin.policy" "read" )
+( java.util.PropertyPermission "user.dir" "read" )
 ( org.osgi.framework.AdminPermission "(id=*)" "metadata" )
 ( org.osgi.framework.PackagePermission "org.osgi.framework" "import" )
 ( org.osgi.framework.PackagePermission "org.osgi.service.condpermadmin" "import" )
