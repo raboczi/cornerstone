@@ -19,12 +19,17 @@ Theoretically it should run anywhere JDK 8+ can.
 
 2. Obtain the source code, e.g. via `git clone https://github.com/raboczi/cornerstone.git`
 
-3. Build the project by executing `mvn` from inside the `cornerstone` directory.
+3. Initialize the cryptographic keystore by executing `mvn -f crypto/pom.xml` from inside the `cornerstone` directory.
+   - This will create the subdirectory `.au.id.raboczi.cornerstone` in your home directory, containing the private key used to sign
+     bundles and the public certificate that can be used to trust the signed bundles.
+   - You only need to do this once, unless you delete the `.au.id.raboczi.cornerstone` directory.
+
+4. Build the project by executing `mvn` from inside the `cornerstone` directory.
    - The majority of build time is taken by integration testing; this can be skipped by executing `mvn -DskipITs` instead.
    - Parallel builds using e.g. `mvn -T4` are not currently supported.
    - Release builds using `mvn -Prelease` will perform additional validation and include javadoc and source attachments, but require that `mvn versions:set` has been used to set a non-snapshot version.
 
-4. <del>Optionally, generate [Javadoc](target/site/apidocs/index.html) by executing `mvn javadoc:aggregate`</del>
+5. <del>Optionally, generate [Javadoc](target/site/apidocs/index.html) by executing `mvn javadoc:aggregate`</del>
 
 
 ## Running

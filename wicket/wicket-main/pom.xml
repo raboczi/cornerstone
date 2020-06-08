@@ -13,6 +13,10 @@
   <description>Wicket main page, packaged as a web application bundle</description>
   <packaging>war</packaging>
 
+  <properties>
+    <jarsigner.skip>true</jarsigner.skip>
+  </properties>
+
   <build>
     <resources>
       <resource>

@@ -11,4 +11,7 @@
 
   <suppress checks="TodoComment" files="SCRSelectorComposer\.java" lines="120"/>
 
+  <suppress checks="LineLength" files="config\.properties"/>
+  <suppress checks="RegexpSingleline" files="config\.properties"/>
+
 </suppressions>

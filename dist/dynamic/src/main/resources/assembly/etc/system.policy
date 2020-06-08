@@ -1,0 +1,62 @@
+# OSGi conditional permission admin: system permissions
+
+# test-service
+
+ALLOW {
+	[ org.osgi.service.condpermadmin.BundleLocationCondition "mvn:au.id.raboczi.cornerstone/zk-framework/0.1-SNAPSHOT" ]
+#	[ au.id.raboczi.cornerstone.condpermadmin_conditions.BundleLocationCondition "mvn:au\.id\.raboczi\.cornerstone/zk-framework/0\.1-SNAPSHOT" ]
+	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+}	"test-service allows zk-framework"
+
+ALLOW {
+	[ org.osgi.service.condpermadmin.BundleLocationCondition "mvn:au.id.raboczi.cornerstone/zk-util/0.1-SNAPSHOT" ]
+#	[ au.id.raboczi.cornerstone.condpermadmin_conditions.BundleLocationCondition "mvn:au\.id\.raboczi\.cornerstone/zk-util/0\.1-SNAPSHOT" ]
+	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+}	"test-service allows zk-util"
+
+ALLOW {
+	[ org.osgi.service.condpermadmin.BundleLocationCondition "mvn:javax.servlet/javax.servlet-api/3.1.0" ]
+#	[ au.id.raboczi.cornerstone.condpermadmin_conditions.BundleLocationCondition "mvn:javax\.servlet/javax\.servlet-api/3\.1\.0" ]
+	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+}	"test-service allows servlet-api"
+
+#ALLOW {
+#	[ au.id.raboczi.cornerstone.condpermadmin_conditions.BundleLocationCondition "mvn:org\.(apache|eclipse|ops4j)\..*" ]
+#	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+#}	"test-service allows Maven org classes"
+
+ALLOW {
+	[ org.osgi.service.condpermadmin.BundleLocationCondition "mvn:org.apache.*" ]
+	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+}	"test-service allows Maven org.apache classes"
+
+ALLOW {
+	[ org.osgi.service.condpermadmin.BundleLocationCondition "mvn:org.eclipse.jetty/*" ]
+	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+}	"test-service allows Maven org.eclipse classes"
+
+ALLOW {
+	[ org.osgi.service.condpermadmin.BundleLocationCondition "mvn:org.eclipse.jetty.websocket/*" ]
+	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+}	"test-service allows Maven org.eclipse websocket classes"
+
+ALLOW {
+	[ org.osgi.service.condpermadmin.BundleLocationCondition "mvn:org.ops4j.pax.web/pax-web-*/7.2.14" ]
+	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+}	"test-service allows Maven org.ops4j classes"
+
+ALLOW {
+	[ org.osgi.service.condpermadmin.BundleLocationCondition "mvn:au.id.raboczi.cornerstone/test-service/0.1-SNAPSHOT" ]
+	( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.test_service" "import" )
+}	"test-service can use its API"
+
+DENY {
+	[ org.osgi.service.condpermadmin.BundleSignerCondition "CN=Cornerstone signer" "!" ]
+#	[ au.id.raboczi.cornerstone.condpermadmin_conditions.BundleSignerCondition "CN=Simon Raboczi,L=Brisbane,ST=Queensland,C=au" "!" ]
+	( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.test_service" "import" )
+	( org.osgi.framework.ServicePermission "au.id.raboczi.cornerstone.test_service.TestService" "get" )
+}	"TestService clients must be signed by Simon Raboczi"
+
+ALLOW {
+	( java.security.AllPermission )
+}	"Blacklist: anything not forbidden is permitted"

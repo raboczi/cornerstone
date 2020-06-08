@@ -1,4 +1,5 @@
 # service-util OSGi conditional permissions
+( org.osgi.framework.AdminPermission "(id=*)" "metadata" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.util" "export" )
 ( org.osgi.framework.PackagePermission "io.reactivex" "import" )
 ( org.osgi.framework.PackagePermission "org.osgi.framework" "import" )

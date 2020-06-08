@@ -37,10 +37,18 @@
     <checkerframework.version>3.1.0</checkerframework.version>
     <karaf.version>4.3.0.RC1</karaf.version>
     <osgi.version>7.0.0</osgi.version>
+    <osgi.promise.version>7.0.1</osgi.promise.version>
     <pax-web.version>7.2.14</pax-web.version>  <!-- this should match whatever is bundled with ${karaf.version} -->
     <servicemix-specs.version>2.9.0</servicemix-specs.version>
     <servlet-api.version>3.1.0</servlet-api.version>  <!-- This version of the Servlet API is specified by OSGi R7 Compendium section 140.1 "HTTP Whiteboard Specification" 1.1 -->
     <surefire.argLine/>
+
+    <!-- Cryptography -->
+    <crypto.certificate>${user.home}/.au.id.raboczi.cornerstone/signer.cer</crypto.certificate>
+    <crypto.dname>CN=Cornerstone signer</crypto.dname>
+    <jarsigner.keystore>${user.home}/.au.id.raboczi.cornerstone/keystore.pkcs12</jarsigner.keystore>
+    <jarsigner.alias>signer</jarsigner.alias>
+    <jarsigner.storepass>password</jarsigner.storepass>
   </properties>
 
   <distributionManagement>
@@ -225,6 +233,12 @@
 
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
+          <artifactId>keytool-maven-plugin</artifactId>
+          <version>1.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <version>2.0.0</version>
         </plugin>
@@ -282,6 +296,27 @@
           <execution>
             <goals>
               <goal>properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jarsigner-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>sign</id>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>verify</id>
+            <goals>
+              <goal>verify</goal>
             </goals>
           </execution>
         </executions>

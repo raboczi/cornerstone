@@ -24,6 +24,12 @@
 
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>condpermadmin-conditions</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>dist-features</artifactId>
       <version>${project.version}</version>
       <type>xml</type>
@@ -122,9 +128,39 @@
             <feature>cornerstone</feature>
             <feature>webconsole</feature>
           </bootFeatures>
+          <startupBundles>
+            <bundle>mvn:${project.groupId}/condpermadmin/${project.version}</bundle>
+            <bundle>mvn:org.osgi/osgi.promise/${osgi.promise.version}</bundle>
+          </startupBundles>
           <libraries>
+            <library>mvn:${project.groupId}/condpermadmin-conditions/${project.version}</library>
           </libraries>
           <javase>${java.target.version}</javase>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>keytool-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>trustStore</id>
+            <goals>
+              <goal>importCertificate</goal>
+            </goals>
+            <phase>process-resources</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- Take the signer public key from the certificate... -->
+          <file>${crypto.certificate}</file>
+          <alias>${jarsigner.alias}</alias>
+
+          <!-- ...and install it as trusted within the server's trust store -->
+          <keystore>${project.build.directory}/assembly/etc/trustStore.ks</keystore>
+          <storepass>${jarsigner.storepass}</storepass>
+          <trustcacerts>true</trustcacerts>
+          <noprompt>true</noprompt>
         </configuration>
       </plugin>
     </plugins>

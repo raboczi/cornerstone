@@ -1,5 +1,6 @@
 # security-aspect OSGi conditional permissions
 ( java.lang.RuntimePermission "accessDeclaredMembers" )
+( org.osgi.framework.AdminPermission "(id=*)" "metadata" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone" "import" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.security_aspect" "export" )
 ( org.osgi.framework.PackagePermission "org.aspectj.*" "import" )

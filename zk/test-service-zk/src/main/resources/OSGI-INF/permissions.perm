@@ -3,6 +3,7 @@
 ( java.lang.RuntimePermission "accessDeclaredMembers" )
 ( java.lang.reflect.ReflectPermission "suppressAccessChecks" )
 ( javax.security.auth.AuthPermission "getSubject" )
+( org.osgi.framework.AdminPermission "(id=*)" "metadata" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone" "import" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.*" "import" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.test_service.zk" "export" )

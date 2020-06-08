@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>au.id.raboczi.cornerstone</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <name>Cornerstone :: Cryptographic stores</name>
+  <description>Generate a PKI keypair for signing bundles and a public certificate for others to trust those signed bundles.</description>
+  <artifactId>crypto</artifactId>
+  <packaging>pom</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>keytool-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>keystore</id>
+            <goals>
+              <goal>generateKeyPair</goal>
+              <goal>exportCertificate</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <keystore>${jarsigner.keystore}</keystore>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <storepass>${jarsigner.storepass}</storepass>
+          <storetype>PKCS12</storetype>
+          <alias>${jarsigner.alias}</alias>
+          <dname>${crypto.dname}</dname>
+          <file>${crypto.certificate}</file>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
