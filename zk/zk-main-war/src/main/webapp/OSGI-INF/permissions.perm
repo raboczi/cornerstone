@@ -1,0 +1,8 @@
+# zk-main-war OSGi conditional permissions
+( java.lang.RuntimePermission "getClassLoader" )
+( java.net.URLPermission "http:*" )
+( java.util.PropertyPermission "org.eclipse.jetty.util.UrlEncoding.charset" "read" )
+( org.osgi.framework.AdaptPermission "*" "adapt" )
+( org.osgi.framework.AdminPermission "(id=*)" "context" )
+( org.osgi.framework.PackagePermission "*" "import" )
+( org.osgi.service.event.TopicPermission "au/id/raboczi/cornerstone/test_service/EVENT", "subscribe" )
