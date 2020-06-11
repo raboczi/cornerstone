@@ -2,7 +2,7 @@
 ( java.lang.RuntimePermission "accessDeclaredMembers" )
 ( org.osgi.framework.AdminPermission "(id=*)" "metadata" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone" "import" )
-( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.security_aspect" "export" )
+( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.security_aspect" "exportonly" )
 ( org.osgi.framework.PackagePermission "org.aspectj.*" "import" )
 ( org.osgi.framework.PackagePermission "org.osgi.service.useradmin" "import" )
 ( org.osgi.framework.PackagePermission "org.slf4j" "import" )

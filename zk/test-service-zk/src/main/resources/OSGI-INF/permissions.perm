@@ -6,7 +6,7 @@
 ( org.osgi.framework.AdminPermission "(id=*)" "metadata" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone" "import" )
 ( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.*" "import" )
-( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.test_service.zk" "export" )
+( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.test_service.zk" "exportonly" )
 ( org.osgi.framework.PackagePermission "io.reactivex" "import" )
 ( org.osgi.framework.PackagePermission "io.reactivex.*" "import" )
 ( org.osgi.framework.PackagePermission "org.osgi.framework" "import" )

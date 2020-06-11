@@ -2,7 +2,7 @@
 ( java.io.FilePermission "<<ALL FILES>>" "read,write" )
 ( java.io.SerializablePermission "enableSubclassImplementation")
 ( org.osgi.framework.PackagePermission "*" "import" )
-( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.wicket" "export" )
+( org.osgi.framework.PackagePermission "au.id.raboczi.cornerstone.wicket" "exportonly" )
 ( org.osgi.framework.ServicePermission "org.osgi.service.cm.ConfigurationAdmin" "get" )
 ( org.osgi.framework.ServicePermission "org.osgi.service.cm.ConfigurationListener" "register" )
 ( org.osgi.service.cm.ConfigurationPermission "?" "configure" )
