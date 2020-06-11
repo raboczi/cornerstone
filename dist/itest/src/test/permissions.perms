@@ -1,0 +1,5 @@
+# OSGi conditional permission admin: system permissions
+
+ALLOW {
+	( java.security.AllPermission )
+}	"non-blacklisted"

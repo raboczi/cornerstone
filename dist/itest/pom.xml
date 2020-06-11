@@ -49,6 +49,7 @@
           <systemPropertyVariables>
             <project.version>${project.version}</project.version>
             <pax.exam.karaf.version>${karaf.version}</pax.exam.karaf.version>
+            <systemPermissions>${basedir}/src/test/permissions.perms</systemPermissions>  <!-- system permissions for SecurityIT -->
           </systemPropertyVariables>
         </configuration>
       </plugin>
