@@ -23,6 +23,7 @@
   </feature>
 
   <feature name="${feature.name}-domain" version="${project.version}" description="Cornerstone domain logic layer">
+    <feature>jaas</feature>
     <feature>scr</feature>
     <feature prerequisite="true">${feature.name}-api</feature>
 
@@ -54,6 +55,7 @@
   </feature>
 
   <feature name="${feature.name}-shell" version="${project.version}" description="Cornerstone presentation layer: Karaf shell commands">
+    <feature>shell</feature>
     <bundle>mvn:${project.groupId}/test-service-shell/${project.version}</bundle>
   </feature>
 
