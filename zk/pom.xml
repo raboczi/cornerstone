@@ -14,6 +14,7 @@
 
   <modules>
     <module>circadian</module>
+    <module>rxzk</module>
     <module>test-service-zk</module>
     <module>useradmin-zk</module>
     <module>zk-api</module>
@@ -32,6 +33,7 @@
   </modules>
 
   <properties>
+    <rxzk.version>0.8.0</rxzk.version>
     <zk.version>9.0.0</zk.version>  <!-- usually the same as zk.version.osgi unless there's a qualifier, e.g. 9.0.0-SNAPSHOT -->
     <zk.version.osgi>9.0.0</zk.version.osgi>  <!-- usually the same as zk.version unless there's a qualifier, e.g. 9.0.0.SNAPSHOT -->
     <zk.version.range>[9.0,10)</zk.version.range>

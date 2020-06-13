@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>au.id.raboczi.cornerstone</groupId>
+    <artifactId>parent-zk</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>rxzk</artifactId>
+  <name>Cornerstone :: RxZK ${rxzk.version} OSGi wrapper</name>
+  <packaging>bundle</packaging>
+
+  <repositories>
+    <repository>
+      <id>zk</id>
+      <name>ZK Community Edition repository</name>
+      <url>http://mavensync.zkoss.org/maven2</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <unpackBundle>false</unpackBundle>
+          <instructions>
+            <Embed-Dependency>artifactId=rxzk</Embed-Dependency>
+            <Embed-Directory>OSGI-INF/lib</Embed-Directory>
+            <Export-Package>
+              org.zkoss.addons.rxzk;version=${rxzk.version} 
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.zkoss.addons</groupId>
+      <artifactId>rxzk</artifactId>
+      <version>${rxzk.version}</version>
+    </dependency>
+  </dependencies>
+</project>
