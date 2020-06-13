@@ -15,23 +15,12 @@
   <description>Static distribution of Cornerstone</description>
   <inceptionYear>2019</inceptionYear>
 
-  <properties>
-    <wicket.version>8.8.0</wicket.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>dist-features</artifactId>
       <version>${project.version}</version>
       <type>xml</type>
-    </dependency>
-
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>wicket-main</artifactId>
-      <version>${project.version}</version>
-      <type>war</type>
     </dependency>
 
     <dependency>
@@ -45,11 +34,6 @@
       <artifactId>standard</artifactId>
       <type>xml</type>
       <classifier>features</classifier>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.karaf.services</groupId>
-      <artifactId>org.apache.karaf.services.staticcm</artifactId>
     </dependency>
   </dependencies>
 
@@ -84,27 +68,12 @@
           <startupFeatures>
             <startupFeature>static-framework</startupFeature>
             <startupFeature>eventadmin</startupFeature>
-            <startupFeature>webconsole</startupFeature>
-            <startupFeature>war</startupFeature>
 
-            <startupFeature>cornerstone-domain</startupFeature>
-            <startupFeature>cornerstone-rest</startupFeature>
-            <startupFeature>cornerstone-shell</startupFeature>
+            <startupFeature>cornerstone</startupFeature>
+            <startupFeature>webconsole</startupFeature>
           </startupFeatures>
           <startupBundles>
             <startupBundle>mvn:org.apache.felix/org.apache.felix.fileinstall/3.6.4</startupBundle>
-
-            <startupBundle>mvn:com.github.openjson/openjson/1.0.12</startupBundle>
-            <startupBundle>mvn:commons-io/commons-io/1.4</startupBundle>
-            <startupBundle>mvn:commons-fileupload/commons-fileupload/1.4</startupBundle>
-            <startupBundle>mvn:org.apache.commons/commons-collections4/4.4</startupBundle>
-            <startupBundle>mvn:org.danekja/jdk-serializable-functional/1.8.6</startupBundle>
-
-            <startupBundle>mvn:org.apache.wicket/wicket-core/${wicket.version}</startupBundle>
-            <startupBundle>mvn:org.apache.wicket/wicket-request/${wicket.version}</startupBundle>
-            <startupBundle>mvn:org.apache.wicket/wicket-util/${wicket.version}</startupBundle>
-
-            <startupBundle>mvn:au.id.raboczi.cornerstone/wicket-main/${project.version}/war</startupBundle>
           </startupBundles>
           <framework>static</framework>
           <useReferenceUrls>true</useReferenceUrls>

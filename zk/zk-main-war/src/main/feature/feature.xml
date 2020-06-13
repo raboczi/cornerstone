@@ -5,16 +5,16 @@
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.4.0">
 
   <feature name="${project.artifactId}" version="${project.version}" description="Cornerstone ZK web application">
-    <feature prerequisite="true">war</feature>
-    <feature prerequisite="true">zk-framework</feature>
-    <feature prerequisite="true">rxzk</feature>
+    <feature>war</feature>
+    <feature>zk-framework</feature>
+    <feature>rxzk</feature>
 
     <bundle>mvn:org.osgi/org.osgi.service.useradmin/1.1.0</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/service-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-api/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-menubar/${project.version}</bundle>
     <bundle>mvn:au.id.raboczi.cornerstone/zk-util/${project.version}</bundle>
-    <bundle>webbundle:mvn:${project.groupId}/${project.artifactId}/${project.version}/war?Web-ContextPath=zk</bundle>
+    <bundle>mvn:${project.groupId}/${project.artifactId}/${project.version}/war</bundle>
 
     <!-- Support for the test macro -->
     <bundle>mvn:${project.groupId}/aspectjrt/${project.version}</bundle>
@@ -29,7 +29,8 @@
   </feature>
 
   <feature name="zk-framework" version="${project.version}" description="ZK framework">
-    <feature prerequisite="true">war</feature>
+    <feature>war</feature>
+
     <bundle>mvn:commons-codec/commons-codec/1.14</bundle>
     <bundle>mvn:commons-io/commons-io/2.6</bundle>
     <bundle>mvn:commons-fileupload/commons-fileupload/1.4</bundle>
@@ -40,10 +41,10 @@
   </feature>
 
   <feature name="rxzk" version="${project.version}" description="Reactive extensions for ZK framework">
-    <feature prerequisite="true">wrap</feature>
-    <feature prerequisite="true">zk-framework</feature>
+    <feature>zk-framework</feature>
+
     <bundle>mvn:org.reactivestreams/reactive-streams/1.0.3</bundle>
     <bundle>mvn:io.reactivex.rxjava2/rxjava/2.2.17</bundle>
-    <bundle>wrap:mvn:org.zkoss.addons/rxzk/0.8.0</bundle>
+    <bundle>mvn:${project.groupId}/rxzk/${project.version}</bundle>
   </feature>
 </features>

@@ -62,7 +62,7 @@ This style of deployment is easy and still allows components to be modified at r
 
 3. Shut down the server by executing `dist/dynamic/target/assembly/bin/stop`
 
-### <del>Static</del>
+### Static
 
 This style of deployment is the quickest to start, leanest, and the most secure.
 Components cannot be dynamically added or updated.
@@ -70,7 +70,7 @@ It is suited for production.
 
 1. Start the server by executing `dist/static/target/assembly/bin/start`
 
-2. Browse [http://localhost:8181/wicket](http://localhost:8181/wicket).
+2. Browse [http://localhost:8181/zk](http://localhost:8181/zk).
 
 3. Shut down the server by executing `dist/static/target/assembly/bin/stop`
 
