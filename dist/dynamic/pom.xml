@@ -18,12 +18,6 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>aspectjrt</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>condpermadmin-conditions</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -52,13 +46,6 @@
     <dependency>
       <groupId>org.apache.karaf.features</groupId>
       <artifactId>standard</artifactId>
-      <type>xml</type>
-      <classifier>features</classifier>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.karaf.features</groupId>
-      <artifactId>enterprise</artifactId>
       <type>xml</type>
       <classifier>features</classifier>
     </dependency>
