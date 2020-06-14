@@ -23,18 +23,18 @@ Theoretically it should run anywhere JDK 8+ can.
    You should only do this once.  See the [cryptography README](crypto/README.md) for details.
 
 4. Build the project by executing `mvn` from inside the `cornerstone` directory.
+   - When no targets are specified to `mvn`, the default targets are `clean install`.
    - The majority of build time is taken by integration testing; this can be skipped by executing `mvn -DskipITs` instead.
    - Parallel builds using e.g. `mvn -T4` are not currently supported.
    - Release builds using `mvn -Prelease` will perform additional validation and include javadoc and source attachments, but require that `mvn versions:set` has been used to set a non-snapshot version.
-
-5. <del>Optionally, generate [Javadoc](target/site/apidocs/index.html) by executing `mvn javadoc:aggregate`</del>
+   - [API documentation](target/site/apidocs/index.html) can be generated during the build using e.g. `mvn clean install javadoc:aggregate`.
 
 
 ## Running
 
 Start the server by executing `dist/dynamic/target/assembly/bin/karaf`.
-This will start the Karaf shell momentarily.
-The server can be stopped by typing `shutdown` or Ctrl-D.
+This will start the Karaf shell.
+The server can be stopped by typing `shutdown` or Ctrl-D at the shell prompt.
 
 For alternative ways to start the server, see the [distributions README](dist/README.md).
 
@@ -56,6 +56,6 @@ The REST endpoint can be accessed using (for example) the following:
 
 The websocket can be accessed using:
 
-``
+` `
 
 The server log is `dist/dynamic/target/assembly/data/log/karaf.log`.

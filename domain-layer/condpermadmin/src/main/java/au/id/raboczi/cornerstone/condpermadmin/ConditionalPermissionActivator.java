@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  *
  * The path of the policy file must be present in the system property
  * <code>au.id.raboczi.cornerstone.condpermadmin.policy</code>.
- * The file name is relative to <code>$KARAF_HOME</code> is it is not absolute.
+ * The file name is relative to <code>$KARAF_HOME</code> if it is not absolute.
  *
  * The format of policy files is documented in the
  * <a href="https://docs.osgi.org/specification/osgi.core/7.0.0/service.condpermadmin.html#i1716478">OSGi
