@@ -20,9 +20,7 @@ Theoretically it should run anywhere JDK 8+ can.
 2. Obtain the source code, e.g. via `git clone https://github.com/raboczi/cornerstone.git`
 
 3. Initialize the cryptographic keystore by executing `mvn -f crypto/pom.xml` from inside the `cornerstone` directory.
-   - This will create the subdirectory `.au.id.raboczi.cornerstone` in your home directory, containing the private key used to sign
-     bundles and the public certificate that can be used to trust the signed bundles.
-   - You only need to do this once, unless you delete the `.au.id.raboczi.cornerstone` directory.
+   You should only do this once.  See the [cryptography README](crypto/README.md) for details.
 
 4. Build the project by executing `mvn` from inside the `cornerstone` directory.
    - The majority of build time is taken by integration testing; this can be skipped by executing `mvn -DskipITs` instead.
