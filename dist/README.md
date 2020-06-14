@@ -42,3 +42,8 @@ Although components cannot be dynamically added or updated, this does eliminate 
 It particularly suits containerized deployment, since the container system can assume the dynamic deployment duties.
 
 1. Start the server by executing `dist/static/target/assembly/bin/karaf`
+
+Avoid the following constructions in Karaf features files because they break the static assembly:
+
+- the `webbundle:` or `wrap:` protocols
+- features with the `prerequisite=true` attribute
