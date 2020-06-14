@@ -34,48 +34,18 @@ Theoretically it should run anywhere JDK 8+ can.
 
 ## Running
 
-There are several different styles of deployment.
-Karaf's default login credentials are username "karaf", password "karaf".
+Start the server by executing `dist/dynamic/target/assembly/bin/karaf`.
+This will start the Karaf shell momentarily.
+The server can be stopped by typing `shutdown` or Ctrl-D.
 
-### Manual
-
-This style of deployment gives the finest control to the developer.
-A command line shell allows components to be interactively modified at runtime.
-
-1. Start an Apache Karaf server, version 4.3 or later.
-
-2. From the command line of the server, execute the following commands:
-  - `feature:repo-add mvn:au.id.raboczi.cornerstone/dist-features/0.1-SNAPSHOT/xml`
-  - `feature:install cornerstone`
-
-3. Browse [http://localhost:8181/zk](http://localhost:8181/zk).
-
-4. Shut down the server from the command line by pressing Ctrl-D.
-
-### Dynamic
-
-This style of deployment is easy and still allows components to be modified at runtime.
-
-1. Start the server by executing `dist/dynamic/target/assembly/bin/start`
-
-2. Browse [http://localhost:8181/zk](http://localhost:8181/zk).
-
-3. Shut down the server by executing `dist/dynamic/target/assembly/bin/stop`
-
-### Static
-
-This style of deployment is the quickest to start, leanest, and the most secure.
-Components cannot be dynamically added or updated.
-It is suited for production.
-
-1. Start the server by executing `dist/static/target/assembly/bin/start`
-
-2. Browse [http://localhost:8181/zk](http://localhost:8181/zk).
-
-3. Shut down the server by executing `dist/static/target/assembly/bin/stop`
+For alternative ways to start the server, see the [distributions README](dist/README.md).
 
 
-## Notes
+## Using
+
+Cornerstone defaults to sharing Karaf's default login credentials, which are username "karaf", password "karaf".
+
+A web interface is available at [http://localhost:8181/zk](http://localhost:8181/zk).
 
 The Karaf console is available at [http://localhost:8181/system/console](http://localhost:8181/system/console).
 
@@ -86,3 +56,8 @@ The REST endpoint can be accessed using (for example) the following:
 `curl --user karaf http://localhost:8181/test/value`
 `curl --user karaf --header "Content-Type: application/json" --data "Lorem ipsum dolor" http://localhost:8181/test/value`
 
+The websocket can be accessed using:
+
+``
+
+The server log is `dist/dynamic/target/assembly/data/log/karaf.log`.
