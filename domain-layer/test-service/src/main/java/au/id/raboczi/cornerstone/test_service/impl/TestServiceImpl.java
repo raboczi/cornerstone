@@ -80,6 +80,26 @@ public final class TestServiceImpl implements TestService, UserAdminListener {
         eventAdmin.postEvent(new Event(EVENT_TOPIC, properties));
     }
 
+    @Override
+    public String getAnotherValue() {
+        LOGGER.info("Reading another value {}", value);
+
+        return value;
+    }
+
+    @Override
+    public void setAnotherValue(final String newValue) {
+        LOGGER.info("Writing another value from {} to {} for caller {}", value, newValue);
+
+        this.value = newValue;
+
+        // OSGi EventAdmin notification
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("value", this.value);
+        assert eventAdmin != null : "@AssumeAssertion(nullness)";
+        eventAdmin.postEvent(new Event(EVENT_TOPIC, properties));
+    }
+
 
     // Implementation of UserAdminListener
 

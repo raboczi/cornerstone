@@ -21,6 +21,8 @@
     <module>itest</module>
 
     <!-- do assembly after integration testing, even though that's not strictly a dependency -->
+    <module>cellar-domain</module>
+    <module>cellar-presentation</module>
     <module>dynamic</module>
     <module>static</module>
   </modules>

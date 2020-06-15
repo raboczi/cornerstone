@@ -22,28 +22,20 @@ package au.id.raboczi.cornerstone.test_service.shell;
  * #L%
  */
 
-import au.id.raboczi.cornerstone.CallerNotAuthorizedException;
-import au.id.raboczi.cornerstone.Callers;
 import au.id.raboczi.cornerstone.test_service.TestService;
 import org.apache.karaf.shell.api.action.Action;
-import org.apache.karaf.shell.api.action.Argument;
 import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
 
 /**
- * Invoke {@link TestService#setValue} from the Karaf shell.
+ * Invoke {@link TestService#getValue} from the Karaf shell.
  */
 @Service
 @Command(scope       = "test",
-         name        = "set",
-         description = "Set the test value")
-public class TestSetCommand implements Action {
-
-    /** Argument specifying the desired new value. */
-    @Argument(index = 0, name = "value", description = "New Value", required = true, multiValued = false)
-    @SuppressWarnings("nullness")
-    private String value;
+         name        = "get2",
+         description = "Get the test value, unsecured")
+public class TestGet2Command implements Action {
 
     /** Test service. */
     @Reference
@@ -52,14 +44,7 @@ public class TestSetCommand implements Action {
 
     /** {@inheritDoc} */
     @Override
-    @SuppressWarnings("nullness")
     public Object execute() throws Exception {
-        try {
-            testService.setValue(value, Callers.newCaller("dummy", "manager"));
-            return null;
-
-        } catch (CallerNotAuthorizedException e) {
-            return "Permission denied";
-        }
+        return testService.getAnotherValue();
     }
 }

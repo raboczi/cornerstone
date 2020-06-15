@@ -56,6 +56,8 @@
 
   <feature name="${feature.name}-shell" version="${project.version}" description="Cornerstone presentation layer: Karaf shell commands">
     <feature>shell</feature>
+    <feature prerequisite="true">${feature.name}-api</feature>
+
     <bundle>mvn:${project.groupId}/test-service-shell/${project.version}</bundle>
   </feature>
 
@@ -64,6 +66,9 @@
   </feature>
 
   <feature name="${feature.name}-zk" version="${project.version}" description="Cornerstone presentation layer: ZK web application">
+    <feature>scr</feature>
+    <feature prerequisite="true">${feature.name}-api</feature>
+
     <feature>zk-main-war</feature>
     <bundle>mvn:${project.groupId}/useradmin-zk/${project.version}</bundle>
     <bundle>mvn:${project.groupId}/zk-menuitem-login/${project.version}</bundle>

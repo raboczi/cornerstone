@@ -43,4 +43,14 @@ public interface TestService {
      * @throws CallerNotAuthorizedException if <var>caller</var> isn't authorized
      */
     void setValue(String newValue, Caller caller) throws CallerNotAuthorizedException;
+
+    /**
+     * @return another value
+     */
+    String getAnotherValue();
+
+    /**
+     * @param newValue  the new value to persist
+     */
+    void setAnotherValue(String newValue);
 }
