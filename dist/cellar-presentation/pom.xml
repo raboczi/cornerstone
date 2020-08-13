@@ -85,7 +85,7 @@
             <feature>eventadmin</feature>
           </startupFeatures>
           <bootRepositories>
-            <repository>mvn:org.apache.karaf.cellar/apache-karaf-cellar/RELEASE/xml/features</repository>
+            <repository>mvn:org.apache.karaf.cellar/apache-karaf-cellar/${karaf.cellar.version}/xml/features</repository>
           </bootRepositories>
           <bootFeatures>
             <feature>wrap</feature>
