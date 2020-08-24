@@ -26,7 +26,7 @@ If you do not have a certificate already, one can be obtained from [Let's Encryp
   ```
 - The certificate can be renewed when it is near expiry by the following command (again, while Karaf is not running):
   ```
-  sudo certbot renew --standalone --tls-sni-01-port 8443 --http-01-port 8181
+  sudo certbot renew --standalone --http-01-port 8181
   ```
 
 ### Create a keystore
