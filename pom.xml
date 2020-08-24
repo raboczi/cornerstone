@@ -36,7 +36,7 @@
     <aspectj.version>1.9.4</aspectj.version>
     <checkerframework.version>3.1.0</checkerframework.version>
     <karaf.version>4.3.0.RC1</karaf.version>
-    <karaf.cellar.version>4.2.0</karaf.cellar.version>
+    <karaf.cellar.version>4.2.1</karaf.cellar.version>
     <osgi.version>7.0.0</osgi.version>
     <osgi.promise.version>7.0.1</osgi.promise.version>
     <pax-web.version>7.2.14</pax-web.version>  <!-- this should match whatever is bundled with ${karaf.version} -->
